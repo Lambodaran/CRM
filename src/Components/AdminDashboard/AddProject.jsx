@@ -406,7 +406,7 @@ export default function ProjectManagement() {
           </select>
         </div>
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition ml-auto"
           onClick={() => setIsModalOpen(true)}
           disabled={isLoading}
         >
@@ -1014,7 +1014,7 @@ export default function ProjectManagement() {
                     type="button"
                     onClick={addAmenity}
                     disabled={!newAmenity.trim()}
-                    className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-all"
+                    className="px-6 py-3 bg-black text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-all"
                   >
                     Add
                   </button>
@@ -1263,7 +1263,7 @@ export default function ProjectManagement() {
                 </button>
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  className="px-8 py-3 bg-black text-white font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                   disabled={isLoading}
                 >
                   {isLoading
@@ -1337,7 +1337,7 @@ export default function ProjectManagement() {
                       <h2 className="text-lg font-bold">
                         {project.projectName || "Unnamed Project"}
                       </h2>
-                      <p className="text-lg mt-1 text-red-600 font-semibold">
+                      <p className="text-lg mt-1 text-black font-semibold">
                         {project.price
                           ? typeof project.price === "number"
                             ? `${parseFloat(project.price).toLocaleString()}`

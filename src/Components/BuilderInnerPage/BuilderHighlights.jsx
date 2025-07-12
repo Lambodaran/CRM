@@ -136,59 +136,42 @@
 
 
 import React, { useState, useEffect } from "react";
-import { FaSearch , FaMapMarkerAlt} from "react-icons/fa";
-import Avenuepark from "../HomePage/Assets/logo.png";
-import offer from "../HomePage/Assets/offer.png";
-import slide1 from "../HomePage/Assets/slide1.jpg";
-import slide2 from "../HomePage/Assets/slide2.webp";
-import slide3 from "../HomePage/Assets/slide3.webp";
-import slide4 from "../HomePage/Assets/slide4.webp";
+import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import homepageimage from '../HomePage/Assets/HomeImage.png';
 import NavLogo from "../HomePage/Assets/footerlogo copy.png";
+import homepageimage from '../HomePage/Assets/HomeImage.png';
 import build2 from '../HomePage/Assets/build3.jpg';
 import build3 from '../HomePage/Assets/build4.jpeg';
 
-const images = [slide1, slide2, slide3, slide4];
-
 const heroSlides = [
- {
+  {
     id: 1,
     title: "Luxury Living Redefined",
-   
     description: "Discover our premium residential developments featuring world-class amenities and architectural brilliance in the heart of the city.",
     image: homepageimage,
-   
   },
   {
     id: 2,
     title: "BUSINESS DESTINATIONS",
-   
     description: "State-of-the-art commercial spaces designed for success. Premium office buildings and retail developments in prime locations.",
     image: build3,
-   
   },
   {
     id: 3,
     title: "Investment Opportunities",
-   
     description: "Exceptional real estate investment opportunities with guaranteed returns. Join our exclusive investor network today.",
     image: build2,
-   
   },
 ];
 
 const PropertyHighlights = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentImage, setCurrentImage] = useState(0);
   const navigate = useNavigate();
-
- 
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }, 3000);
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -196,22 +179,10 @@ const PropertyHighlights = () => {
     navigate("/builder", { replace: true });
   };
 
-
-    // const handleScrollToApartments = scrollToApartments || defaultScrollToApartments;
-    // const handleScrollToIndividualHouse = scrollToIndividualHouse || defaultScrollToIndividualHouse;
-    // const handleScrollToTopProjects = scrollToTopProjects || defaultScrollToTopProjects;
-
-  
-      useEffect(() => {
-        const interval = setInterval(() => {
-          setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-        }, 5000);
-        return () => clearInterval(interval);
-      }, []);
-
   return (
-    <div className="relative w-full h-[90dvh]">
-             <div className="absolute inset-0 z-0">
+    <div className="relative w-full h-[90vh] sm:h-[90dvh]">
+      {/* Background Slides */}
+      <div className="absolute inset-0 z-0">
         {heroSlides.map((slide, index) => (
           <div
             key={slide.id}
@@ -224,110 +195,82 @@ const PropertyHighlights = () => {
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"
-              loading={index === 0 ? 'eager' : 'lazy'} // Optimize loading
+              loading={index === 0 ? 'eager' : 'lazy'}
             />
           </div>
-             ))}
-           </div>
-        
-   
-         {/* Navbar */}
-         <nav className="absolute top-0 left-0 w-full bg-transparent text-white p-4 z-30">
-           <div className="container mx-auto flex justify-between items-center">
-             <div>
-               <img
-                 src={NavLogo}
-                 alt="ABV Logo"
-                 className="w-16 sm:w-20 md:w-24 h-auto"
-               />
-             </div>
-             <div className="hidden md:flex space-x-6 items-center">
-               <button 
-               
-                 className="text-white hover:text-black drop-shadow-md"
-               >
-                 {/* Apartments */}
-               </button>
-               <button 
-              
-                 className="text-white hover:text-black drop-shadow-md"
-               >
-                 {/* Ongoing Projects */}
-               </button>
-               <button 
-               
-                 className="text-white hover:text-black drop-shadow-md"
-               >
-                 {/* Individual House */}
-               </button>
-               <button 
-                 onClick={() => navigate("/contact")}
-                 className="text-white hover:text-black drop-shadow-md"
-               >
-                 {/* Contact */}
-               </button>
-             </div>
-             <div className="flex space-x-3 items-center">
-               {/* <div className="flex items-center space-x-1">
-                 <FaMapMarkerAlt className="text-white" size={16} />
-                 <span className="text-white text-sm drop-shadow-md">Chennai</span>
-               </div> */}
-               <Link to="/login">
-                 {/* <button className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md">               
-                   Login
-                 </button> */}
-               </Link>
-             </div>
-           </div>
-         </nav>
-   
-         
-   
-         {/* Text content */}
-              <div className="container mx-auto h-full text-white p-4 pt-40 relative z-20">
-  {/* Safe title/subtitle rendering */}
-  {heroSlides[currentSlide]?.title && (
-    <>
-      <h1 className="font-inter font-extrabold text-[67px] leading-[122%] tracking-[0%] text-black mb-2">
-        {heroSlides[currentSlide].title.split(' ')[0]}
-      </h1>
-      <span className="font-inter font-extrabold text-[67px] leading-[122%] tracking-[0%] text-black mb-6 block">
-        {heroSlides[currentSlide].title.split(' ').slice(1).join(' ')}
-      </span>
-    </>
-  )}
-  
-  {heroSlides[currentSlide]?.subtitle && (
-    <h2 className="font-inter font-extrabold text-[67px] leading-[122%] tracking-[0%] text-black mb-6">
-      {heroSlides[currentSlide].subtitle}
-    </h2>
-  )}
+        ))}
+      </div>
 
-  {/* Safe description rendering */}
-  <div className='w-[500px]'>
-    <p className="font-inter font-light text-[24px] leading-[122%] tracking-[0%] text-black">
-      {heroSlides[currentSlide]?.description || ''}
-    </p>
-  </div>
-</div>
-           
-   
-         
-   
-         {/* Bottom Search Card */}
-<div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[95%] sm:w-[600px] md:w-[900px] bg-[#EDEAEA] rounded-lg p-4 sm:p-6">        {/* Tabs */}
-            <h1 className="font-inter font-extrabold text-[36px] leading-[100%] tracking-[0%]">
-    Explore Builder Project
-  </h1>
-  
-  {/* Subheading */}
-  <p className="font-inter font-light text-[24px] leading-[100%] tracking-[0%] mt-2">
-    Discover our latest builder projects and offerings.
-  </p>
-              
-         </div>
-         
-       </div>
+      {/* Navbar */}
+      <nav className="absolute top-0 left-0 w-full bg-transparent text-white p-4 z-30">
+        <div className="container mx-auto flex justify-between items-center">
+          <div>
+            <img
+              src={NavLogo}
+              alt="ABV Logo"
+              className="w-16 sm:w-20 md:w-24 h-auto"
+            />
+          </div>
+          <div className="hidden md:flex space-x-6 items-center">
+            <button className="text-white hover:text-black drop-shadow-md">
+              {/* Apartments */}
+            </button>
+            <button className="text-white hover:text-black drop-shadow-md">
+              {/* Ongoing Projects */}
+            </button>
+            <button className="text-white hover:text-black drop-shadow-md">
+              {/* Individual House */}
+            </button>
+            <button 
+              onClick={() => navigate("/contact")}
+              className="text-white hover:text-black drop-shadow-md"
+            >
+              {/* Contact */}
+            </button>
+          </div>
+          <div className="flex space-x-3 items-center">
+            <Link to="/login">
+              {/* <button className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md">               
+                Login
+              </button> */}
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Text Content */}
+      <div className="container mx-auto h-full flex flex-col justify-center text-white p-4 sm:p-6 md:p-8 relative z-20">
+        <div className="max-w-4xl">
+          {heroSlides[currentSlide]?.title && (
+            <>
+              <h1 className="font-inter font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[67px] leading-[122%] tracking-[0%] text-black mb-2 sm:mb-4">
+                {heroSlides[currentSlide].title.split(' ')[0]}
+              </h1>
+              <span className="font-inter font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[67px] leading-[122%] tracking-[0%] text-black block mb-4 sm:mb-6">
+                {heroSlides[currentSlide].title.split(' ').slice(1).join(' ')}
+              </span>
+            </>
+          )}
+          
+          <div className="w-full sm:w-[400px] md:w-[500px]">
+            <p className="font-inter font-light text-lg sm:text-xl md:text-2xl lg:text-[24px] leading-[140%] sm:leading-[122%] tracking-[0%] text-black">
+              {heroSlides[currentSlide]?.description || ''}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Search Card */}
+      <div className="absolute -bottom-12 sm:-bottom-16 left-1/2 transform -translate-x-1/2 w-[90%] sm:w-[80%] md:w-[700px] lg:w-[900px] bg-[#EDEAEA] rounded-lg p-4 sm:p-6 shadow-xl">
+        <h1 className="font-inter font-extrabold text-2xl sm:text-3xl md:text-[36px] leading-[100%] tracking-[0%]">
+          Explore Builder Project
+        </h1>
+        
+        <p className="font-inter font-light text-base sm:text-lg md:text-xl lg:text-[24px] leading-[100%] tracking-[0%] mt-2 sm:mt-3">
+          Discover our latest builder projects and offerings.
+        </p>
+      </div>
+    </div>
   );
 };
 

@@ -278,7 +278,7 @@ const Bookings = () => {
         {bookings.length > 4 && (
           <button
             onClick={() => setViewAll(!viewAll)}
-            className="text-blue-600 focus:outline-none"
+            className="text-black focus:outline-none"
             aria-label={viewAll ? "Show fewer bookings" : "View all bookings"}
           >
             {viewAll ? "Show less" : "View all"}
@@ -306,7 +306,7 @@ const Bookings = () => {
               />
               <div className="p-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-blue-600 mt-1 font-semibold hover:underline cursor-pointer">
+                  <h3 className="text-black mt-1 font-semibold hover:underline cursor-pointer">
                     {property.title}
                   </h3>
                   <span className={`text-xs px-2 py-1 rounded ${

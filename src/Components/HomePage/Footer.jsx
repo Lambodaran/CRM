@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
           
           {/* Links and Contact Section */}
-          <div className="flex flex-col sm:flex-row justify-between gap-6 sm:gap-10 md:gap-20">
+          <div className="flex flex-col sm:flex-row justify-between gap-8 sm:gap-10 md:gap-18">
             {/* Navigation Links */}
             <div className="text-center sm:text-left">
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
@@ -87,14 +87,14 @@ const Footer = () => {
                     Properties
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/testimonials"
                     className="hover:text-white transition duration-300 ease-in-out"
                   >
                     Testimonials
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/contact"

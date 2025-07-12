@@ -1820,7 +1820,7 @@ export default function PropertyManager() {
 
         <button
           type="button"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition ml-auto"
           onClick={() => {
             setEditingIndex(null);
             setProfile({
@@ -2559,7 +2559,7 @@ export default function PropertyManager() {
                     <button
                       type="button"
                       onClick={addFeature}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="px-4 py-2 bg-black text-white rounded-r-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       Add
                     </button>
@@ -2604,7 +2604,7 @@ export default function PropertyManager() {
                     <button
                       type="button"
                       onClick={addService}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-r-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="px-4 py-2 bg-black text-white rounded-r-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       Add
                     </button>
@@ -2740,7 +2740,7 @@ export default function PropertyManager() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-4 py-2 rounded bg-black text-white hover:bg-gray-700"
                 >
                   {editingIndex !== null ? "Update" : "Save"}
                 </button>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import _ from "lodash";
 
 const BASE_URL = "https://crm-bcgg.onrender.com";
-
-
 
 const Popup = ({
   selectedLocation,
@@ -17,9 +16,15 @@ const Popup = ({
   const [states, setStates] = useState([]);
   const [loadingStates, setLoadingStates] = useState(false);
   const [stateError, setStateError] = useState(null);
+  const [isSelecting, setIsSelecting] = useState(false);
+
+  // Debounced search query update
+  const debouncedSetSearchQuery = useCallback(
+    _.debounce((value) => setSearchQuery(value), 300),
+    []
+  );
 
   // Fetch states from builder profiles
-  // Updated state fetching in Popup.jsx
   useEffect(() => {
     const fetchStates = async () => {
       setLoadingStates(true);
@@ -33,30 +38,24 @@ const Popup = ({
           throw new Error("Invalid data format received from API");
         }
 
-        // Normalize and deduplicate states
         const stateMap = new Map();
-
         response.data.forEach((builder) => {
           if (builder.address?.state) {
             const normalizedState = builder.address.state.trim().toLowerCase();
             if (!stateMap.has(normalizedState)) {
-              // Store the first properly cased version we encounter
               stateMap.set(normalizedState, builder.address.state);
             }
           }
         });
 
-        // Convert to array of objects with consistent casing
         const uniqueStates = Array.from(stateMap.entries()).map(
           ([_, stateName]) => ({
-            id: stateName, // Use the properly cased version
+            id: stateName,
             name: stateName,
           })
         );
 
-        // Sort alphabetically
         uniqueStates.sort((a, b) => a.name.localeCompare(b.name));
-
         setStates(uniqueStates);
       } catch (error) {
         setStateError("Failed to fetch states. Please try again.");
@@ -68,45 +67,13 @@ const Popup = ({
 
     fetchStates();
   }, []);
- 
 
-  const filteredStates = states.filter((state) =>
-    state.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Function to detect user's location
-  const detectLocation = () => {
-    setIsLocating(true);
-    setLocationError(null);
-
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported by your browser");
-      setIsLocating(false);
-      return;
+  // Reset search query when popup opens
+  useEffect(() => {
+    if (isVisible) {
+      setSearchQuery("");
     }
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          if (states.length > 0) {
-            setSelectedLocation(states[0].id);
-            setIsLocating(false);
-            setIsVisible(false);
-          } else {
-            setLocationError("Could not determine your location");
-            setIsLocating(false);
-          }
-        } catch (error) {
-          setLocationError("Could not determine your city");
-          setIsLocating(false);
-        }
-      },
-      (error) => {
-        setLocationError("Unable to retrieve your location");
-        setIsLocating(false);
-      }
-    );
-  };
+  }, [isVisible]);
 
   // Prevent scrolling when popup is visible
   useEffect(() => {
@@ -121,20 +88,72 @@ const Popup = ({
     };
   }, [isVisible]);
 
-  const handleClose = () => {
-    setIsVisible(false);
-  };
+  // Debug isVisible changes
+  useEffect(() => {
+    console.log("isVisible changed:", isVisible);
+  }, [isVisible]);
 
-  const handleStateSelect = (stateId) => {
+  const filteredStates = states.filter((state) =>
+    state.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Handle state selection with single click
+  const handleStateSelect = async (e, stateId) => {
+    e.stopPropagation();
+    setIsSelecting(true);
+    console.log("handleStateSelect triggered with stateId:", stateId);
     setSelectedLocation(stateId);
+    setSearchQuery("");
+    await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate delay
+    setIsVisible(false);
+    setIsSelecting(false);
+  };
+
+  const handleClose = (e) => {
+    e.stopPropagation();
+    setSearchQuery("");
     setIsVisible(false);
   };
 
-  // Rest of the JSX remains unchanged
+  // Simplified detectLocation
+  const detectLocation = (e) => {
+    e.stopPropagation();
+    setIsLocating(true);
+    setLocationError(null);
+
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser");
+      setIsLocating(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          if (states.length > 0) {
+            setSelectedLocation(states[0].name);
+            setSearchQuery("");
+            setIsVisible(false);
+          } else {
+            setLocationError("No states available to select");
+          }
+        } catch (error) {
+          setLocationError("Could not determine your location");
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      (error) => {
+        setLocationError("Unable to retrieve your location");
+        setIsLocating(false);
+      }
+    );
+  };
+
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-300 ease-in-out ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-500 ease-in-out ${
+        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
       }`}
     >
       {/* Overlay */}
@@ -149,6 +168,11 @@ const Popup = ({
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-gray-800">
               Select Your Location
+              {selectedLocation && (
+                <span className="text-sm text-gray-500 ml-2">
+                  (Current: {selectedLocation})
+                </span>
+              )}
             </h2>
             <button
               onClick={handleClose}
@@ -177,7 +201,7 @@ const Popup = ({
                 placeholder="Search for your state"
                 className="w-full p-3 border border-gray-300 rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => debouncedSetSearchQuery(e.target.value)}
               />
               <svg
                 className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
@@ -193,7 +217,7 @@ const Popup = ({
                 />
               </svg>
             </div>
-            <button
+            {/* <button
               onClick={detectLocation}
               disabled={isLocating}
               className={`px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors ${
@@ -221,7 +245,7 @@ const Popup = ({
                     <path
                       className="opacity-75"
                       fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      d="M4 12a8 8a0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
                   Detecting...
@@ -250,7 +274,7 @@ const Popup = ({
                   Detect my location
                 </>
               )}
-            </button>
+            </button> */}
           </div>
 
           {loadingStates ? (
@@ -298,23 +322,34 @@ const Popup = ({
             <>
               <h3 className="text-lg font-semibold mb-4 text-gray-700">
                 Select State
+                {selectedLocation && (
+                  <span className="text-sm text-gray-500 ml-2">
+                    (Current: {selectedLocation})
+                  </span>
+                )}
               </h3>
 
               {filteredStates.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
-                  No states found matching your search
+                  No states found matching "{searchQuery}". Try a different search term or{" "}
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="text-blue-500 hover:underline"
+                  >
+                    clear the search
+                  </button>.
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   {filteredStates.map((state) => (
                     <button
                       key={state.id}
-                      className={`flex items-center justify-center p-4 rounded-lg transition-all hover:bg-gray-50 border ${
-                        selectedLocation === state.id
-                          ? "border-blue-300 bg-blue-50"
-                          : "border-gray-200"
+                      className={`flex items-center justify-center p-4 rounded-lg transition-all border border-gray-200 hover:bg-gray-50 ${
+                        isSelecting ? "opacity-50 cursor-not-allowed" : ""
                       }`}
-                      onClick={() => handleStateSelect(state.id)}
+                      onClick={(e) => handleStateSelect(e, state.id)}
+                      aria-label={`Select ${state.name}`}
+                      disabled={isSelecting}
                     >
                       <span className="font-medium text-gray-800">
                         {state.name}

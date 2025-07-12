@@ -705,7 +705,7 @@ const LeadsPage = () => {
               resetForm();
               setShowDealForm(true);
             }}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition-colors"
+            className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-700 transition-colors"
           >
             <Plus size={18} /> Lead
           </button>
@@ -916,7 +916,7 @@ const LeadsPage = () => {
               </button>
               <button
                 onClick={handleSaveLead}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                className="px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
               >
                 Save
               </button>

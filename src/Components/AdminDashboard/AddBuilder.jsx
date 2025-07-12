@@ -1466,7 +1466,7 @@ export default function BuildingList() {
         </div>
         <button
           type="button"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
           onClick={() => openModal()}
           disabled={isLoading}
         >
@@ -1515,7 +1515,7 @@ export default function BuildingList() {
                 <h3 className="text-lg font-bold mb-1">
                   {building.buildingName}
                 </h3>
-                <p className="text-lg text-red-600 font-semibold mb-1">
+                <p className="text-lg text-black font-semibold mb-1">
                   {building.priceRange || "Contact for Price"}
                 </p>
                 <p className="text-sm text-gray-500 flex items-center gap-2 mb-1">
@@ -1564,7 +1564,7 @@ export default function BuildingList() {
                 <div className="relative z-10 mt-2"></div>
                 <div className="flex space-x-2 mt-4">
                   <button
-                    className="bg-blue-600 text-white p-2 text-sm rounded hover:bg-blue-700"
+                    className="bg-black text-white p-2 text-sm rounded hover:bg-blue-700"
                     onClick={(e) => {
                       e.stopPropagation();
                       openModal(building);

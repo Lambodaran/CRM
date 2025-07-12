@@ -2865,7 +2865,7 @@ function ArihantPage() {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/2 p-6">
+        <div className="w-full lg:w-auto pl-12 p-4">
           <div className="text-sm leading-relaxed text-gray-700">
             {textPart1
               .split("\n")
@@ -3175,12 +3175,14 @@ function ArihantPage() {
             <div className="mb-5">
               <KeyAmenities />
             </div>
-            <button
-              onClick={toggleLoanCalculator}
-              className="w-full bg-black text-white font-bold px-6 py-3 rounded-2xl"
-            >
-              Close
-            </button>
+         <div className="flex justify-end">
+  <button
+    onClick={toggleLoanCalculator}
+    className="bg-black text-white font-bold px-10 py-3 rounded-xl"
+  >
+    Close
+  </button>
+</div>
           </div>
         </div>
       )}
@@ -3345,7 +3347,7 @@ function ArihantPage() {
           <button
             type="submit"
             disabled={formSubmitting}
-            className={`w-full bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition font-medium ${
+            className={`w-[220px] bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition font-medium ${
               formSubmitting ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >

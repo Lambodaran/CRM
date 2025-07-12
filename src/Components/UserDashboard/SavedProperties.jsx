@@ -186,7 +186,7 @@ const SavedProperties = () => {
                   className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
                 >
                   {property.liked ? (
-                    <Heart className="text-red-500 fill-current" size={20} />
+                    <Heart className="text-black-500 fill-current" size={20} />
                   ) : (
                     <HeartIcon className="text-gray-400" size={20} />
                   )}
@@ -213,7 +213,7 @@ const SavedProperties = () => {
 
                 <button
                   onClick={() => handleRemove(property.id)}
-                  className="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                  className="w-full py-2 bg-black text-white rounded-md hover:bg-red-600 transition-colors"
                 >
                   Remove
                 </button>

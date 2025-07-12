@@ -384,7 +384,7 @@
 //         </div>
 //         <button
 //           onClick={() => setIsOpen(true)}
-//           className="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700 flex items-center gap-2"
+//           className="bg-black text-white px-4 py-2 rounded shadow hover:bg-black flex items-center gap-2"
 //         >
 //           <Plus size={18} /> Add Broker/Agent
 //         </button>
@@ -437,7 +437,7 @@
 //                   alt={broker.name}
 //                 />
 //                 <div>
-//                   <span className="bg-purple-500 text-white w-[100px] text-center text-xs px-3 py-1 rounded-full mb-2">
+//                   <span className="bg-black text-white w-[100px] text-center text-xs px-3 py-1 rounded-full mb-2">
 //                     {broker.selectType}
 //                   </span>
 //                   <div className="flex items-center gap-2 text-lg">
@@ -475,19 +475,19 @@
 //               </div>
 //               <div className="flex justify-between w-full mt-4 border-t pt-3 text-sm">
 //                 <div className="w-1/3 text-center">
-//                   <div className="text-purple-700 font-bold">
+//                   <div className="text-black font-bold">
 //                     {broker.activeListings || 0}
 //                   </div>
 //                   <div className="text-gray-500">Listings</div>
 //                 </div>
 //                 <div className="w-1/3 text-center">
-//                   <div className="text-purple-700 font-bold">
+//                   <div className="text-black font-bold">
 //                     {broker.closedDeals || 0}
 //                   </div>
 //                   <div className="text-gray-500">Deals</div>
 //                 </div>
 //                 <div className="w-1/3 text-center">
-//                   <div className="text-purple-700 font-bold">
+//                   <div className="text-black font-bold">
 //                     {broker.commissionRate || 0}%
 //                   </div>
 //                   <div className="text-gray-500">Commission</div>
@@ -574,7 +574,7 @@
 //                   {uploadProgress > 0 && uploadProgress < 100 && (
 //                     <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
 //                       <div
-//                         className="bg-purple-600 h-2.5 rounded-full"
+//                         className="bg-black h-2.5 rounded-full"
 //                         style={{ width: `${uploadProgress}%` }}
 //                       ></div>
 //                     </div>
@@ -738,7 +738,7 @@
 //             </button>
 //             <button
 //               onClick={handleSubmit}
-//               className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+//               className="px-4 py-2 bg-black text-white rounded hover:bg-black"
 //             >
 //               Save
 //             </button>
@@ -1085,7 +1085,7 @@ export default function BrokerAgentPage() {
                 className="sr-only"
               />
               <div
-                className={`block w-10 h-6 rounded-full ${autoRefreshEnabled ? 'bg-purple-600' : 'bg-gray-300'}`}
+                className={`block w-10 h-6 rounded-full ${autoRefreshEnabled ? 'bg-black' : 'bg-gray-300'}`}
               ></div>
               <div
                 className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${autoRefreshEnabled ? 'transform translate-x-4' : ''}`}
@@ -1095,7 +1095,7 @@ export default function BrokerAgentPage() {
 
           <button
             onClick={() => setIsOpen(true)}
-            className="flex gap-2 items-center px-4 py-2 text-white bg-purple-600 rounded shadow hover:bg-purple-700"
+            className="flex gap-2 items-center px-4 py-2 text-white bg-black rounded shadow hover:bg-gray-700"
           >
             <Plus size={18} /> Add Broker/Agent
           </button>
@@ -1148,7 +1148,7 @@ export default function BrokerAgentPage() {
                   alt={broker.name}
                 />
                 <div>
-                  <span className="bg-purple-500 text-white w-[100px] text-center text-xs px-3 py-1 rounded-full mb-2">
+                  <span className="bg-black text-white w-[100px] text-center text-xs px-3 py-1 rounded-full mb-2">
                     {broker.selectType}
                   </span>
                   <div className="flex gap-2 items-center text-lg">
@@ -1186,19 +1186,19 @@ export default function BrokerAgentPage() {
               </div>
               <div className="flex justify-between pt-3 mt-4 w-full text-sm border-t">
                 <div className="w-1/3 text-center">
-                  <div className="font-bold text-purple-700">
+                  <div className="font-bold text-black">
                     {broker.activeListings || 0}
                   </div>
                   <div className="text-gray-500">Listings</div>
                 </div>
                 <div className="w-1/3 text-center">
-                  <div className="font-bold text-purple-700">
+                  <div className="font-bold text-black">
                     {broker.closedDeals || 0}
                   </div>
                   <div className="text-gray-500">Deals</div>
                 </div>
                 <div className="w-1/3 text-center">
-                  <div className="font-bold text-purple-700">
+                  <div className="font-bold text-black">
                     {broker.commissionRate || 0}%
                   </div>
                   <div className="text-gray-500">Commission</div>
@@ -1232,7 +1232,7 @@ export default function BrokerAgentPage() {
                 name="user"
                 value={formData.user}
                 onChange={handleChange}
-                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
               >
                 <option value="">Select User</option>
                 {users.map((user) => (
@@ -1254,7 +1254,7 @@ export default function BrokerAgentPage() {
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Company Name"
               />
             </div>
@@ -1279,13 +1279,13 @@ export default function BrokerAgentPage() {
                     id="avatarUrl"
                     name="avatarUrl"
                     onChange={handleFileChange}
-                    className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200"
+                    className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-black file:text-black hover:file:bg-black"
                     accept="image/*"
                   />
                   {uploadProgress > 0 && uploadProgress < 100 && (
                     <div className="mt-3 w-full h-2 bg-gray-200 rounded-full">
                       <div
-                        className="h-2 bg-purple-500 rounded-full transition-all duration-300"
+                        className="h-2 bg-black rounded-full transition-all duration-300"
                         style={{ width: `${uploadProgress}%` }}
                       ></div>
                     </div>
@@ -1310,7 +1310,7 @@ export default function BrokerAgentPage() {
                 name="properties"
                 value={formData.properties}
                 onChange={handleChange}
-                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
               >
                 <option value="">Select Property</option>
                 {properties.map((property) => (
@@ -1332,7 +1332,7 @@ export default function BrokerAgentPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Email"
               />
             </div>
@@ -1348,7 +1348,7 @@ export default function BrokerAgentPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Phone"
               />
             </div>
@@ -1364,7 +1364,7 @@ export default function BrokerAgentPage() {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Location"
               />
             </div>
@@ -1380,7 +1380,7 @@ export default function BrokerAgentPage() {
                 name="selectType"
                 value={formData.selectType}
                 onChange={handleChange}
-                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full bg-white rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
               >
                 <option value="">Select Type</option>
                 <option value="Internal">Internal</option>
@@ -1400,7 +1400,7 @@ export default function BrokerAgentPage() {
                 name="activeListings"
                 value={formData.activeListings}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Active Listings"
                 type="number"
               />
@@ -1417,7 +1417,7 @@ export default function BrokerAgentPage() {
                 name="closedDeals"
                 value={formData.closedDeals}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Closed Deals"
                 type="number"
               />
@@ -1434,7 +1434,7 @@ export default function BrokerAgentPage() {
                 name="commissionRate"
                 value={formData.commissionRate}
                 onChange={handleChange}
-                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="block p-3 w-full rounded-lg border border-gray-300 transition duration-200 focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Commission Rate"
                 type="number"
               />
@@ -1449,7 +1449,7 @@ export default function BrokerAgentPage() {
             </button>
             <button
               onClick={handleSubmit}
-              className="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200"
+              className="px-5 py-2.5 bg-black text-white rounded-lg hover:bg-black transition duration-200"
             >
               Save
             </button>

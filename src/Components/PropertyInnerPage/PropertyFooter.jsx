@@ -12,7 +12,7 @@ import footerbackground from "../BuilderInnerPage/Assets/Footer background.png";
 
 const Footer = () => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {/* Call to Action Section */}
       {/* <div className="relative bg-gray-300 w-[90%] max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16">
         <h2 className="text-xl sm:text-2xl font-bold mb-2">Looking for more Properties?</h2>
@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
           
           {/* Links and Contact Section */}
-          <div className="flex flex-col sm:flex-row justify-between gap-6 sm:gap-10 md:gap-20">
+          <div className="flex flex-col sm:flex-row justify-between gap-6 sm:gap-10 md:gap-18">
             {/* Navigation Links */}
             <div className="text-center sm:text-left">
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
@@ -79,7 +79,7 @@ const Footer = () => {
                     Why Us
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/#feature-properties"
                     className="hover:text-white transition duration-300 ease-in-out"
@@ -94,7 +94,7 @@ const Footer = () => {
                   >
                     Testimonials
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/contact"

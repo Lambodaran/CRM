@@ -10,7 +10,7 @@ export default function PropertyNavbar() {
     { name: "About us", path: "/about" },
     { name: "Why us", path: "/why-us" },
     // { name: "Properties", path: "/footerproperties" },
-    { name: "Testimonials", path: "/testimonials" },
+    // { name: "Testimonials", path: "/testimonials" },
     { name: "Contact us", path: "/contact" },
   ];
 

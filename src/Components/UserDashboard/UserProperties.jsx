@@ -93,7 +93,7 @@ const PropertiesPage = () => {
               <h2 className="text-lg font-bold">
                 {property.projectName || "Unnamed Project"}
               </h2>
-              <p className="text-lg mt-1 text-red-600 font-semibold">
+              <p className="text-lg mt-1 text-black font-semibold">
                 {property.price
                   ? typeof property.price === "number"
                     ? `₹${parseFloat(property.price).toLocaleString()}`

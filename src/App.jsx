@@ -228,12 +228,12 @@ function LandingPage() {
 
   return (
     <>
-      <Popup
+      {/* <Popup
         selectedLocation={selectedStateId}
         setSelectedLocation={setSelectedStateId}
-        isVisible={showPopup}
-        setIsVisible={setShowPopup}
-      />
+        // isVisible={showPopup}
+        // setIsVisible={setShowPopup}
+      /> */}
 
       <PropertyHighlights
         scrollToApartments={scrollToApartments}

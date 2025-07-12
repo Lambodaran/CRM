@@ -158,150 +158,130 @@ const WhyUs = () => {
       </div>
 
       {/* Footer */}
-      <div className="bg-black text-white pt-16 pb-8 px-6 mt-3">
-        <div className="max-w-7xl mx-auto">
-          <div
-            className="relative bg-cover bg-center rounded-lg p-6 md:p-10 flex flex-col items-center text-center text-white bg-opacity-80 transition-transform transform hover:scale-105"
-             style={{ backgroundImage: `url(${footerbackground})` }}
-          >
-            <h2 className="text-2xl md:text-3xl font-bold">
-              LOOKING FOR MORE <br />
-              PROPERTIES?
-            </h2>
-            <p className="mt-2 text-gray-300">
-              Let's work together! <br />
-              Drop us a line to see how we can help.
-            </p>
-            <Link
-              to="/contact"
-              className="mt-4 px-6 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition duration-300 ease-in-out"
-            >
-              Contact us
-            </Link>
-          </div>
-
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-gray-700 pt-8 text-center md:text-left">
-            <div className="flex flex-col items-center md:items-start">
-              <Link to="/">
-                <img
-                  src={footerlogo}
-                  alt="Footer Logo"
-                  className="mx-auto md:mx-0 hover:scale-110 transition duration-300"
-                />
-              </Link>
-              <p className="text-gray-400 mt-2">
-                Welcome to Asset Build Ventures, a premier real estate and
-                construction company based in Chennai.
-              </p>
-              <div className="flex space-x-4 mt-4">
-                {[facebook, twitter, linkedin, instagram].map((icon, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    className="hover:opacity-75 transition transform hover:scale-110"
-                  >
-                    <img src={icon} alt="Social" className="h-6" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-xl font-bold">Quick Links</h4>
-              <ul className="mt-2 space-y-2 text-gray-400">
-                <li>
-                  <Link
-                    to="/"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/about"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/why-us"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    Why Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/footerproperties"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    Properties
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/testimonials"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    Testimonials
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-white transition duration-300 ease-in-out"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-xl font-bold">Contact Us</h4>
-              <ul className="mt-2 space-y-2 text-gray-400">
-                {[
-                  { icon: phone, text: "+91 8056666902" },
-                  { icon: email, text: "assetbuildventures@gmail.com" },
-                  {
-                    icon: location,
-                    text: "Ground floor, H-block, 5th street, Anna Nagar, Chennai-600040",
-                  },
-                ].map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition duration-300"
-                  >
-                    <img src={item.icon} alt="Icon" className="h-5" />{" "}
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-xl font-bold">Signup to get more updates</h4>
-              <div className="mt-2 flex flex-col items-center md:items-start">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="p-2 w-full bg-white rounded-lg focus:ring focus:ring-orange-400 transition"
-                />
-                <button className="bg-orange-500 px-4 py-2 mt-4 rounded-full hover:bg-orange-600 transition duration-300">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <p className="text-center text-gray-500 text-sm mt-8">
-            Copyright &copy; 2025 Asset Build Ventures. All rights reserved
-          </p>
-        </div>
-      </div>
+        <div className="w-full">
+                 {/* Call to Action Section */}
+                 <div className="relative bg-gray-300 w-[90%] max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16">
+                   <h2 className="text-xl sm:text-2xl font-bold mb-2">Looking for more Properties?</h2>
+                   <p className="text-base sm:text-lg mb-3 sm:mb-4">Let's work together!</p>
+                   <p className="text-base sm:text-lg mb-4 sm:mb-6">Drop us a line to see how we can help</p>
+                   <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
+                     <button className="bg-black text-white px-4 sm:px-6 py-1 sm:py-2 rounded hover:bg-gray-800 text-sm sm:text-base">
+                       <a href="/contact">Contact Us</a>
+                     </button>
+                   </div>
+                 </div>
+           
+                 {/* Main Footer Content */}
+                 <div className="bg-black text-white px-4 sm:px-8">
+                   <div className="pt-8 pb-4 grid grid-cols-1 lg:grid-cols-2 gap-8 border-t border-gray-700">
+                     {/* Logo and Social Section */}
+                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 md:gap-10">
+                       <Link to="/" className="shrink-0">
+                         <img
+                           src={footerlogo}
+                           alt="Footer Logo"
+                           className="hover:scale-110 transition duration-300 w-[160px] sm:w-[180px] md:w-[205px] h-auto p-2 sm:p-4"
+                         />
+                       </Link>
+                       <div className="text-center sm:text-left">
+                         <p className="text-gray-400 text-sm sm:text-base">
+                           Welcome to Asset Build Ventures,
+                           a premier real 
+                           <span className="block"> estate and construction company</span>
+                           <span className="block">based in Chennai.</span>
+                         </p>
+                         <div className="flex justify-center sm:justify-start space-x-3 sm:space-x-4 mt-3 sm:mt-4">
+                           {[facebook, twitter, linkedin, instagram].map((icon, index) => (
+                             <a
+                               key={index}
+                               href="#"
+                               className="hover:opacity-75 transition transform hover:scale-110"
+                             >
+                               <img src={icon} alt="Social" className="h-5 sm:h-6" />
+                             </a>
+                           ))}
+                         </div>
+                       </div>
+                     </div>
+                     
+                     {/* Links and Contact Section */}
+                     <div className="flex flex-col sm:flex-row justify-between gap-6 sm:gap-10 md:gap-18">
+                       {/* Navigation Links */}
+                       <div className="text-center sm:text-left">
+                         <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
+                           <li>
+                             <Link
+                               to="/about"
+                               className="hover:text-white transition duration-300 ease-in-out"
+                             >
+                               About Us
+                             </Link>
+                           </li>
+                           <li>
+                             <Link
+                               to="/why-us"
+                               className="hover:text-white transition duration-300 ease-in-out"
+                             >
+                               Why Us
+                             </Link>
+                           </li>
+                           {/* <li>
+                             <Link
+                               to="/#feature-properties"
+                               className="hover:text-white transition duration-300 ease-in-out"
+                             >
+                               Properties
+                             </Link>
+                           </li> */}
+                           {/* <li>
+                             <Link
+                               to="/testimonials"
+                               className="hover:text-white transition duration-300 ease-in-out"
+                             >
+                               Testimonials
+                             </Link>
+                           </li> */}
+                           <li>
+                             <Link
+                               to="/contact"
+                               className="hover:text-white transition duration-300 ease-in-out"
+                             >
+                               Contact Us
+                             </Link>
+                           </li>
+                         </ul>
+                       </div>
+           
+                       {/* Contact Info */}
+                       <div className="text-center sm:text-left">
+                         <ul className="space-y-2 text-gray-400 text-xs sm:text-sm md:text-base">
+                           {[
+                             { icon: phone, text: "+91 8056666902" },
+                             { icon: email, text: "assetbuildventures@gmail.com" },
+                             {
+                               icon: location,
+                               text: "Ground floor, H-block, 5th street, Anna Nagar, Chennai-600040",
+                             },
+                           ].map((item, index) => (
+                             <li
+                               key={index}
+                               className="flex items-start justify-center sm:justify-start gap-2 hover:text-white transition duration-300"
+                             >
+                               <img src={item.icon} alt="Icon" className="h-4 sm:h-5 mt-0.5" />
+                               <span>{item.text}</span>
+                             </li>
+                           ))}
+                         </ul>
+                       </div>
+                     </div>
+                   </div>
+           
+                   {/* Copyright */}
+                   <p className="text-center text-gray-500 text-xs sm:text-sm mt-6 pb-4">
+                     Copyright © 2025 Asset Build Ventures. All rights reserved
+                   </p>
+                 </div>
+               </div>
       {/* Footer */}
     </>
   );
