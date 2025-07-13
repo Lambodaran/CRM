@@ -967,12 +967,12 @@ const FloorFormComponent = ({ buildings, onSubmit, onCancel, floorToEdit }) => {
                 buildings.length === 0 ||
                 isUploading
               }
-              className={`flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+              className={`flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                 submissionStatus === "submitting" ||
                 buildings.length === 0 ||
                 isUploading
                   ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-blue-700"
+                  : "hover:bg-gray-700"
               }`}
             >
               {submissionStatus === "submitting" ? (
@@ -1229,7 +1229,7 @@ export default function FloorList() {
         </div>
         <button
           type="button"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={() => {
             setFloorToEdit(null);
             setShowAddFloorModal(true);

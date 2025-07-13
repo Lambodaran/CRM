@@ -475,7 +475,7 @@ export default function UnitList() {
         </div>
         <button
           type="button"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition ml-auto"
           onClick={() => {
             resetForm();
             setIsEditing(false);
@@ -1015,7 +1015,7 @@ export default function UnitList() {
                 <button
                   type="button"
                   onClick={handleAddPhoto}
-                  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                  className="bg-black text-white px-3 py-1 rounded hover:bg-gray-700"
                 >
                   Add
                 </button>
@@ -1076,7 +1076,7 @@ export default function UnitList() {
                 <button
                   type="button"
                   onClick={handleAddVideo}
-                  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                  className="bg-black text-white px-3 py-1 rounded hover:bg-gray-700"
                 >
                   Add
                 </button>
@@ -1137,7 +1137,7 @@ export default function UnitList() {
                 <button
                   type="button"
                   onClick={handleAddPlan3D}
-                  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                  className="bg-black text-white px-3 py-1 rounded hover:bg-gray-700"
                 >
                   Add
                 </button>
@@ -1180,7 +1180,7 @@ export default function UnitList() {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-6 py-2 bg-black text-white rounded hover:bg-gray-700"
               >
                 {isEditing ? "Update Unit" : "Save Unit"}
               </button>

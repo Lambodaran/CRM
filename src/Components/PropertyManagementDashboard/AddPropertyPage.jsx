@@ -424,7 +424,7 @@ export default function AddProperty() {
           </select>
         </div>
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ml-auto"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition ml-auto"
           onClick={() => setIsModalOpen(true)}
         >
           Add Project
@@ -1004,7 +1004,7 @@ export default function AddProperty() {
                     type="button"
                     onClick={addAmenity}
                     disabled={newAmenity.length > 50}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
+                    className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
                   >
                     Add
                   </button>
@@ -1250,7 +1250,7 @@ export default function AddProperty() {
               <div className="flex justify-end">
                 <button
                   onClick={handleSubmit(onSubmit)}
-                  className="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-6 py-2 bg-black text-white font-medium rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {isEditMode ? "Update Project" : "Create Project"}
                 </button>
@@ -1428,7 +1428,7 @@ export default function AddProperty() {
                 <h3 className="text-lg font-bold mb-1">
                   {property.projectName}
                 </h3>
-                <p className="text-lg text-red-600 font-semibold mb-1">
+                <p className="text-lg text-black font-semibold mb-1">
                   {property.price
                     ? typeof property.price === "number"
                       ? `$${parseFloat(property.price).toLocaleString()}`

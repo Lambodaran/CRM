@@ -751,7 +751,7 @@ const PropertyLeads = () => {
               resetForm();
               setShowDealForm(true);
             }}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition-colors"
+            className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-700 transition-colors"
           >
             <Plus size={18} /> Lead
           </button>
