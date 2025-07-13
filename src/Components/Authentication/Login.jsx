@@ -65,7 +65,7 @@ export default function LoginPage() {
 
   const images = [
     {
-      url: "https://media.istockphoto.com/id/488120139/photo/modern-real-estate.jpg?s=612x612&w=0&k=20&c=88jk1VLSoYboMmLUx173sHs_XrZ9pH21as8lC7WINQs=",
+      url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80',
       text: (
         <a
           href="https://example.com/apartments"
@@ -76,7 +76,7 @@ export default function LoginPage() {
       ),
     },
     {
-      url: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/560522500.jpg?k=ff828719eaa74e28da1470e46ececabe7f4db037594ee0fd3d23a142084a7827&o=&hp=1",
+      url: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
       text: (
         <a
           href="https://example.com/villas"
@@ -87,7 +87,7 @@ export default function LoginPage() {
       ),
     },
     {
-      url: "https://media.istockphoto.com/id/1026205392/photo/beautiful-luxury-home-exterior-at-twilight.jpg?s=612x612&w=0&k=20&c=HOCqYY0noIVxnp5uQf1MJJEVpsH_d4WtVQ6-OwVoeDo=",
+      url:  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
       text: (
         <a
           href="https://example.com/homes"
@@ -1014,7 +1014,7 @@ export default function LoginPage() {
 
   // Desktop view - side by side layout
   return (
-    <div className="flex h-[90%] justify-center items-center bg-gray-100 font-sans px-4 py-10 overflow-hidden">
+    <div className="flex h-[800px] justify-center items-center bg-gray-100 font-sans px-4 py-40 overflow-hidden">
       {(isLoginSuccess || isSignupSuccess) && (
         <LoginSuccessAnimation isSignup={isSignupSuccess} />
       )}
