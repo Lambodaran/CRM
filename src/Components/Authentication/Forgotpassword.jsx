@@ -62,16 +62,16 @@ export default function ForgotPassword() {
   }, [isMobile]);
 
   // Image carousel effect (desktop only)
-useEffect(() => {
-  if (!isMobile) {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
-    return () => clearInterval(interval);
-  }
-}, [isMobile, images.length]);
+  useEffect(() => {
+    if (!isMobile) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, images.length]);
 
   // Clear validation messages after 4 seconds
   useEffect(() => {
@@ -164,142 +164,130 @@ useEffect(() => {
         </div>
       )}
 
-    <div className={`relative w-full ${isMobile ? 'max-w-md' : 'max-w-7xl'} ${isMobile ? 'h-auto' : 'h-[90vh]'} bg-white shadow-2xl rounded-2xl overflow-hidden`}>
-  {/* Main container with flex direction based on screen size */}
-  <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
-
-         {/* Image Panel - Shows on all screens but with different sizing */}
-    <div className={`${isMobile ? 'w-full h-56' : 'w-1/2 h-full'} relative overflow-hidden ${isMobile ? 'rounded-t-2xl' : 'rounded-r-2xl'}`}>
-      <img
-        src={images[currentImageIndex].url}
-        alt={`Real estate image for ${images[currentImageIndex].text}`}
-        className="w-full h-full object-cover brightness-90"
-      />
-      {/* <div className={`absolute text-white font-semibold ${isMobile ? 'bottom-4 left-4 text-lg' : 'bottom-12 left-12 text-xl'}`}>
-        <a
-          href={images[currentImageIndex].link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          {images[currentImageIndex].text}
-        </a>
-      </div> */}
-    </div>
-
-    {/* Form Panel - Consistent content with responsive layout */}
-    <div className={`${isMobile ? 'w-full p-6' : 'w-full md:w-1/2 p-10'} bg-white flex flex-col`}>
-      {!isMobile && (
-        <nav className="flex mb-6 absolute top-4 left-4" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
-              <a
-                href="/"
-                className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
-              >
-                <svg
-                  className="w-3 h-3 mr-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-                </svg>
-                Home
-              </a>
-            </li>
-            <li aria-current="page">
-              <div className="flex items-center">
-                <svg
-                  className="w-3 h-3 text-gray-400 mx-1"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-                <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
-                  Forgot Password
-                </span>
-              </div>
-            </li>
-          </ol>
-        </nav>
-      )}
-      
-      <div className={`${isMobile ? 'w-full' : 'w-full max-w-md'} ${!isMobile ? '' : ''}`}>
-        {isMobile && (
-          <nav className="mb-4">
-            <ol className="flex items-center text-sm">
-              <li className="flex items-center">
-                <a href="/" className="text-gray-700 hover:text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-                  </svg>
-                  Home
-                </a>
-              </li>
-              <li className="flex items-center ml-2">
-                <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-                </svg>
-                <span className="text-gray-500">Forgot Password</span>
-              </li>
-            </ol>
-          </nav>
-        )}
-        
-        <h1 className={`${isMobile ? 'text-3xl text-center' : 'text-4xl'} font-bold mb-2`}>Reset Password</h1>
-        <p className={`mb-6 text-gray-500 ${isMobile ? 'text-center' : ''}`}>Enter your email to receive a password reset link</p>
-        
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="mb-4">
-            <input
-              type="email"
-              placeholder="Your email"
-              className={`w-full border ${
-                emailError ? "border-red-500" : "border-gray-300"
-              } rounded-md p-3 ${isMobile ? 'text-center' : ''}`}
-              value={email}
-              onChange={handleEmailChange}
-              required
+      <div className={`relative w-full ${isMobile ? 'max-w-md' : 'max-w-7xl'} ${isMobile ? 'h-auto' : 'h-[90vh]'} bg-white shadow-2xl rounded-2xl overflow-hidden`}>
+        {/* Main container with flex direction based on screen size */}
+        <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} h-full`}>
+          {/* Image Panel - Shows on all screens but with different sizing */}
+          <div className={`${isMobile ? 'w-full h-64' : 'w-1/2 h-full'} relative overflow-hidden ${isMobile ? 'rounded-t-2xl' : 'rounded-l-2xl'}`}>
+            <img
+              src={images[currentImageIndex].url}
+              alt={`Real estate image for ${images[currentImageIndex].text}`}
+              className="w-full h-full object-cover brightness-90 transition-opacity duration-500"
             />
-            {emailError && (
-              <p className="text-red-500 text-xs mt-1">{emailError}</p>
-            )}
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
           </div>
-          
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-3 rounded-full mb-4 hover:opacity-90 transition"
-          >
-            Send Reset Link
-          </button>
-        </form>
-        
-        <p className={`text-sm ${isMobile ? 'text-center' : 'text-center'}`}>
-          Remembered your password?{" "}
-          <button
-            className="text-blue-500 hover:underline"
-            onClick={() => navigate("/login")}
-          >
-            Log in
-          </button>
-        </p>
-      </div>
-    </div>
 
- 
-  </div>
-</div>
+          {/* Form Panel - Consistent content with responsive layout */}
+          <div className={`${isMobile ? 'w-full p-6' : 'w-1/2 p-10'} bg-white flex flex-col justify-center`}>
+            {!isMobile && (
+              <nav className="flex mb-6 absolute top-4 left-4" aria-label="Breadcrumb">
+                <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                  <li className="inline-flex items-center">
+                    <a
+                      href="/"
+                      className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
+                    >
+                      <svg
+                        className="w-3 h-3 mr-2.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                      </svg>
+                      Home
+                    </a>
+                  </li>
+                  <li aria-current="page">
+                    <div className="flex items-center">
+                      <svg
+                        className="w-3 h-3 text-gray-400 mx-1"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 6 10"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 9 4-4-4-4"
+                        />
+                      </svg>
+                      <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
+                        Forgot Password
+                      </span>
+                    </div>
+                  </li>
+                </ol>
+              </nav>
+            )}
+            
+            <div className={`${isMobile ? 'w-full' : 'w-full max-w-md'} mx-auto`}>
+              {isMobile && (
+                <nav className="mb-4">
+                  <ol className="flex items-center text-sm">
+                    <li className="flex items-center">
+                      <a href="/" className="text-gray-700 hover:text-blue-600 flex items-center">
+                        <svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                        </svg>
+                        Home
+                      </a>
+                    </li>
+                    <li className="flex items-center ml-2">
+                      <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                      </svg>
+                      <span className="text-gray-500">Forgot Password</span>
+                    </li>
+                  </ol>
+                </nav>
+              )}
+              
+              <h1 className={`${isMobile ? 'text-3xl text-center' : 'text-4xl'} font-bold mb-2`}>Reset Password</h1>
+              <p className={`mb-6 text-gray-500 ${isMobile ? 'text-center' : ''}`}>Enter your email to receive a password reset link</p>
+              
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-4">
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    className={`w-full border ${
+                      emailError ? "border-red-500" : "border-gray-300"
+                    } rounded-md p-3 ${isMobile ? 'text-center' : ''}`}
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                  />
+                  {emailError && (
+                    <p className="text-red-500 text-xs mt-1">{emailError}</p>
+                  )}
+                </div>
+                
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-3 rounded-full mb-4 hover:opacity-90 transition"
+                >
+                  Send Reset Link
+                </button>
+              </form>
+              
+              <p className={`text-sm ${isMobile ? 'text-center' : 'text-center'}`}>
+                Remembered your password?{" "}
+                <button
+                  className="text-blue-500 hover:underline"
+                  onClick={() => navigate("/login")}
+                >
+                  Log in
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

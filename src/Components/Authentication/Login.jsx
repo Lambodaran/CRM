@@ -1014,7 +1014,7 @@ export default function LoginPage() {
 
   // Desktop view - side by side layout
   return (
-    <div className="flex h-screen justify-center items-center bg-gray-100 font-sans px-4 py-10 overflow-hidden">
+    <div className="flex h-[90%] justify-center items-center bg-gray-100 font-sans px-4 py-10 overflow-hidden">
       {(isLoginSuccess || isSignupSuccess) && (
         <LoginSuccessAnimation isSignup={isSignupSuccess} />
       )}

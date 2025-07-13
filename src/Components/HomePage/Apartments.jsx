@@ -288,7 +288,8 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const BASE_URL = "https://crm-bcgg.onrender.com";
-const categories = ["All", "Apartment", "Villa", "Plot", "Land"];
+const categories = ["All", "Apartment", "Villa", "Plot"];
+
 
 const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearchData }) => {
   const [properties, setProperties] = useState([]);

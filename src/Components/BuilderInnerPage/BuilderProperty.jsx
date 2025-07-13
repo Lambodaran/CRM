@@ -321,7 +321,7 @@ export default function PropertyCards() {
             Discover properties that blend luxury, comfort, and modern living tailored to your lifestyle.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-6">
-            {["All", "Apartments", "Villas", "Plots","Land"].map((type) => (
+            {["All", "Apartments", "Villas", "Plots"].map((type) => (
              <motion.button
   key={type}
   onClick={() => setSelectedType(type)}
