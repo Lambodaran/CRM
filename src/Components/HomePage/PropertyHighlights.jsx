@@ -201,7 +201,7 @@ const PropertyHighlights = ({
   };
 
   return (
-    <div className="relative w-full h-[100dvh] sm:h-[80dvh]">
+    <div className="relative w-full h-[100dvh] sm:h-[90dvh]">
       {/* Image Slider */}
       <div className="absolute inset-0 z-0">
         {heroSlides.map((slide, index) => (
