@@ -755,7 +755,7 @@ export default function LoginPage() {
                     </ol>
                   </nav>
 
-                  <h1 className="text-3xl font-bold mb-2">Join Us!</h1>
+                  <h1 className="text-3xl font-bold mb-4">Join Us!</h1>
                   <p className="mb-6 text-gray-500">
                     Create an account to continue
                   </p>
@@ -1238,7 +1238,7 @@ export default function LoginPage() {
                 </ol>
               </nav>
               <div className="w-full max-w-md">
-                <h1 className="text-4xl sm:text-5xl font-bold mb-2">
+                <h1 className="text-4xl sm:text-5xl font-bold mb-2 mt-8">
                   Join Us!
                 </h1>
                 <p className="mb-8 text-gray-500">
