@@ -10,7 +10,8 @@ const AdminLayout = () => {
 
       {/* Content Area */}
       <div className="flex-1 lg:ml-64 p-4">
-        <Navbar />
+        <div className="sticky top-0 z-40 bg-white shadow-sm"> <Navbar /></div>
+       
         <Outlet />
       </div>
     </div>

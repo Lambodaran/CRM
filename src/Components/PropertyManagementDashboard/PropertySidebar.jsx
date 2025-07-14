@@ -25,7 +25,7 @@ const PropertySidebar = ({ isMobileSidebarOpen }) => {
 
   return (
     <div
-      className={`fixed lg:static h-screen w-64 bg-white shadow-md flex flex-col z-20 transition-transform duration-300 ease-in-out ${
+      className={`fixed lg:static h-screen w-64 bg-white shadow-md flex flex-col z-30 transition-transform duration-300 ease-in-out ${
         isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       }`}
     >

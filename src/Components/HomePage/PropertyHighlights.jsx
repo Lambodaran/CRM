@@ -201,7 +201,7 @@ const PropertyHighlights = ({
   };
 
   return (
-    <div className="relative w-full h-[100dvh] sm:h-[90dvh]">
+    <div className="relative w-full h-[100dvh] ">
       {/* Image Slider */}
       <div className="absolute inset-0 z-0">
         {heroSlides.map((slide, index) => (
@@ -222,110 +222,131 @@ const PropertyHighlights = ({
         ))}
       </div>
 
-      {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full bg-transparent text-white p-3 sm:p-4 z-30">
-        <div className="container mx-auto flex justify-between items-center">
-          <div>
-            <img
-              src={NavLogo}
-              alt="ABV Logo"
-              className="w-14 sm:w-16 md:w-20 lg:w-24 h-auto"
+      
+ {/* Navbar */}
+<nav className="absolute top-0 left-0 w-full bg-transparent text-white p-3 sm:p-4 z-30">
+  <div className="container mx-auto flex justify-between items-center">
+    {/* Logo - Left side */}
+    <div className="flex items-center">
+      <img
+        src={NavLogo}
+        alt="ABV Logo"
+        className="w-14 sm:w-16 md:w-20 lg:w-24 h-auto"
+      />
+    </div>
+
+    {/* Desktop Menu - Center */}
+    <div className="hidden md:flex space-x-4 lg:space-x-6 items-center mx-auto">
+      <button onClick={scrollToApartments} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
+        Apartments
+      </button>
+      <button onClick={scrollToTopProjects} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
+        Ongoing Projects
+      </button>
+      <button onClick={scrollToIndividualHouse} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
+        Individual House
+      </button>
+      <button onClick={() => navigate("/contact")} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
+        Contact
+      </button>
+    </div>
+
+    {/* Right side elements (Location and Login) */}
+    <div className="flex items-center space-x-4">
+      {/* Location */}
+     <div className="hidden sm:flex items-center space-x-1 text-sm">
+    {selectedStateId ? (
+      <>
+        <FaMapMarkerAlt className="text-white" />
+        <span className="text-white text-xs sm:text-sm">{selectedStateId}</span>
+      </>
+    ) : (
+      <>
+        <FaMapMarkerAlt className="text-white" />
+        <span className="text-white text-xs sm:text-sm">Location</span>
+      </>
+    )}
+  </div>
+  
+      
+      {/* Login Button */}
+      <Link to="/login">
+        <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm">
+          Login
+        </button>
+      </Link>
+
+      {/* Mobile Menu Button */}
+      <div className="md:hidden flex items-center ml-2">
+        <button
+          className="text-white focus:outline-none"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
             />
-          </div>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-4 lg:space-x-6 items-center">
-            <button onClick={scrollToApartments} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
-              Apartments
-            </button>
-            <button onClick={scrollToTopProjects} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
-              Ongoing Projects
-            </button>
-            <button onClick={scrollToIndividualHouse} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
-              Individual House
-            </button>
-            <button onClick={() => navigate("/contact")} className="text-white hover:text-black drop-shadow-md text-sm lg:text-base">
-              Contact
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          <div className="md:hidden flex items-center">
-            <button
-              className="text-white focus:outline-none"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                />
-              </svg>
-            </button>
-
-            {isMobileMenuOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg py-1 z-50">
-                  <div className="flex flex-col items-center">
-                    <button
-                      onClick={() => {
-                        scrollToApartments();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
-                    >
-                      Apartments
-                    </button>
-                    <button
-                      onClick={() => {
-                        scrollToTopProjects();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
-                    >
-                      Ongoing Projects
-                    </button>
-                    <button
-                      onClick={() => {
-                        scrollToIndividualHouse();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
-                    >
-                      Individual House
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigate("/contact");
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
-                    >
-                      Contact
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex space-x-2 sm:space-x-3 items-center">
-            <Link to="/login">
-              <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm">
-                Login
-              </button>
-            </Link>
-          </div>
+  {/* Mobile Menu Dropdown */}
+  {isMobileMenuOpen && (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
+      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg py-1 z-50">
+        <div className="flex flex-col items-center">
+          <button
+            onClick={() => {
+              scrollToApartments();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
+          >
+            Apartments
+          </button>
+          <button
+            onClick={() => {
+              scrollToTopProjects();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
+          >
+            Ongoing Projects
+          </button>
+          <button
+            onClick={() => {
+              scrollToIndividualHouse();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
+          >
+            Individual House
+          </button>
+          <button
+            onClick={() => {
+              navigate("/contact");
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full px-4 py-3 text-center text-gray-700 hover:bg-gray-100 text-base font-medium"
+          >
+            Contact
+          </button>
         </div>
-      </nav>
+      </div>
+    </div>
+  )}
+</nav>
 
       {/* Text Content */}
       <div className="container mx-auto h-full text-white p-4 sm:p-6 pt-24 sm:pt-32 md:pt-40 relative z-20">
