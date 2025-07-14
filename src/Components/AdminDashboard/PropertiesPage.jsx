@@ -1801,7 +1801,7 @@ export default function PropertyManager() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 p-4">
+    <div className="flex flex-col h-full bg-gray-100 p-4">
       {/* Filters */}
       <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
         <div className="flex flex-wrap gap-3 items-center flex-grow">
@@ -1862,260 +1862,261 @@ export default function PropertyManager() {
       </div>
 
       {/* Builders list */}
-      <motion.div className="w-full max-w-7xl mx-auto px-10 p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Builder Listings</h2>
-        </div>
-        {filteredBuilders.length === 0 ? (
-          <div className="col-span-full text-center py-10">
-            <p className="text-gray-700 text-lg">No builders found.</p>
+    <motion.div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-4">
+  <div className="max-w-7xl mx-auto flex justify-between items-center mb-4">
+    <h2 className="text-xl sm:text-2xl font-bold">Builder Listings</h2>
+  </div>
+  
+  {filteredBuilders.length === 0 ? (
+    <div className="col-span-full text-center py-10">
+      <p className="text-gray-700 text-base sm:text-lg">No builders found.</p>
+      <button
+        onClick={() => setShowModal(true)}
+        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm sm:text-base"
+      >
+        Add Your First Builder
+      </button>
+    </div>
+  ) : (
+    <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full sm:w-[90%] mx-auto">
+      {filteredBuilders.map((builder, index) => (
+        <motion.div
+          key={builder._id}
+          className="bg-white rounded-lg shadow-md overflow-hidden relative"
+          initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          {/* Actions dropdown */}
+          <div className="absolute top-2 right-2 z-10">
             <button
-              onClick={() => setShowModal(true)}
-              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleDropdown(index);
+              }}
+              className="p-1 rounded-full hover:bg-gray-200"
             >
-              Add Your First Builder
+              <EllipsisVerticalIcon className="h-5 w-5 text-gray-600" />
             </button>
-          </div>
-        ) : (
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] mx-auto">
-            {filteredBuilders.map((builder, index) => (
-              <motion.div
-                key={builder._id}
-                className="bg-white rounded-lg shadow-md overflow-hidden relative"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                {/* Actions dropdown */}
-                <div className="absolute top-2 right-2 z-10">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleDropdown(index);
-                    }}
-                    className="p-1 rounded-full hover:bg-gray-200"
-                  >
-                    <EllipsisVerticalIcon className="h-5 w-5 text-gray-600" />
-                  </button>
 
-                  {dropdownOpenIndex === index && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditBuilder(builder, index);
-                          setDropdownOpenIndex(null);
-                        }}
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                      >
-                        <PencilIcon className="h-4 w-4 mr-2" />
-                        Edit
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteBuilder(builder._id, index);
-                          setDropdownOpenIndex(null);
-                        }}
-                        className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
-                      >
-                        <TrashIcon className="h-4 w-4 mr-2" />
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Card content */}
-                <div
-                  onClick={() => handleAddprojectClick(builder._id)}
-                  className="cursor-pointer"
+            {dropdownOpenIndex === index && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditBuilder(builder, index);
+                    setDropdownOpenIndex(null);
+                  }}
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                 >
-                  {/* Cover Photo */}
-                  {builder.coverPhotos.length > 0 && (
-                    <div className="h-48 overflow-hidden  border-b-1 border-gray-300">
-                      <img
-                        src={builder.coverPhotos[0].url}
-                        alt={builder.coverPhotos[0].title || "Cover photo"}
-                        className="mx-auto w-[150px] h-[180px] object-contain "
-                      />
-                    </div>
-                  )}
+                  <PencilIcon className="h-4 w-4 mr-2" />
+                  Edit
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteBuilder(builder._id, index);
+                    setDropdownOpenIndex(null);
+                  }}
+                  className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
+                >
+                  <TrashIcon className="h-4 w-4 mr-2" />
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
 
-                  {/* Basic Info */}
-                  <div className="p-6">
-                    <div className="flex items-start">
-                      {builder.logo && (
-                        <img
-                          src={builder.logo}
-                          alt="Company logo"
-                          className="h-16 w-16 rounded-full object-cover border-2 border-white -mt-12 mr-4"
-                        />
-                      )}
-                      <div>
-                        <h3 className="font-bold text-xl">
-                          {builder.companyName}
-                        </h3>
-                        <p className="text-gray-600">{builder.tagline}</p>
-                      </div>
-                    </div>
+          {/* Card content */}
+          <div
+            onClick={() => handleAddprojectClick(builder._id)}
+            className="cursor-pointer"
+          >
+            {/* Cover Photo */}
+            {builder.coverPhotos.length > 0 && (
+              <div className="h-40 sm:h-48 overflow-hidden border-b-1 border-gray-300">
+                <img
+                  src={builder.coverPhotos[0].url}
+                  alt={builder.coverPhotos[0].title || "Cover photo"}
+                  className="mx-auto w-[120px] sm:w-[150px] h-[150px] sm:h-[180px] object-contain"
+                />
+              </div>
+            )}
 
-                    <p className="mt-4 text-gray-700 line-clamp-3">
-                      {builder.description}
-                    </p>
+            {/* Basic Info */}
+            <div className="p-4 sm:p-6">
+              <div className="flex items-start">
+                {builder.logo && (
+                  <img
+                    src={builder.logo}
+                    alt="Company logo"
+                    className="h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover border-2 border-white -mt-8 sm:-mt-12 mr-3 sm:mr-4"
+                  />
+                )}
+                <div>
+                  <h3 className="font-bold text-lg sm:text-xl">
+                    {builder.companyName}
+                  </h3>
+                  <p className="text-gray-600 text-sm sm:text-base">{builder.tagline}</p>
+                </div>
+              </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-2">
-                      <div>
-                        <p className="text-sm text-gray-500">Email</p>
-                        <p className="font-medium break-words">{builder.email}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Phone</p>
-                        <p className="font-medium">{builder.phone}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Location</p>
-                        <p className="font-medium">
-                          {builder.address.city}, {builder.address.state}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Website</p>
-                        <a
-                          href={builder.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-medium text-blue-600 hover:underline"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Visit Site
-                        </a>
-                      </div>
-                    </div>
+              <p className="mt-3 sm:mt-4 text-gray-700 text-sm sm:text-base line-clamp-3">
+                {builder.description}
+              </p>
 
-                    {/* Expanded Details */}
-                    {expandedCards[index] && (
-                      <div className="mt-6 border-t pt-4">
-                        <h4 className="font-semibold mb-2">Features</h4>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {builder.features.map((feature, i) => (
-                            <span
-                              key={i}
-                              className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
-                            >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
+              <div className="mt-3 sm:mt-4 grid grid-cols-1 gap-1 sm:gap-2">
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-500">Email</p>
+                  <p className="font-medium text-sm sm:text-base break-words">{builder.email}</p>
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-500">Phone</p>
+                  <p className="font-medium text-sm sm:text-base">{builder.phone}</p>
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-500">Location</p>
+                  <p className="font-medium text-sm sm:text-base">
+                    {builder.address.city}, {builder.address.state}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-500">Website</p>
+                  <a
+                    href={builder.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-sm sm:text-base text-blue-600 hover:underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Visit Site
+                  </a>
+                </div>
+              </div>
 
-                        <h4 className="font-semibold mb-2">Services Offered</h4>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {builder.servicesOffered.map((service, i) => (
-                            <span
-                              key={i}
-                              className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded"
-                            >
-                              {service}
-                            </span>
-                          ))}
-                        </div>
+              {/* Expanded Details */}
+              {expandedCards[index] && (
+                <div className="mt-4 sm:mt-6 border-t pt-3 sm:pt-4">
+                  <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Features</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
+                    {builder.features.map((feature, i) => (
+                      <span
+                        key={i}
+                        className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
 
-                        <h4 className="font-semibold mb-2">Social Links</h4>
-                        <div className="flex space-x-4 mb-4">
-                          {builder.socialLinks.facebook && (
-                            <a
-                              href={builder.socialLinks.facebook}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Facebook
-                            </a>
-                          )}
-                          {builder.socialLinks.linkedin && (
-                            <a
-                              href={builder.socialLinks.linkedin}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              LinkedIn
-                            </a>
-                          )}
-                          {builder.socialLinks.instagram && (
-                            <a
-                              href={builder.socialLinks.instagram}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Instagram
-                            </a>
-                          )}
-                          {builder.socialLinks.youtube && (
-                            <a
-                              href={builder.socialLinks.youtube}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              YouTube
-                            </a>
-                          )}
-                        </div>
+                  <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Services Offered</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
+                    {builder.servicesOffered.map((service, i) => (
+                      <span
+                        key={i}
+                        className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded"
+                      >
+                        {service}
+                      </span>
+                    ))}
+                  </div>
 
-                        <h4 className="font-semibold mb-2">Support Information</h4>
-                        <div className="grid grid-cols-1 gap-4">
-                          <div>
-                            <p className="text-sm text-gray-500">Contact Person</p>
-                            <p className="font-medium">{builder.supportInfo.contactPerson}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Support Email</p>
-                            <p className="font-medium break-words">{builder.supportInfo.supportEmail}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Support Phone</p>
-                            <p className="font-medium">{builder.supportInfo.supportPhone}</p>
-                          </div>
-                        </div>
-                      </div>
+                  <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Social Links</h4>
+                  <div className="flex flex-wrap gap-2 sm:gap-4 mb-3 sm:mb-4">
+                    {builder.socialLinks.facebook && (
+                      <a
+                        href={builder.socialLinks.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Facebook
+                      </a>
                     )}
+                    {builder.socialLinks.linkedin && (
+                      <a
+                        href={builder.socialLinks.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        LinkedIn
+                      </a>
+                    )}
+                    {builder.socialLinks.instagram && (
+                      <a
+                        href={builder.socialLinks.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Instagram
+                      </a>
+                    )}
+                    {builder.socialLinks.youtube && (
+                      <a
+                        href={builder.socialLinks.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        YouTube
+                      </a>
+                    )}
+                  </div>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleCardExpansion(index);
-                      }}
-                      className="mt-4 flex items-center text-blue-600 hover:text-blue-800"
-                    >
-                      {expandedCards[index] ? (
-                        <>
-                          <ChevronUpIcon className="h-5 w-5 mr-1" />
-                          Show Less
-                        </>
-                      ) : (
-                        <>
-                          <ChevronDownIcon className="h-5 w-5 mr-1" />
-                          Know More
-                        </>
-                      )}
-                    </button>
+                  <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Support Information</h4>
+                  <div className="grid grid-cols-1 gap-2 sm:gap-4">
+                    <div>
+                      <p className="text-xs sm:text-sm text-gray-500">Contact Person</p>
+                      <p className="font-medium text-sm sm:text-base">{builder.supportInfo.contactPerson}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs sm:text-sm text-gray-500">Support Email</p>
+                      <p className="font-medium text-sm sm:text-base break-words">{builder.supportInfo.supportEmail}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs sm:text-sm text-gray-500">Support Phone</p>
+                      <p className="font-medium text-sm sm:text-base">{builder.supportInfo.supportPhone}</p>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </motion.div>
+              )}
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleCardExpansion(index);
+                }}
+                className="mt-3 sm:mt-4 flex items-center text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+              >
+                {expandedCards[index] ? (
+                  <>
+                    <ChevronUpIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1" />
+                    Show Less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDownIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1" />
+                    Know More
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  )}
+</motion.div>
 
       {/* Add/Edit Builder Modal */}
       {showModal && (

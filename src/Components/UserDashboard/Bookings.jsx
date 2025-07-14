@@ -237,22 +237,22 @@ const Bookings = () => {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Bookings</h2>
-          <div className="h-8 w-20 bg-gray-200 rounded"></div>
+          <h2 className="text-lg md:text-xl font-semibold">Bookings</h2>
+          <div className="h-6 md:h-8 w-16 md:w-20 bg-gray-200 rounded"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[...Array(4)].map((_, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden w-full">
-              <div className="w-full h-48 bg-gray-200 animate-pulse"></div>
-              <div className="p-4">
-                <div className="h-6 w-3/4 bg-gray-200 rounded mb-4"></div>
-                <div className="h-4 w-full bg-gray-200 rounded mb-2"></div>
+              <div className="w-full h-36 md:h-48 bg-gray-200 animate-pulse"></div>
+              <div className="p-3 md:p-4">
+                <div className="h-5 md:h-6 w-3/4 bg-gray-200 rounded mb-3 md:mb-4"></div>
+                <div className="h-3 md:h-4 w-full bg-gray-200 rounded mb-2"></div>
                 <div className="border mt-2"></div>
                 <div className="mt-2 flex">
-                  <div className="h-4 w-1/2 bg-gray-200 rounded mr-4"></div>
-                  <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
+                  <div className="h-3 md:h-4 w-1/2 bg-gray-200 rounded mr-2 md:mr-4"></div>
+                  <div className="h-3 md:h-4 w-1/2 bg-gray-200 rounded"></div>
                 </div>
               </div>
             </div>
@@ -264,22 +264,22 @@ const Bookings = () => {
 
   if (error) {
     return (
-      <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Bookings</h2>
+      <div className="p-4 md:p-6">
+        <h2 className="text-lg md:text-xl font-semibold mb-4">Bookings</h2>
         <div className="text-red-500">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="p-6">
+    <div className="p-4 md:p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Bookings</h2>
+        <h2 className="text-lg md:text-xl font-semibold">Bookings</h2>
         {bookings.length > 4 && (
           <button
             onClick={() => setViewAll(!viewAll)}
-            className="text-black focus:outline-none"
+            className="text-black text-sm md:text-base focus:outline-none"
             aria-label={viewAll ? "Show fewer bookings" : "View all bookings"}
           >
             {viewAll ? "Show less" : "View all"}
@@ -291,7 +291,7 @@ const Bookings = () => {
       {bookings.length === 0 ? (
         <p className="text-gray-500">No bookings found.</p>
       ) : (
-        <div className="grid grid-cols-4 gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
           {visibleProperties.map((property) => (
             <div
               key={property.id}
@@ -300,14 +300,14 @@ const Bookings = () => {
               <img
                 src={property.image}
                 alt={`Image of ${property.title} property`}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-36 md:h-48 object-cover rounded-t-lg"
                 onError={(e) => {
                   e.target.src = [bookings1, bookings2, bookings3, bookings4][Math.floor(Math.random() * 4)];
                 }}
               />
-              <div className="p-4">
+              <div className="p-3 md:p-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-black mt-1 font-semibold hover:underline cursor-pointer">
+                  <h3 className="text-black text-sm md:text-base mt-1 font-semibold hover:underline cursor-pointer line-clamp-1">
                     {property.title}
                   </h3>
                   <span className={`text-xs px-2 py-1 rounded ${
@@ -318,18 +318,19 @@ const Bookings = () => {
                     {property.status}
                   </span>
                 </div>
-                <p className="text-gray-600 mt-1 text-sm flex gap-2 items-center">
+                <p className="text-gray-600 mt-1 text-xs md:text-sm flex gap-1 md:gap-2 items-center line-clamp-1">
                   {property.builder || "Builder not available"}
                 </p>
                 <p className="border mt-2"></p>
-                <div className="mt-2 flex items-center text-gray-500 text-sm">
-                  <span className="mr-4 flex gap-2 items-center">
-                    <img src={sqft} alt="Square footage icon" className="w-4 h-4" /> 
-                    Sqft: {property.sqft.toLocaleString()}
+                <div className="mt-2 flex flex-wrap gap-2 md:gap-0 items-center text-gray-500 text-xs md:text-sm">
+                  <span className="flex gap-1 md:gap-2 items-center">
+                    <img src={sqft} alt="Square footage icon" className="w-3 h-3 md:w-4 md:h-4" /> 
+                    {property.sqft.toLocaleString()} sqft
                   </span>
-                  <span className="flex gap-2 items-center">
-                    <img src={bed} alt="Bed icon" className="w-4 h-4" /> 
-                    Units: {property.units}
+                  <span className="hidden md:inline mx-2">|</span>
+                  <span className="flex gap-1 md:gap-2 items-center">
+                    <img src={bed} alt="Bed icon" className="w-3 h-3 md:w-4 md:h-4" /> 
+                    {property.units}
                   </span>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">

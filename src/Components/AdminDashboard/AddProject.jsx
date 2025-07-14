@@ -1311,7 +1311,7 @@ export default function ProjectManagement() {
                   <img src={Larrow} alt="Previous" className="w-6 h-6" />
                 </button>
               )}
-              <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-[90%] mx-auto">
+              <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-[90%] mx-auto ">
                 {visibleProjects.map((project, index) => (
                   <motion.div
                     key={project._id}
@@ -1333,7 +1333,7 @@ export default function ProjectManagement() {
                       alt={project.projectName}
                       className="w-full h-40 sm:h-48 md:h-60 object-cover"
                     />
-                    <div className="p-4">
+                    <div className="p-4 bg-white">
                       <h2 className="text-lg font-bold">
                         {project.projectName || "Unnamed Project"}
                       </h2>

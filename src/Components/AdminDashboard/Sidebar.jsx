@@ -301,7 +301,7 @@ const Sidebar = () => {
     <>
       {/* Mobile toggle button */}
       <div className="lg:hidden flex items-center justify-between px-600 py-3 shadow bg-white">
-        <img src={sidebarlogo} alt="Logo" className="h-10" />
+        <img src={footerlogo} alt="Logo" className="h-10" />
         <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

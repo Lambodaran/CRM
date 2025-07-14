@@ -3,10 +3,51 @@ import PropertySidebar from "./PropertySidebar";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
+import BASE_URL from "../../service/api";
 
 const PropertiesLayout = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+    const [user, setUser] = useState(null);
+
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const loginData = JSON.parse(sessionStorage.getItem("logindata"));
+        
+        if (loginData) {
+          // Set initial user data from session storage
+          setUser({
+            name: loginData.user?.name || "User",
+          });
+
+          // Fetch complete user details from API
+          const response = await axios.get(
+            `${BASE_URL}/api/users/${loginData.user.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${loginData.token}`,
+              },
+            }
+          );
+
+          // Update with API data if available
+          setUser({
+            name: response.data.name || loginData.user.name,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,7 +71,9 @@ const PropertiesLayout = () => {
     <div className="flex flex-col lg:flex-row">
       {/* Mobile header with menu button */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow">
-        <h1 className="text-xl font-semibold">Admin Dashboard</h1>
+           <h1 className="text-xl font-semibold">
+          Hello, {user?.name?.split(' ')[0] || "User"}
+        </h1>
         <button 
           onClick={toggleSidebar} 
           className="text-gray-600 focus:outline-none"
