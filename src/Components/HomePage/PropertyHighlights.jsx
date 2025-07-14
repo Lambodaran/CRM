@@ -251,31 +251,23 @@ const PropertyHighlights = ({
         Contact
       </button>
     </div>
-
-    {/* Right side elements (Location and Login) */}
-    <div className="flex items-center space-x-4">
-      {/* Location */}
-     <div className="hidden sm:flex items-center space-x-1 text-sm">
-    {selectedStateId ? (
-      <>
-        <FaMapMarkerAlt className="text-white" />
-        <span className="text-white text-xs sm:text-sm">{selectedStateId}</span>
-      </>
-    ) : (
-      <>
-        <FaMapMarkerAlt className="text-white" />
-        <span className="text-white text-xs sm:text-sm">Location</span>
-      </>
-    )}
+{/* Right side elements (Location and Login) */}
+<div className="flex items-center space-x-2 sm:space-x-4">
+  {/* Location - Shows on all screens */}
+  <div className="flex items-center space-x-1">
+    <FaMapMarkerAlt className="text-white text-sm" />
+    <span className="text-white text-xs sm:text-sm">
+      {selectedStateId || "Location"}
+    </span>
   </div>
   
-      
-      {/* Login Button */}
-      <Link to="/login">
-        <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm">
-          Login
-        </button>
-      </Link>
+  {/* Login Button */}
+  <Link to="/login">
+    <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm">
+      Login
+    </button>
+  </Link>
+
 
       {/* Mobile Menu Button */}
       <div className="md:hidden flex items-center ml-2">
