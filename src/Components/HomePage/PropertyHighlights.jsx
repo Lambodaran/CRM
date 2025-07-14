@@ -201,26 +201,27 @@ const PropertyHighlights = ({
   };
 
   return (
-    <div className="relative w-full h-[100dvh] ">
-      {/* Image Slider */}
-      <div className="absolute inset-0 z-0">
-        {heroSlides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
-            aria-hidden={index !== currentSlide}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-full object-cover"
-              loading={index === 0 ? "eager" : "lazy"}
-            />
-          </div>
-        ))}
+    <div className="relative w-full h-[60dvh] sm:h-[70vh] md:h-[100dvh]">
+  {/* Image Slider */}
+  <div className="absolute inset-0 z-0">
+    {heroSlides.map((slide, index) => (
+      <div
+        key={slide.id}
+        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          index === currentSlide ? "opacity-100" : "opacity-0"
+        }`}
+        aria-hidden={index !== currentSlide}
+      >
+        <img
+          src={slide.image}
+          alt={slide.title}
+          className="w-full h-full object-cover"
+          loading={index === 0 ? "eager" : "lazy"}
+        />
       </div>
+    ))}
+  </div>
+
 
       
  {/* Navbar */}

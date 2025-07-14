@@ -658,75 +658,89 @@ const PropertyDetails = () => {
             </div>
 
             {/* Gallery Section */}
-            <div className="bg-white py-8 mt-8 rounded-lg shadow-sm">
-              <h2 className="text-3xl md:text-4xl font-semibold text-center mb-6 md:mb-8">GALLERY</h2>
+           <div className="bg-white py-8 mt-8 rounded-lg shadow-sm">
+  <h2 className="text-3xl md:text-4xl font-semibold text-center mb-6 md:mb-8">GALLERY</h2>
 
-              {/* Gallery Tabs */}
-              <div className="flex justify-center gap-2 md:gap-4 mb-6 md:mb-10 overflow-x-auto px-4">
-                {galleryTabs.map((tab) => (
-                  <button
-                    key={tab.label}
-                    disabled={tab.disabled}
-                    onClick={() => {
-                      setGalleryActiveTab(tab.label);
-                      setCurrentGalleryIndex(0);
-                    }}
-                    className={`px-4 py-2 md:px-5 md:py-3 rounded font-medium text-sm md:text-base whitespace-nowrap ${
-                      galleryActiveTab === tab.label 
-                        ? "bg-gray-800 text-white" 
-                        : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-                    } ${
-                      tab.disabled ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
+  {/* Gallery Tabs - Fixed for mobile */}
+  <div className="flex justify-start md:justify-center gap-2 md:gap-4 mb-6 md:mb-10 overflow-x-auto px-4 no-scrollbar">
+    {galleryTabs.map((tab) => (
+      <button
+        key={tab.label}
+        disabled={tab.disabled}
+        onClick={() => {
+          setGalleryActiveTab(tab.label);
+          setCurrentGalleryIndex(0);
+        }}
+        className={`flex-shrink-0 px-3 py-2 md:px-4 md:py-2 rounded font-medium text-sm md:text-base ${
+          galleryActiveTab === tab.label 
+            ? "bg-gray-800 text-white" 
+            : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+        } ${
+          tab.disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        {tab.label.split(' ').map(word => (
+          <span key={word} className="whitespace-nowrap">
+            {word}
+          </span>
+        ))}
+      </button>
+    ))}
+  </div>
 
-              {/* Gallery Image Display */}
-              <div className="relative px-4">
-                {/* Navigation Arrows */}
-                <button
-                  onClick={handleGalleryPrev}
-                  disabled={currentGalleryIndex === 0}
-                  className={`absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-10 ${
-                    currentGalleryIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-opacity-70"
-                  }`}
-                >
-                  &#8592;
-                </button>
-                
-                <div className="overflow-hidden">
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md">
-                      <img
-                        src={galleryImages[galleryActiveTab][currentGalleryIndex]}
-                        alt={`${galleryActiveTab} view ${currentGalleryIndex + 1}`}
-                        className="w-full h-auto max-h-[500px] object-contain rounded-lg shadow-md"
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                <button
-                  onClick={handleGalleryNext}
-                  disabled={currentGalleryIndex >= galleryImages[galleryActiveTab].length - 1}
-                  className={`absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-10 ${
-                    currentGalleryIndex >= galleryImages[galleryActiveTab].length - 1 
-                      ? "opacity-30 cursor-not-allowed" 
-                      : "hover:bg-opacity-70"
-                  }`}
-                >
-                  &#8594;
-                </button>
-                
-                {/* Image Counter */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
-                  {currentGalleryIndex + 1} / {galleryImages[galleryActiveTab].length}
-                </div>
-              </div>
+  {/* Gallery Image Display */}
+  <div className="relative px-4">
+    {/* Navigation Arrows */}
+    <button
+      onClick={handleGalleryPrev}
+      disabled={currentGalleryIndex === 0}
+      className={`absolute left-0 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 text-white p-3 rounded-full z-10 ${
+        currentGalleryIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-opacity-90"
+      }`}
+      style={{ width: '40px', height: '40px' }}
+    >
+      &#8592;
+    </button>
+    
+    <div className="overflow-hidden">
+      <div className="flex justify-center">
+        <div className="w-full max-w-md mx-8">
+          {galleryImages[galleryActiveTab]?.length > 0 ? (
+            <img
+              src={galleryImages[galleryActiveTab][currentGalleryIndex]}
+              alt={`${galleryActiveTab} view ${currentGalleryIndex + 1}`}
+              className="w-full h-auto max-h-[400px] md:max-h-[500px] object-cover md:object-contain rounded-lg shadow-md"
+            />
+          ) : (
+            <div className="w-full h-[300px] flex items-center justify-center bg-gray-100 rounded-lg">
+              <p className="text-gray-500">No images available for {galleryActiveTab}</p>
             </div>
+          )}
+        </div>
+      </div>
+    </div>
+    
+    <button
+      onClick={handleGalleryNext}
+      disabled={currentGalleryIndex >= (galleryImages[galleryActiveTab]?.length || 1) - 1}
+      className={`absolute right-0 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 text-white p-3 rounded-full z-10 ${
+        currentGalleryIndex >= (galleryImages[galleryActiveTab]?.length || 1) - 1
+          ? "opacity-30 cursor-not-allowed" 
+          : "hover:bg-opacity-90"
+      }`}
+      style={{ width: '40px', height: '40px' }}
+    >
+      &#8594;
+    </button>
+    
+    {/* Image Counter */}
+    {galleryImages[galleryActiveTab]?.length > 0 && (
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-4 py-1 rounded-full text-sm">
+        {currentGalleryIndex + 1} / {galleryImages[galleryActiveTab].length}
+      </div>
+    )}
+  </div>
+</div>
 
             {/* Map Section */}
             <div className="mt-8 md:mt-12 h-[300px] md:h-[350px] lg:h-[400px]" ref={el => mapRefs.current[index] = el}>
