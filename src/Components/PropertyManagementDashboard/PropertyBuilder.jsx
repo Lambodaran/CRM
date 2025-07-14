@@ -2033,8 +2033,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import axios from "axios";
 import { motion } from "framer-motion";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
 

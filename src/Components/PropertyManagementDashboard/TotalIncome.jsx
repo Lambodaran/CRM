@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
 ChartJS.register(
   CategoryScale,
@@ -19,7 +20,6 @@ ChartJS.register(
   Legend
 );
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 function IncomeChart() {
   const [chartData, setChartData] = useState(null);

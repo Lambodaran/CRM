@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import _ from "lodash";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const Popup = ({
   selectedLocation,

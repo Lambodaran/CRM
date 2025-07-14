@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import BASE_URL from "../../service/api";
 
 const PropertiesPage = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const PropertiesPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch("https://crm-bcgg.onrender.com/api/properties/project");
+        const response = await fetch(`${BASE_URL}/api/properties/project`);
         if (!response.ok) {
           throw new Error("Failed to fetch properties");
         }

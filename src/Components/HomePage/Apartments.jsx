@@ -286,8 +286,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const categories = ["All", "Apartment", "Villa", "Plot"];
 
 

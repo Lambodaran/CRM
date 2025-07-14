@@ -4,8 +4,8 @@ import bellicon from "../UserDashboard/Assests/bellicon.png";
 import defaultProfile from "../UserDashboard/Assests/Navprofile.png"; // Renamed for clarity
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com"; // Replace with your actual base URL
 
 export default function UserNavbar() {
   const [user, setUser] = useState(null);

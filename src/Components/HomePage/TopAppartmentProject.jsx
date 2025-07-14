@@ -168,7 +168,7 @@ import sqftIcon from "../HomePage/Assets/sqft.png";
 import Larrow from "../HomePage/Assets/Larrow.png";
 import Rarrow from "../HomePage/Assets/Rarrow.png";
 import axios from "axios";
-
+import BASE_URL from "../../service/api";
 import ApartmentsData from "../HomePage/ApartmentsData.json";
 
 const TopApartmentProject = () => {
@@ -180,7 +180,7 @@ const TopApartmentProject = () => {
     const fetchApartments = async () => {
       try {
         const response = await axios.get(
-          "https://crm-bcgg.onrender.com/api/properties/project"
+          `${BASE_URL}/api/properties/project`
         );
         const data = response.data;
         console.log("API Response:", data); // Debug: Log API response

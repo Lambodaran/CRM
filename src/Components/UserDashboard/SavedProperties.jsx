@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Heart, HeartIcon, MapPin, Home, DollarSign } from "lucide-react";
 import axios from "axios";
+import BASE_URL from "../../service/api";
 
 const SavedProperties = () => {
   const [savedList, setSavedList] = useState([]);
@@ -19,7 +20,7 @@ const SavedProperties = () => {
         const { token } = JSON.parse(loginData);
         
         const response = await axios.get(
-          "https://crm-bcgg.onrender.com/api/saved-property/",
+          `${BASE_URL}/api/saved-property/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -66,7 +67,7 @@ const SavedProperties = () => {
       const { token } = JSON.parse(loginData);
       
       await axios.delete(
-        `https://crm-bcgg.onrender.com/api/saved-property/${id}`,
+        `${BASE_URL}/api/saved-property/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +92,7 @@ const SavedProperties = () => {
       const { token } = JSON.parse(loginData);
       
       await axios.delete(
-        `https://crm-bcgg.onrender.com/api/saved-property/${id}`,
+        `${BASE_URL}/api/saved-property/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

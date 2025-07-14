@@ -204,6 +204,7 @@ import { FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import BASE_URL from "../../service/api";
 
 export default function PropertyCards() {
   const [selectedType, setSelectedType] = useState("All");
@@ -219,7 +220,6 @@ export default function PropertyCards() {
 
   
 
-  const BASE_URL = "https://crm-bcgg.onrender.com";
   const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
 
   const statusColors = {

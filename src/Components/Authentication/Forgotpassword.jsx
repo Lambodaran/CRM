@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Import the base URL from the api.js file
 
 const extractErrorMessage = (error) => {
   if (error.response?.data) {
@@ -119,7 +120,7 @@ export default function ForgotPassword() {
 
     try {
       const response = await axios.post(
-        "https://crm-bcgg.onrender.com/api/auth/forgot-password",
+        `${BASE_URL}/api/auth/forgot-password`,
         { email }
       );
 

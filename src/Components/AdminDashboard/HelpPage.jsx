@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const JsonTableDisplay = () => {
   const [token, setToken] = useState("");

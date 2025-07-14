@@ -1389,6 +1389,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion"; // Import framer-motion for animations
+import BASE_URL from "../../service/api";
 
 export default function PropertyManager() {
   const [showModal, setShowModal] = useState(false);
@@ -1405,7 +1406,6 @@ export default function PropertyManager() {
 
   const navigate = useNavigate();
 
-  const BASE_URL = "https://crm-bcgg.onrender.com";
   const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
 
   const [profile, setProfile] = useState({

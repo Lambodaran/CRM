@@ -1,8 +1,8 @@
 
 
 import axios from "axios";
+import BASE_URL from "../service/api";
 
-const baseUrl = "https://crm-bcgg.onrender.com";
 
 // Helper function to extract error messages
 const extractErrorMessage = (error) => {
@@ -20,7 +20,7 @@ const extractErrorMessage = (error) => {
 export const AuthResetPassword = async ({ token, newPassword }) => {
   try {
     const res = await axios.post(
-      `${baseUrl}/api/auth/reset-password/${token}`, 
+      `${BASE_URL}/api/auth/reset-password/${token}`, 
       { newPassword }
     );
     return res.data;

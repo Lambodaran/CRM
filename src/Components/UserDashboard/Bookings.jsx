@@ -181,6 +181,7 @@ import bookings4 from "../UserDashboard/Assests/bookings4.png";
 import sqft from "../UserDashboard/Assests/sqft.png";
 import bed from "../UserDashboard/Assests/bed.png";
 import location from "../UserDashboard/Assests/location.png";
+import BASE_URL from "../../service/api";
 
 const Bookings = () => {
   const [viewAll, setViewAll] = useState(false);
@@ -199,7 +200,7 @@ const Bookings = () => {
         const { token } = JSON.parse(loginData);
         
         const response = await axios.get(
-          "https://crm-bcgg.onrender.com/api/booking/my",
+          `${BASE_URL}/api/booking/my`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

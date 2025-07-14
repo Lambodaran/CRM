@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 
 const ProfileCard = () => {

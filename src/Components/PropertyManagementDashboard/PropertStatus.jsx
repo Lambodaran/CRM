@@ -110,8 +110,8 @@ import status3 from "../PropertyManagementDashboard/Assets/status3.png";
 import status4 from "../PropertyManagementDashboard/Assets/status4.png";
 import status5 from "../PropertyManagementDashboard/Assets/status5.png";
 import status6 from "../PropertyManagementDashboard/Assets/status6.png";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const PropertyStatus = () => {
   const [showAll, setShowAll] = useState(false);

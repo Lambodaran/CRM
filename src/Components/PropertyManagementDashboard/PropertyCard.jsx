@@ -74,7 +74,7 @@
 import { FaBuilding, FaRupeeSign, FaTasks, FaExpand } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
 export default function DashboardStats() {
   const [stats, setStats] = useState([]);

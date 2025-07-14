@@ -8,8 +8,8 @@ import location1 from "../HomePage/Assets/location1.png";
 import sqftIcon from "../HomePage/Assets/sqft.png";
 import Larrow from "../HomePage/Assets/Larrow.png";
 import Rarrow from "../HomePage/Assets/Rarrow.png";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const MEDIA_UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 
 export default function ProjectManagement() {

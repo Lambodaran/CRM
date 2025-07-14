@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaMapMarkerAlt, FaEnvelope, FaPhone, FaStickyNote, FaTable, FaAddressCard } from "react-icons/fa";
+import BASE_URL from "../../service/api";
 
 const BookingForm = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const BookingForm = () => {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const response = await fetch("https://crm-bcgg.onrender.com/api/bookingform");
+        const response = await fetch(`${BASE_URL}/api/bookingform`);
         if (!response.ok) {
           throw new Error(`Failed to fetch booking details: ${response.statusText}`);
         }

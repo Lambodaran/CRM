@@ -660,8 +660,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import axios from "axios";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const FLOORS_ENDPOINT = "/api/properties/floors";
 const BUILDING_ENDPOINT = "/api/propertiesGet/building";
 const UPLOAD_ENDPOINT = "https://z-backend-2xag.onrender.com/api/upload/type";

@@ -3,6 +3,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginSuccessAnimation from "./LoginSuccessAnimation";
+import BASE_URL from "../../service/api";
 
 const extractErrorMessage = (error) => {
   if (error.response?.data) {
@@ -155,7 +156,7 @@ export default function LoginPage() {
   const handleOtpResend = async () => {
     try {
       const response = await axios.post(
-        "https://crm-bcgg.onrender.com/api/auth/resend-otp",
+        `${BASE_URL}/api/auth/resend-otp`,
         {
           userId: userId,
         }
@@ -197,7 +198,7 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post(
-        "https://crm-bcgg.onrender.com/api/auth/verify-otp",
+        `${BASE_URL}/api/auth/verify-otp`,
         {
           userId: userId,
           otp: enteredOtp,
@@ -245,7 +246,7 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post(
-        "https://crm-bcgg.onrender.com/api/auth/login",
+        `${BASE_URL}/api/auth/login`,
         {
           identifier: loginEmail,
           password: loginPassword,
@@ -392,7 +393,7 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post(
-        "https://crm-bcgg.onrender.com/api/auth/signup",
+        `${BASE_URL}/api/auth/signup`,
         {
           name: signupName,
           email: signupEmail,
@@ -1014,7 +1015,7 @@ export default function LoginPage() {
 
   // Desktop view - side by side layout
   return (
-    <div className="flex h-[800px] justify-center items-center bg-gray-100 font-sans px-4 py-40 overflow-hidden">
+    <div className="flex h-screen justify-center items-center bg-gray-100 font-sans px-4 py-10  overflow-hidden">
       {(isLoginSuccess || isSignupSuccess) && (
         <LoginSuccessAnimation isSignup={isSignupSuccess} />
       )}
@@ -1037,7 +1038,7 @@ export default function LoginPage() {
         </div>
       )}
 
-      <div className="relative w-full max-w-7xl h-[700px] bg-white shadow-2xl rounded-2xl overflow-hidden">
+      <div className="relative w-full max-w-7xl h-[90vh] bg-white shadow-2xl rounded-2xl overflow-hidden">
         {/* Panels container */}
         <div
           className={`absolute top-0 left-0 w-full h-full flex transition-transform duration-700 ${

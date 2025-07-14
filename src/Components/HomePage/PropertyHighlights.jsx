@@ -7,6 +7,7 @@ import NavLogo from "../HomePage/Assets/footerlogo copy.png";
 import homepageimage from "../HomePage/Assets/HomeImage.png";
 import build2 from "../HomePage/Assets/build3.jpg";
 import build3 from "../HomePage/Assets/build4.jpeg";
+import BASE_URL from "../../service/api";
 
 const heroSlides = [
   {
@@ -29,7 +30,6 @@ const heroSlides = [
   },
 ];
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const PropertyHighlights = ({
   scrollToApartments,

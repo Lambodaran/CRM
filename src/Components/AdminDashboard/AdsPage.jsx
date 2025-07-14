@@ -317,8 +317,8 @@ import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const IMAGE_UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 
 const AdsPage = () => {

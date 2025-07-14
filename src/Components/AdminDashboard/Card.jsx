@@ -3,9 +3,9 @@ import card1 from "../AdminDashboard/Assets/card1.png";
 import card2 from "../AdminDashboard/Assets/card2.png";
 import card3 from "../AdminDashboard/Assets/card3.png";
 import card4 from "../AdminDashboard/Assets/card4.png";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const Card = () => {
   const [dashboardData, setDashboardData] = useState(null);

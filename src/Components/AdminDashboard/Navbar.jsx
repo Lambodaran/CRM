@@ -4,7 +4,7 @@ import bellicon from "../AdminDashboard/Assets/bellicon.png";
 import defaultProfile from "../AdminDashboard/Assets/navprofile.png"; // Default fallback image
 import { useEffect, useState } from "react";
 import axios from "axios";
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 export default function Navbar() {
   const [user, setUser] = useState(null);

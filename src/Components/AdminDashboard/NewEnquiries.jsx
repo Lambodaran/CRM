@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 export default function NewEnquiries() {
   const [enquiries, setEnquiries] = useState([]);
@@ -18,7 +19,7 @@ export default function NewEnquiries() {
         const { token } = JSON.parse(loginData);
         
         const response = await axios.get(
-          "https://crm-bcgg.onrender.com/api/inquiries/",
+          `${BASE_URL}api/inquiries/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

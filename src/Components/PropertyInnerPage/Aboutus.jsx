@@ -30,6 +30,7 @@ import sqft from "../PropertyInnerPage/Assets/sqft.png";
 import apartment from "../PropertyInnerPage/Assets/apartment.png";
 import Map from "./Map";
 import logo from "../HomePage/Assets/logo.png";
+import BASE_URL from "../../service/api";
 
 const PropertyDetails = () => {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ const PropertyDetails = () => {
       try {
         if (!propertyId) throw new Error("No property ID provided");
         const response = await fetch(
-          `https://crm-bcgg.onrender.com/api/properties/buildings/by-project/${propertyId}`
+          `${BASE_URL}/api/properties/buildings/by-project/${propertyId}`
         );
         if (!response.ok) throw new Error("Failed to fetch property data");
         const data = await response.json();

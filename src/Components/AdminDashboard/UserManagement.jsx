@@ -625,8 +625,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 const USERS_API = `${BASE_URL}/api/users/`;
 // const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;

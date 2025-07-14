@@ -151,6 +151,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import location1 from "../HomePage/Assets/location1.png";
+import BASE_URL from "../../service/api";
 
 import ApartmentsData from "../HomePage/ApartmentsData.json";
 
@@ -176,7 +177,7 @@ const FeaturedProperties = () => {
     const fetchBuilders = async () => {
       try {
         const response = await fetch(
-          "https://crm-bcgg.onrender.com/api/properties/builder-profile"
+          `${BASE_URL}/api/properties/builder-profile`
         );
         const data = await response.json();
 

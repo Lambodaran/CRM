@@ -1847,8 +1847,8 @@ import Page from "./Page";
 import { useLocation, useNavigate } from "react-router-dom";
 import KeyAmenities from "../PropertyInnerPage/KeyAmenities";
 import { IoMdBookmark } from "react-icons/io";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 function ArihantPage() {
   const location = useLocation();

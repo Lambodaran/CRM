@@ -41,8 +41,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
-
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 const statuses = [
   {

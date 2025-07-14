@@ -47,7 +47,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
 const statuses = [
   {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import BASE_URL from "../../service/api";
 
 // Default image for properties with no photos
 const defaultImage = "https://via.placeholder.com/150?text=No+Image";
@@ -11,7 +12,7 @@ const NewProperties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch("https://crm-bcgg.onrender.com/api/properties/project");
+        const response = await fetch(`${BASE_URL}/api/properties/project`);
         if (!response.ok) {
           throw new Error("Failed to fetch properties");
         }

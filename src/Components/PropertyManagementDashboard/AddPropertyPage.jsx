@@ -6,6 +6,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import { FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
 import axios from "axios";
 import { motion } from "framer-motion";
+import BASE_URL from "../../service/api"; // Import the base URL from the api.js file
 
 const MEDIA_UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 
@@ -67,7 +68,7 @@ export default function AddProperty() {
       setLoading(true);
 
       const builderResponse = await fetch(
-        `https://crm-bcgg.onrender.com/api/properties/builder-profile/user/${userId}`,
+        `${BASE_URL}/api/properties/builder-profile/user/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +92,7 @@ export default function AddProperty() {
       setBuilderId(builderId);
 
       const propertiesResponse = await fetch(
-        `https://crm-bcgg.onrender.com/api/properties/projects/by-builder/${builderId}`,
+        `${BASE_URL}/api/properties/projects/by-builder/${builderId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -199,7 +200,7 @@ export default function AddProperty() {
       if (isEditMode && currentPropertyId) {
         // Update existing property
         response = await fetch(
-          `https://crm-bcgg.onrender.com/api/properties/project/${currentPropertyId}`,
+          `${BASE_URL}/api/properties/project/${currentPropertyId}`,
           {
             method: "PUT",
             headers: {
@@ -212,7 +213,7 @@ export default function AddProperty() {
       } else {
         // Create new property
         response = await fetch(
-          "https://crm-bcgg.onrender.com/api/properties/project",
+          `${BASE_URL}/api/properties/project`,
           {
             method: "POST",
             headers: {
@@ -302,7 +303,7 @@ export default function AddProperty() {
 
     try {
       const response = await fetch(
-        `https://crm-bcgg.onrender.com/api/properties/project/${propertyId}`,
+        `${BASE_URL}/api/properties/project/${propertyId}`,
         {
           method: "DELETE",
           headers: {

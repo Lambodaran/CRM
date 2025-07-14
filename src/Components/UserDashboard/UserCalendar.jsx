@@ -51,8 +51,7 @@ import {
   CalendarViewMonth
 } from "@mui/icons-material";
 import { deepPurple, teal, orange, pink } from "@mui/material/colors";
-
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api";
 
 // Modern theme with vibrant colors
 const theme = createTheme({

@@ -9,9 +9,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 export default function DashboardChart() {
   const [chartData, setChartData] = useState([]);

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Download } from "lucide-react";
 import * as XLSX from "xlsx";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 const RecentTransactions = () => {
   const [transactions, setTransactions] = useState([]);

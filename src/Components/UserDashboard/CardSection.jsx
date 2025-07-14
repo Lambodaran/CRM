@@ -242,8 +242,8 @@
 
 
 import React, { useState, useEffect } from "react";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const logindata = JSON.parse(sessionStorage.getItem("logindata"));
 
 const CardSection = ({ autoSlideInterval = 3000, className = "" }) => {

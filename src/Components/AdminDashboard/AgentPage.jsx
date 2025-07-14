@@ -756,6 +756,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, Menu } from "@headlessui/react";
 import { Plus, MoreVertical, Edit, Trash2, MapPin } from "lucide-react";
 import axios from "axios";
+import BASE_URL from "../../service/api";
 
 export default function BrokerAgentPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -787,7 +788,6 @@ export default function BrokerAgentPage() {
     commissionRate: "",
   });
 
-  const BASE_URL = "https://crm-bcgg.onrender.com";
 
   // Initialize token and fetch data
   useEffect(() => {

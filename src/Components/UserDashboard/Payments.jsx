@@ -22,8 +22,8 @@ import {
   X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const logindata = JSON.parse(sessionStorage.getItem("logindata"));
 
 const propertyTypeIcons = {

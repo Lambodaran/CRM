@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../../service/api"; // Adjust the import path as needed
 
 const propertyTypeIcons = {
   Apartment: <Building className="w-4 h-4 text-blue-500" />,
@@ -34,7 +35,6 @@ const propertyTypeIcons = {
 
 // const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 
 
 const getStatusClass = (status) => {

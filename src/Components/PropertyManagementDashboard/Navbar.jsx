@@ -5,7 +5,7 @@ import defaultProfile from "../AdminDashboard/Assets/navprofile.png"; // Renamed
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
+import BASE_URL from "../../service/api"; // Importing the base URL for API requests
 
 export default function Navbar() {
   const [user, setUser] = useState(null);

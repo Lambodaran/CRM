@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import BASE_URL from "../../service/api";
 
-const BASE_URL = "https://crm-bcgg.onrender.com";
 const UPLOAD_URL = "https://z-backend-2xag.onrender.com/api/upload/type";
 const UNITS_API = "/api/properties/unit";
 const FLOORS_API = "/api/properties/floors";
