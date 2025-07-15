@@ -296,7 +296,7 @@ function PropertyPage() {
   return (
     <div className="flex flex-col items-center min-h-screen">
       {/* <PropertyNavbar /> */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 w-full">
+      <div className="container mx-auto px-4 md:px-6 py-8 w-full">
         <Aboutus />
        
       </div>

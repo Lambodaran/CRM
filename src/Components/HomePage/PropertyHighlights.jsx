@@ -58,20 +58,29 @@ const PropertyHighlights = ({
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   // Initialize selectedStateId from localStorage and check popup visibility
-  useEffect(() => {
-    // Restore selectedStateId from localStorage (as implemented in Apartments)
-    const storedStateId = localStorage.getItem("selectedStateId");
-    if (storedStateId && setSelectedStateId) {
-      setSelectedStateId(storedStateId);
-    }
+ useEffect(() => {
+  // Check if it's a fresh session (new tab or browser restart)
+  const isFreshSession = !sessionStorage.getItem('isPersisted');
+  
+  // Get stored state ID (if it exists)
+  const storedStateId = localStorage.getItem('selectedStateId');
 
-    // Check if popup has already been shown in this session
-    const hasShownPopup = sessionStorage.getItem("hasShownPopup");
-    if (!hasShownPopup && !storedStateId) {
-      setShowPopup(true);
-      sessionStorage.setItem("hasShownPopup", "true");
-    }
-  }, [setSelectedStateId]);
+  if (isFreshSession) {
+    // Clear localStorage for fresh sessions
+    localStorage.removeItem('selectedStateId');
+    sessionStorage.setItem('isPersisted', 'true');
+  } else if (storedStateId && setSelectedStateId) {
+    // Restore selectedStateId from localStorage for returning sessions
+    setSelectedStateId(storedStateId);
+  }
+
+  // Check if popup has already been shown in this session
+  const hasShownPopup = sessionStorage.getItem('hasShownPopup');
+  if (!hasShownPopup && !storedStateId) {
+    setShowPopup(true);
+    sessionStorage.setItem('hasShownPopup', 'true');
+  }
+}, [setSelectedStateId]);
 
   // Fetch builders and price ranges
   useEffect(() => {
@@ -201,7 +210,7 @@ const PropertyHighlights = ({
   };
 
   return (
-    <div className="relative w-full h-[60dvh] sm:h-[70vh] md:h-[100dvh]">
+    <div className="relative w-full h-[80dvh] sm:h-[85vh] md:h-[100dvh]">
   {/* Image Slider */}
   <div className="absolute inset-0 z-0">
     {heroSlides.map((slide, index) => (
