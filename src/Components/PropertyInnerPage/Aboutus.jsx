@@ -399,7 +399,7 @@ const PropertyDetails = () => {
             className="mb-16 md:mb-24 border-b last:border-b-0"
             ref={(el) => (buildingRefs.current[index] = el)}
           >
-            <h1 className="text-3xl md:text-5xl lg:text-[60px] font-semibold pb-4">
+            <h1 className="text-3xl md:text-3xl lg:text-[40px] font-semibold pb-4">
               {building.project?.projectName || "Project Name"}
             </h1>
 
@@ -599,8 +599,8 @@ const PropertyDetails = () => {
 
               {/* Right Side - Payment and Amenities */}
               <div>
-                <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[540px] bg-[#F0F0F0] rounded-md shadow-lg">
-                  <span className="text-2xl md:text-3xl lg:text-4xl text-black-600">
+                <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[400px] bg-[#F0F0F0] rounded-md shadow-lg xl:ml-14">
+                  <span className="text-2xl md:text-3xl lg:text-3xl text-black-600">
                     ₹{formatPrice(building.priceRange)}
                   </span>
                 </p>

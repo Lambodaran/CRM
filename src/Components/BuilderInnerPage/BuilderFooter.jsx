@@ -14,15 +14,15 @@ const Footer = () => {
   return (
     <div className="w-full">
       {/* Call to Action Section */}
-      <div className="relative bg-gray-300 w-[90%] max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16">
-        <h2 className="text-xl sm:text-2xl font-bold mb-2">Looking for more Properties?</h2>
-        <p className="text-base sm:text-lg mb-3 sm:mb-4">Let's work together!</p>
-        <p className="text-base sm:text-lg mb-4 sm:mb-6">Drop us a line to see how we can help</p>
-        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
-          <button className="bg-black text-white px-4 sm:px-6 py-1 sm:py-2 rounded hover:bg-gray-800 text-sm sm:text-base">
-            <a href="/contact">Contact Us</a>
-          </button>
-        </div>
+       <div className="relative bg-gradient-to-r from-[#F1AE35] to-red-500 w-[90%]  max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16 text-white">
+    <h2 className="text-xl sm:text-2xl font-bold mb-2">Looking for more Properties?</h2>
+    <p className="text-base sm:text-lg mb-3 sm:mb-4">Let's work together!</p>
+    <p className="text-base sm:text-lg mb-4 sm:mb-6">Drop us a line to see how we can help</p>
+    <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
+      <button className="bg-black text-white px-4 sm:px-6 py-1 sm:py-2 rounded hover:bg-gray-800 text-sm sm:text-base">
+        <a href="/contact">Contact Us</a>
+      </button>
+    </div>
       </div>
 
       {/* Main Footer Content */}

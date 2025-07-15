@@ -399,8 +399,7 @@ export default function PropertyCards() {
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     {property.description || "A premium property offering modern amenities and a prime location."}
                   </p>
-                  <div className="grid grid-cols-3 gap-6 mb-6 text-sm bg-[#D9D9D9] rounded-lg h-[80px] p-2">
-                    <div className="text-center">
+<div className="grid grid-cols-3 gap-6 mb-6 text-sm bg-gradient-to-r from-[#F8D78B] to-red-300 rounded-lg h-[80px] p-2">                    <div className="text-center">
                       <div className="flex items-center justify-center mb-1">
                         <FaBed className="h-4 w-4 text-black-500" />
                       </div>
