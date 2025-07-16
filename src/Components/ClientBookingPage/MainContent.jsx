@@ -1856,7 +1856,7 @@ function ArihantPage() {
 
   // State for property selection
   const [buildingid, setBuildingid] = useState(
-    location.state?.buildingId || sessionStorage.getItem("buildingId") || ""
+    location.state?.propertyId || sessionStorage.getItem("propertyId") || ""
   );
   const [builderId, setBuilderId] = useState(
     location.state?.builderId || sessionStorage.getItem("builderId") || ""

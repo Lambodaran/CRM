@@ -442,11 +442,11 @@ export default function PropertyCards() {
                   <button
                     onClick={() => {
                       console.log("Clicked property ID:", property.id);
-                      navigate("/property", { state: { propertyId: property.id, builderId: builderId } });
+                      navigate("/building", { state: { propertyId: property.id, builderId: builderId } });
                     }}
                     className="w-full bg-gray-900 hover:bg-gray-800 text-white transition-all duration-300 px-4 py-2 rounded-lg text-sm font-semibold flex items-center justify-center"
                   >
-                    View Property Details
+                    View Buildings List
                     <span className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </button>
                 </div>

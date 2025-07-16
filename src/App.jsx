@@ -131,6 +131,12 @@ import LeadsList from "./Components/AdminDashboard/LeadsList";
 import Popup from "./Components/HomePage/Popup";
 import BookingForm from "./Components/AdminDashboard/BookingForm";
 
+
+//Towerpage components 
+import BuildingHighlights from "./Components/Buildingpage/BuildingHighlights";
+import BuildingProperty from "./Components/Buildingpage/BuildingProperty";
+import BuildingFooter from "./Components/Buildingpage/BuildingFooter";
+
 // Builder Inner Page Layout
 function BuilderInnerPage() {
 
@@ -152,6 +158,30 @@ function BuilderInnerPage() {
       <BuilderHighlights />
       <BuilderProperty />
       <BuilderFooter />
+    </>
+  );
+}
+//building Page Layout
+function BuildingPage() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Disable scroll restoration to prevent React Router from restoring previous scroll position
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    // Scroll to top instantly
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [location.pathname]); // Run on route change
+
+  
+  return (
+    <>
+      {/* <BuilderNavbar /> */}
+      <BuildingHighlights />
+      <BuildingProperty />
+      <BuildingFooter />
     </>
   );
 }
@@ -336,6 +366,7 @@ function App() {
         <Route path="/builder" element={<BuilderInnerPage />} />
         <Route path="/clientbooking" element={<ClientBookingPage />} />
         <Route path="/popperpage" element={<PopperPage />} />
+        <Route path="/building" element={<BuildingPage />} />
 
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/about" element={<AboutUs />} />
