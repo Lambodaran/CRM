@@ -126,10 +126,10 @@ const BuildingHighlights = () => {
       {/* Bottom Floating Card */}
       <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[95%] sm:w-[600px] md:w-[900px] bg-[#EDEAEA] rounded-lg p-4 sm:p-6 shadow-lg text-center z-30">
         <h1 className="font-inter font-extrabold text-[20px] sm:text-[28px] md:text-[36px] leading-[110%] tracking-tight text-gray-800">
-          Explore Builder Project
+          Explore Our Building Designs
         </h1>
         <p className="font-inter font-light text-[14px] sm:text-[18px] md:text-[24px] leading-[130%] text-gray-700 mt-2">
-          Discover our latest builder projects and offerings.
+         Discover Our Modern Buildings
         </p>
       </div>
     </div>
