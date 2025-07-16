@@ -392,7 +392,7 @@ export default function PropertyCards() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {property.name}
                   </h3>
-                  <div className="flex items-center text-gray-600 mb-4">
+                  <div className="flex items-center text-red-600 mb-4">
                     <FaMapMarkerAlt className="h-4 w-4 mr-2" />
                     <span>{property.location}</span>
                   </div>

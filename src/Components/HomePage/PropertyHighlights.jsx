@@ -257,7 +257,7 @@ const PropertyHighlights = ({
             {/* Location - Shows on all screens */}
             <div className="flex items-center space-x-1">
               <FaMapMarkerAlt className="text-white text-sm" />
-              <span className="text-white text-xs sm:text-sm">
+              <span className="text-white text-xs sm:text-sm" onClick={() => setShowPopup(true)}>
                 {selectedStateId || "Location"}
               </span>
             </div>
@@ -375,7 +375,7 @@ const PropertyHighlights = ({
           <div className="flex flex-col text-left w-full sm:w-auto">
             <label className="text-gray-700 text-lg sm:text-xl md:text-2xl font-bold">State</label>
             <button
-              className="relative mt-1 sm:mt-2 bg-[#EDEAEA] rounded-lg w-full text-left flex items-center justify-between px-3 py-2"
+              className="relative mt-1 sm:mt-2 bg-[#EDEAEA] rounded-lg w-full text-left flex items-center justify-between  py-2"
               onClick={() => setShowPopup(true)}
             >
               {selectedStateId ? (
@@ -386,7 +386,7 @@ const PropertyHighlights = ({
                 </span>
               )}
               <svg
-                className="w-4 h-4 text-gray-500"
+                className="w-4 h-3 ml-3 text-gray-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -401,7 +401,7 @@ const PropertyHighlights = ({
           <div className="flex flex-col text-left w-full sm:w-auto">
             <label className="text-gray-700 text-lg sm:text-xl md:text-2xl font-bold">Location</label>
             <select
-              className="text-gray-500 text-xs sm:text-sm bg-transparent focus:outline-none w-full mt-1 sm:mt-2 px-3 py-2 rounded-lg"
+              className="text-gray-500 text-xs sm:text-sm bg-transparent focus:outline-none w-full mt-1 sm:mt-2 py-2 rounded-lg"
               value={selectedDistrict}
               onChange={(e) => setSelectedDistrict(e.target.value)}
               disabled={!selectedStateId || loadingDistricts}
@@ -424,19 +424,34 @@ const PropertyHighlights = ({
           </div>
 
           {/* Property Type Filter */}
-          <div className="flex flex-col text-left w-full sm:w-auto">
-            <label className="text-gray-700 text-lg sm:text-xl md:text-2xl font-bold">Property Type</label>
-            <select
-              className="text-gray-500 text-xs sm:text-sm bg-transparent focus:outline-none w-full mt-1 sm:mt-2 px-3 py-2 rounded-lg"
-              value={propertyType}
-              onChange={(e) => setPropertyType(e.target.value)}
-            >
-              <option value="Apartment">Apartment</option>
-              <option value="Villa">Villa</option>
-              <option value="Plot">Plot</option>
-              <option value="Commercial">Commercial</option>
-            </select>
-          </div>
+         <div className="flex flex-col text-left w-full sm:w-auto relative">
+  <label className="text-gray-700 text-lg sm:text-xl md:text-2xl font-bold">
+    Property Type
+  </label>
+  <select
+    className="text-gray-500 text-xs sm:text-sm bg-transparent focus:outline-none w-full mt-1 sm:mt-2 px-1 py-2 pr-8 appearance-none"
+    value={propertyType}
+    onChange={(e) => setPropertyType(e.target.value)}
+  >
+    <option value="Apartment">Apartment</option>
+    <option value="Villa">Villa</option>
+    <option value="Plot">Plot</option>
+    <option value="Commercial">Commercial</option>
+  </select>
+
+  {/* Custom dropdown arrow */}
+  <div className="pointer-events-none absolute right-16 bottom-3 sm:bottom-3 text-gray-500 text-sm">
+      <svg
+                className="w-4 h-3 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+  </div>
+</div>
 
           {/* Price Range Filter */}
           <div className="flex flex-col text-left w-full sm:w-auto">

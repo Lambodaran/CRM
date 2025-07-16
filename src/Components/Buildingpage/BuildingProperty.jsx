@@ -485,7 +485,7 @@ export default function BuildingProperty() {
                     <h3 className="text-xl font-bold text-gray-900 mb-1 line-clamp-1">
                       {property.buildingName}
                     </h3>
-                    <div className="flex items-center text-gray-600 text-sm">
+                    <div className="flex items-center text-red-600 text-sm">
                       <FaMapMarkerAlt className="h-3.5 w-3.5 mr-1.5 flex-shrink-0" />
                       <span className="line-clamp-1">{property.buildingArea}</span>
                     </div>

@@ -1499,7 +1499,7 @@ const PropertyDetails = () => {
                   {building.buildingName || "Property Name"}
                 </h1>
                 <div className="flex flex-col mt-2 md:mt-3 space-y-1 md:space-y-2">
-                  <p className="text-gray-600 flex items-center gap-1 md:gap-2 text-sm md:text-base">
+                  <p className="text-red-600 flex items-center gap-1 md:gap-2 text-sm md:text-base">
                     <img
                       src={location1}
                       alt="Location"
@@ -1554,8 +1554,8 @@ const PropertyDetails = () => {
 
             {/* Right Side - Payment and Amenities */}
             <div>
-              <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[400px] bg-[#F0F0F0] rounded-md shadow-lg xl:ml-14">
-                <span className="text-2xl md:text-3xl lg:text-3xl text-black-600">
+              <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[80%] bg-gradient-to-r from-[#F8D78B] to-red-300 rounded-md shadow-lg xl:ml-[55px]">
+                <span className="text-2xl md:text-3xl lg:text-3xl text-black">
                   ₹{formatPrice(building.priceRange)}
                 </span>
               </p>

@@ -2848,54 +2848,54 @@ function ArihantPage() {
       </div>
 
       {/* Image and Description Section */}
-      <div className="flex flex-col lg:flex-row gap-12 mb-10">
-        <div className="w-full lg:w-1/2">
-          <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-3xl">
-            {buildingImage ? (
-              <img
-                src={buildingImage}
-                alt={buildingData?.buildingName || "Building"}
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <div className="flex justify-center items-center w-full h-full bg-gray-200">
-                {loading.building ? "Loading image..." : "No image available"}
-              </div>
-            )}
-          </div>
+     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-10">
+  {/* Image Section */}
+  <div className="w-full lg:w-1/2">
+    <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-3xl">
+      {buildingImage ? (
+        <img
+          src={buildingImage}
+          alt={buildingData?.buildingName || "Building"}
+          className="object-cover w-full h-full"
+        />
+      ) : (
+        <div className="flex justify-center items-center w-full h-full bg-gray-200">
+          {loading.building ? "Loading image..." : "No image available"}
         </div>
+      )}
+    </div>
+  </div>
 
-        <div className="w-full lg:w-auto pl-12 p-4">
-          <div className="text-sm leading-relaxed text-gray-700">
-            {textPart1
-              .split("\n")
-              .filter((p) => p.trim().length > 0)
-              .map((paragraph, idx) => (
-                <p key={idx} className="mb-4 last:mb-0">
-                  {paragraph.trim()}
-                </p>
-              ))}
-            {isExpanded && (
-              <div className="mt-4">
-                {textPart2
-                  .split("\n")
-                  .filter((p) => p.trim().length > 0)
-                  .map((paragraph, idx) => (
-                    <p key={idx} className="mb-4 last:mb-0">
-                      {paragraph.trim()}
-                    </p>
-                  ))}
-              </div>
-            )}
-          </div>
-          <button
-            onClick={handleToggle}
-            className="mt-4 text-black font-medium hover:underline"
-          >
-            {isExpanded ? "Read Less" : "Read More"}
-          </button>
-        </div>
-      </div>
+  {/* Text Content Section */}
+  <div className="w-full lg:w-1/2 px-4 lg:px-0 lg:pr-12 flex flex-col ">
+    <div className="text-sm leading-8 text-gray-700 text-justify">
+      <p className="mb-4 whitespace-pre-line">
+        One of our finest creations, in a neighborhood that checks all the boxes.
+        Staying at Hunters Road means you are exceptionally close to business,
+        as it's adjacent to Purasawakkam, one of the largest commercial markets in Chennai.
+        {" "}
+        {buildingData?.buildingName || "This property"} is exceptional not just in its exterior facade,
+        but equally stunning in its meticulous planning and every detail.
+        {isExpanded && (
+          <>
+            {"\n"}
+            Only 45 bespoke residences that allow you design customisations,
+            and 8 of them come with private terraces. The project is planned as per vastu
+            around a well designed central courtyard. Tucked away from the main road,
+            your home is in a quiet and clean sanctuary. Enter the 10 ft driveway
+            and you will feel like a dream coming true.
+          </>
+        )}
+      </p>
+    </div>
+    <button
+      onClick={handleToggle}
+      className="mt-4 text-black font-medium hover:underline self-start"
+    >
+      {isExpanded ? "Read Less" : "Read More"}
+    </button>
+  </div>
+</div>
 
       {/* Selection and Details Section */}
       <div className="flex flex-col lg:flex-row gap-6 mb-10">
