@@ -444,7 +444,7 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
           <span className="text-sm font-semibold text-gray-900">Filters:</span>
           {selectedStateId && (
             <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-              State ID: {selectedStateId}
+              State: {selectedStateId}
             </span>
           )}
           {selectedDistrict && (

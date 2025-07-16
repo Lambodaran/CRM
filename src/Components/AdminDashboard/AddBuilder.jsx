@@ -555,13 +555,14 @@ const uploadSingleFile = async (file, type) => {
 
   return (
     <div className="flex flex-col h-screen overflow-auto bg-gray-100 p-4">
-      <IoMdArrowBack
-        onClick={goBack}
-        className="mb-2 text-2xl cursor-pointer"
-      />
+     
 
       {/* Filters */}
       <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
+         <IoMdArrowBack
+        onClick={goBack}
+        className="mb-2 text-2xl cursor-pointer"
+      />
         <div className="flex flex-wrap gap-3 items-center flex-grow">
           <select
             className="border rounded p-2"
