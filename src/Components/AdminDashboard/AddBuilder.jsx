@@ -1034,13 +1034,13 @@ const uploadSingleFile = async (file, type) => {
                 </div>
               </div>
 
-              {/* Location Map Image */}
+              {/*  Map URL */}
               <div>
                 <label
                   htmlFor="locationMapImage"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Location Map Image URL
+                   Image URL
                 </label>
                 <input
                   type="text"
@@ -1065,6 +1065,51 @@ const uploadSingleFile = async (file, type) => {
                   </p>
                 )}
               </div>
+
+              {/* location advantage Map Image  */}
+              
+               {/* <div>
+                  <label
+                    htmlFor="locationMapImage"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    location advantage Image
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="file"
+                      id="locationMapImage"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            // Remove the TypeScript assertion and use optional chaining
+                            setValue("locationMapImage", event.target?.result);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className={`w-full px-3 py-2 border rounded-md ${
+                        errors.locationMapImage ? "border-red-500" : "border-gray-300"
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('locationMapImage')?.click()}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Add
+                    </button>
+                  </div>
+                  {errors.locationMapImage && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.locationMapImage.message}
+                    </p>
+                  )}
+              </div> */}
+              
 
               {/* Configuration Section */}
               <div className="border-t pt-6">
@@ -1404,7 +1449,7 @@ const uploadSingleFile = async (file, type) => {
               {/* Photos Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Building Photos (Max 5)
+                  Building Photos (Max 4)
                 </label>
                 <div className="flex items-center space-x-2">
                   <label className="flex-1 cursor-pointer">

@@ -286,6 +286,8 @@ import { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+  import BASE_URL from "../../service/api";
+
 
 export default function BuildingProperty() {
   const [selectedType, setSelectedType] = useState("All");
@@ -314,7 +316,7 @@ export default function BuildingProperty() {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://crm-bcgg.onrender.com/api/properties/buildings/by-project/${propertyId}`
+          `${BASE_URL}/api/properties/buildings/by-project/${propertyId}`
         );
         
         if (!response.ok) {
