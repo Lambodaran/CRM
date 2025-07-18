@@ -34,9 +34,9 @@
 import React from "react";
 
 const Map = ({ building }) => {
-  // Get the building's map URL or use a default
+  // Get the building's map URL from locationMapImage or use a default
   const mapUrl =
-    building?.mapViewUrl ||
+    building?.locationMapImage ||
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31108.758827434904!2d80.2365!3d13.0701!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5260e68aebd451%3A0x8cfb47d60ed6225e!2sKoyambedu%2C%20Chennai%2C%20Tamil%20Nadu%20600072%2C%20India!5e0!3m2!1sen!2sus!4v1712112549876!5m2!1sen!2sus";
 
   return (

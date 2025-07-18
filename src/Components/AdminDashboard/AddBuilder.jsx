@@ -1068,7 +1068,7 @@ const uploadSingleFile = async (file, type) => {
 
               {/* location advantage Map Image  */}
               
-               {/* <div>
+               <div>
                   <label
                     htmlFor="locationMapImage"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -1108,7 +1108,7 @@ const uploadSingleFile = async (file, type) => {
                       {errors.locationMapImage.message}
                     </p>
                   )}
-              </div> */}
+              </div>
               
 
               {/* Configuration Section */}

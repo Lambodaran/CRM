@@ -1151,36 +1151,32 @@ const PropertyDetails = () => {
   };
 
   const getImageForTab = (tabName) => {
-    if (
-      ["Salient Features", "Project Overview", "Amenities"].includes(tabName)
-    ) {
-      if (building?.photos?.length >= 3) {
-        const tabIndexMap = {
-          "Salient Features": 0,
-          "Project Overview": 1,
-          Amenities: 2,
-        };
-        const photoIndex = tabIndexMap[tabName];
-        return building.photos[photoIndex];
-      }
-      switch (tabName) {
-        case "Salient Features":
-          return img;
-        case "Project Overview":
-          return img2;
-        case "Amenities":
-          return img6;
-        default:
-          return img;
-      }
+  if (["Salient Features", "Project Overview", "Amenities", "Location Advantage"].includes(tabName)) {
+    if (building?.photos?.length >= 4) {  // Changed from 3 to 4 since we now need 4 images
+      const tabIndexMap = {
+        "Salient Features": 0,
+        "Project Overview": 1,
+        "Amenities": 2,
+        "Location Advantage": 3  // Added Location Advantage as the 4th image (index 3)
+      };
+      const photoIndex = tabIndexMap[tabName];
+      return building.photos[photoIndex];
     }
-
-    if (tabName === "Location Advantage") {
-      return building?.locationMapImage || img;
+    switch (tabName) {
+      case "Salient Features":
+        return img;
+      case "Project Overview":
+        return img2;
+      case "Amenities":
+        return img6;
+      case "Location Advantage":
+        return img;  // Add a default image for Location Advantage
+      default:
+        return img;
     }
-
-    return img;
-  };
+  }
+  return img;
+};
 
   if (loading)
     return (
