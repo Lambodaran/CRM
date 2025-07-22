@@ -83,6 +83,10 @@ export default function BuildingList() {
     "Special Purpose",
   ];
 
+
+  const [videoUrlInput, setVideoUrlInput] = useState('');
+
+
   useEffect(() => {
     fetchBuildings();
     fetchProjectDetails();
@@ -552,6 +556,32 @@ const uploadSingleFile = async (file, type) => {
     });
   };
   const goBack = () => navigate(-1);
+
+// video url
+  const handleAddVideoUrl = () => {
+  if (!videoUrlInput.trim()) return;
+
+  try {
+    new URL(videoUrlInput); // Validate URL
+    setVideos([videoUrlInput]); // Replace existing videos with the URL
+    setVideoUrlInput('');
+  } catch (error) {
+    alert('Please enter a valid video URL');
+  }
+};
+
+const handleVideoUpload = (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+
+  const newVideos = files.map(file => URL.createObjectURL(file));
+  setVideos(newVideos);
+  setVideoUrlInput(''); // Clear URL input when files are selected
+};
+
+const removeVideo = (index) => {
+  setVideos(videos.filter((_, i) => i !== index));
+};
 
   return (
     <div className="flex flex-col h-screen overflow-auto bg-gray-100 p-4">
@@ -1040,7 +1070,7 @@ const uploadSingleFile = async (file, type) => {
                   htmlFor="locationMapImage"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                   Image URL
+                   Map URL
                 </label>
                 <input
                   type="text"
@@ -1138,7 +1168,7 @@ const uploadSingleFile = async (file, type) => {
                     htmlFor="casagrandPrice"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Casagrand Price
+                    Builder Price
                   </label>
                   <input
                     type="text"
@@ -1498,55 +1528,94 @@ const uploadSingleFile = async (file, type) => {
               </div>
 
               {/* Videos Upload */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Building Videos (Max 3)
-                </label>
-                <div className="flex items-center space-x-2">
-                  <label className="flex-1 cursor-pointer">
-                    <div className="px-3 py-2 border border-gray-300 rounded-md text-center hover:bg-gray-50 transition-colors">
-                      <span className="text-sm text-gray-600">
-                        Select videos
-                      </span>
-                      <input
-                        type="file"
-                        multiple
-                        accept="video/mp4,video/webm"
-                        onChange={(e) => handleFileUpload(e, "video")}
-                        className="hidden max-files-5"
-                        disabled={uploadingMedia || videos.length >= 3}
-                      />
-                    </div>
-                  </label>
-                  <span className="text-sm text-gray-500">
-                    {videos.length} selected (Max 3)
-                  </span>
-                </div>
-                {videos.length > 0 && (
-                  <div className="mt-3 grid grid-cols-1 gap-2">
-                    {videos.map((video, index) => (
-                      <div key={index} className="relative group">
-                        <video
-                          src={
-                            typeof video === "string"
-                              ? video
-                              : URL.createObjectURL(video)
-                          }
-                          className="w-full h-auto rounded"
-                          controls
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeMedia(index, "video")}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div className="mb-6">
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Videos
+  </label>
+
+  {/* URL Input Section */}
+  <div className="mb-4">
+    <div className="flex">
+      <input
+        type="text"
+        value={videoUrlInput}
+        onChange={(e) => setVideoUrlInput(e.target.value)}
+        placeholder="Enter video URL (YouTube, Vimeo, etc.)"
+        className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:ring-indigo-500 focus:border-indigo-500"
+        disabled={videos.length > 0}
+      />
+      <button
+        type="button"
+        onClick={handleAddVideoUrl}
+        disabled={!videoUrlInput.trim() || videos.length > 0}
+        className={`px-4 py-2 rounded-r-md ${
+          !videoUrlInput.trim() || videos.length > 0
+            ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            : 'bg-indigo-600 text-white hover:bg-indigo-700'
+        }`}
+      >
+        Add URL
+      </button>
+    </div>
+  </div>
+
+  {/* OR Divider */}
+  <div className="relative mb-4">
+    <div className="absolute inset-0 flex items-center">
+      <div className="w-full border-t border-gray-300"></div>
+    </div>
+    <div className="relative flex justify-center">
+      <span className="px-2 bg-white text-sm text-gray-500">OR</span>
+    </div>
+  </div>
+
+  {/* File Upload Section */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Upload Video File
+    </label>
+    <label className={`flex flex-col items-center px-4 py-6 rounded-md border-2 border-dashed ${
+      videos.length > 0 ? 'border-gray-300 bg-gray-50' : 'border-gray-300 bg-white hover:border-indigo-500 cursor-pointer'
+    }`}>
+      {videos.length > 0 ? (
+        videos.map((video, index) => (
+          <div key={index} className="relative w-full">
+            <video
+              src={video}
+              controls
+              className="w-full h-auto max-h-40 mb-2 rounded"
+            />
+            <button
+              type="button"
+              onClick={() => removeVideo(index)}
+              className="absolute top-2 right-2 bg-black bg-opacity-50 text-white rounded-full p-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        ))
+      ) : (
+        <>
+          <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          <span className="mt-2 text-sm text-gray-600">
+            <span className="font-medium text-indigo-600">Click to upload</span> or drag and drop
+          </span>
+          <span className="mt-1 text-xs text-gray-500">MP4, WebM up to 50MB</span>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={handleVideoUpload}
+            className="hidden"
+          />
+        </>
+      )}
+    </label>
+  </div>
+</div>
 
               {/* Floor Plans Section */}
               <div className="border-t pt-6">

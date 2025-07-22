@@ -1817,7 +1817,7 @@ const PropertyDetails = () => {
                 )}
                 {building.configuration.casagrandPrice && (
                   <div className="bg-[#2b2b2b] text-white font-semibold px-6 py-2 rounded">
-                    ABV Price: ₹{building.configuration.casagrandPrice}
+                    Builder Price: ₹{building.configuration.casagrandPrice}
                   </div>
                 )}
                 {building.configuration.offerPrice && (

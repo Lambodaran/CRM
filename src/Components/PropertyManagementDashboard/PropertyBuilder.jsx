@@ -1095,7 +1095,7 @@ export default function BuildingList() {
                     htmlFor="casagrandPrice"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Casagrand Price
+                    Builder Price
                   </label>
                   <input
                     type="text"

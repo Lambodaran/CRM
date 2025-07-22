@@ -46,6 +46,11 @@ export default function ProjectManagement() {
   const [currentProjectId, setCurrentProjectId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
+  const [videoInput, setVideoInput] = useState('');
+
+
+  const [possessionOption, setPossessionOption] = useState('date'); // 'date' or 'ready'
+
 
   const token = JSON.parse(sessionStorage.getItem("logindata"))?.token;
 
@@ -53,6 +58,36 @@ export default function ProjectManagement() {
     fetchProjects();
     fetchBuilders();
   }, []);
+
+  const isValidUrl = (string) => {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
+
+const handleVideoInput = (input) => {
+  if (!input.trim()) return;
+  
+  if (isValidUrl(input)) {
+    // Clear any existing videos first
+    setMedia(prev => ({
+      ...prev,
+      videos: [{
+        url: input,
+        type: 'video',  // Keep consistent with your upload function
+        title: input
+      }]
+    }));
+    setVideoInput('');
+  } else {
+    // Handle as text input (non-URL)
+    // You might want to show an error here
+    console.log("Not a valid URL");
+  }
+};
 
   const fetchProjects = async () => {
     if (!id) return;
@@ -164,6 +199,8 @@ export default function ProjectManagement() {
         builder: data.builder,
         amenities,
         media,
+              possessionDate: possessionOption === 'ready' ? 'ready' : data.possessionDate,
+
       };
 
       const url = isEditMode
@@ -235,6 +272,15 @@ export default function ProjectManagement() {
         setValue(field, project[field]);
       }
     });
+
+      if (project.possessionDate === 'ready') {
+    setPossessionOption('ready');
+  } else {
+    setPossessionOption('date');
+    if (project.possessionDate) {
+      setValue("possessionDate", project.possessionDate);
+    }
+  }
 
     if (project.location) {
       setValue("location.city", project.location.city || "");
@@ -924,26 +970,68 @@ export default function ProjectManagement() {
                     </p>
                   )}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Possession Date
-                  </label>
-                  <input
-                    type="date"
-                    {...register("possessionDate", {
-                      validate: (value) =>
-                        !value ||
-                        new Date(value) >= new Date().setHours(0, 0, 0, 0) ||
-                        "Possession date must be today or in the future",
-                    })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white shadow-sm"
-                  />
-                  {errors.possessionDate && (
-                    <p className="mt-2 text-sm text-red-500">
-                      {errors.possessionDate.message}
-                    </p>
-                  )}
-                </div>
+                <div className="space-y-6 bg-gray-50 p-6 rounded-xl shadow-sm">
+  <h2 className="text-2xl font-semibold text-gray-800">Possession Options</h2>
+  
+  <div className="flex items-center space-x-4 mb-4">
+    <label className="inline-flex items-center">
+      <input
+        type="radio"
+        checked={possessionOption === 'ready'}
+        onChange={() => setPossessionOption('ready')}
+        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+      />
+      <span className="ml-2">Ready to Move</span>
+    </label>
+    
+    <label className="inline-flex items-center">
+      <input
+        type="radio"
+        checked={possessionOption === 'date'}
+        onChange={() => setPossessionOption('date')}
+        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+      />
+      <span className="ml-2">Select Date</span>
+    </label>
+  </div>
+
+  {possessionOption === 'date' ? (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Possession Date
+      </label>
+      <input
+        type="date"
+        {...register("possessionDate", {
+          validate: (value) =>
+            !value ||
+            new Date(value) >= new Date().setHours(0, 0, 0, 0) ||
+            "Possession date must be today or in the future",
+        })}
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white shadow-sm"
+      />
+      {errors.possessionDate && (
+        <p className="mt-2 text-sm text-red-500">
+          {errors.possessionDate.message}
+        </p>
+      )}
+    </div>
+  ) : (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Ready to Move
+      </label>
+      <input
+        type="hidden"
+        {...register("possessionDate")}
+        value="ready"
+      />
+      <p className="text-sm text-gray-500">
+        Property is ready for immediate possession
+      </p>
+    </div>
+  )}
+</div>
               </div>
               <div className="space-y-6 bg-gray-50 p-6 rounded-xl shadow-sm">
                 <h2 className="text-2xl font-semibold text-gray-800">
@@ -1110,76 +1198,110 @@ export default function ProjectManagement() {
                       ))}
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Videos
-                    </label>
-                    <input
-                      type="file"
-                      multiple
-                      accept="video/*"
-                      onChange={(e) =>
-                        handleMediaUpload("videos", e.target.files)
-                      }
-                      className="hidden"
-                      id="video-upload"
-                    />
-                    <label
-                      htmlFor="video-upload"
-                      className="block w-full px-6 py-16 border-2 border-dashed border-gray-300 rounded-xl text-center cursor-pointer hover:border-indigo-500 transition-all bg-white shadow-sm"
-                    >
-                      <div className="flex flex-col items-center justify-center">
-                        <svg
-                          className="w-12 h-12 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                          />
-                        </svg>
-                        <span className="mt-2 text-sm font-medium text-gray-600">
-                          Upload videos
-                        </span>
-                      </div>
-                    </label>
-                    <div className="mt-4 grid grid-cols-1 gap-4">
-                      {media.videos.map((video, index) => (
-                        <div key={index} className="relative group">
-                          <video
-                            src={video.url}
-                            className="w-full h-32 object-cover rounded-lg shadow-md"
-                            controls
-                          />
-                          <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              type="button"
-                              onClick={() => removeMedia("videos", index)}
-                              className="text-white"
-                            >
-                              <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+               <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Videos
+  </label>
+
+  {/* Combined input field */}
+  <div className="space-y-2">
+    <input
+      type="text"
+      placeholder="Enter video URL or upload file"
+      value={videoInput}
+      onChange={(e) => setVideoInput(e.target.value)}
+      className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+      onPaste={(e) => {
+        // Check if pasted content is a URL
+        const pastedText = e.clipboardData.getData('text');
+        if (isValidUrl(pastedText)) {
+          handleVideoInput(pastedText);
+        }
+      }}
+    />
+    
+    <div className="flex items-center space-x-4">
+      <button
+        type="button"
+        onClick={() => handleVideoInput(videoInput)}
+        disabled={!videoInput.trim()}
+        className={`px-4 py-2 rounded-md text-sm font-medium ${
+          !videoInput.trim()
+            ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            : 'bg-indigo-600 text-white hover:bg-indigo-700'
+        }`}
+      >
+        Add Video
+      </button>
+      
+      <span className="text-sm text-gray-500">or</span>
+      
+      <label className="relative cursor-pointer">
+        <span className="px-4 py-2 rounded-md text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">
+          Upload File
+        </span>
+        <input
+          type="file"
+          accept="video/*"
+          onChange={(e) => handleMediaUpload("videos", e.target.files)}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          disabled={media.videos.length > 0 && typeof media.videos[0].url === 'string' && !media.videos[0].url.startsWith('blob:')}
+        />
+      </label>
+    </div>
+    
+    {media.videos.length > 0 && (
+      <p className="text-sm text-gray-500">
+        {media.videos[0].url.startsWith('http') 
+          ? 'Using URL, remove to upload file'
+          : 'Using uploaded file, remove to add URL'}
+      </p>
+    )}
+  </div>
+
+  {/* Display uploaded videos/URLs */}
+  <div className="mt-4 grid grid-cols-1 gap-4">
+    {media.videos.map((video, index) => (
+      <div key={index} className="relative group">
+        {video.url.startsWith('blob:') || video.url.startsWith('http') ? (
+          <video
+            src={video.url}
+            className="w-full h-32 object-cover rounded-lg shadow-md"
+            controls
+          />
+        ) : (
+          <div className="w-full h-32 flex items-center justify-center bg-gray-100 rounded-lg shadow-md">
+            <div className="text-center p-4">
+              <p className="font-medium text-gray-700">Video URL:</p>
+              <p className="text-sm text-gray-500 truncate max-w-xs">{video.url}</p>
+            </div>
+          </div>
+        )}
+        <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            type="button"
+            onClick={() => removeMedia("videos", index)}
+            className="text-white"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       3D Videos
