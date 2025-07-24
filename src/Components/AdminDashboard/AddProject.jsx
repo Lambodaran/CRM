@@ -47,6 +47,7 @@ export default function ProjectManagement() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
   const [videoInput, setVideoInput] = useState('');
+  const [threeDVideoInput, setThreeDVideoInput] = useState('');
 
 
   const [possessionOption, setPossessionOption] = useState('date'); // 'date' or 'ready'
@@ -85,6 +86,24 @@ const handleVideoInput = (input) => {
   } else {
     // Handle as text input (non-URL)
     // You might want to show an error here
+    console.log("Not a valid URL");
+  }
+};
+
+const handle3DVideoInput = (input) => {
+  if (!input.trim()) return;
+
+  if (isValidUrl(input)) {
+    setMedia(prev => ({
+      ...prev,
+      threeDVideo: [{
+        url: input,
+        type: '3d-video',
+        title: input
+      }]
+    }));
+    setThreeDVideoInput('');
+  } else {
     console.log("Not a valid URL");
   }
 };
@@ -1302,76 +1321,109 @@ const handleVideoInput = (input) => {
     ))}
   </div>
 </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      3D Videos
-                    </label>
-                    <input
-                      type="file"
-                      multiple
-                      accept="video/*"
-                      onChange={(e) =>
-                        handleMediaUpload("threeDVideo", e.target.files)
-                      }
-                      className="hidden"
-                      id="3dvideo-upload"
-                    />
-                    <label
-                      htmlFor="3dvideo-upload"
-                      className="block w-full px-6 py-16 border-2 border-dashed border-gray-300 rounded-xl text-center cursor-pointer hover:border-indigo-500 transition-all bg-white shadow-sm"
-                    >
-                      <div className="flex flex-col items-center justify-center">
-                        <svg
-                          className="w-12 h-12 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
-                          />
-                        </svg>
-                        <span className="mt-2 text-sm font-medium text-gray-600">
-                          Upload 3D videos
-                        </span>
-                      </div>
-                    </label>
-                    <div className="mt-4 grid grid-cols-1 gap-4">
-                      {media.threeDVideo.map((video, index) => (
-                        <div key={index} className="relative group">
-                          <video
-                            src={video.url}
-                            className="w-full h-32 object-cover rounded-lg shadow-md"
-                            controls
-                          />
-                          <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              type="button"
-                              onClick={() => removeMedia("threeDVideo", index)}
-                              className="text-white"
-                            >
-                              <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    3D Videos (URL or Upload)
+  </label>
+
+  {/* Combined input for URL or file upload */}
+  <div className="space-y-2">
+    <input
+      type="text"
+      placeholder="Enter 3D video URL or upload file"
+      value={threeDVideoInput}
+      onChange={(e) => setThreeDVideoInput(e.target.value)}
+      className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+      onPaste={(e) => {
+        const pastedText = e.clipboardData.getData('text');
+        if (isValidUrl(pastedText)) {
+          handle3DVideoInput(pastedText);
+        }
+      }}
+    />
+    
+    <div className="flex items-center space-x-4">
+      <button
+        type="button"
+        onClick={() => handle3DVideoInput(threeDVideoInput)}
+        disabled={!threeDVideoInput.trim()}
+        className={`px-4 py-2 rounded-md text-sm font-medium ${
+          !threeDVideoInput.trim()
+            ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            : 'bg-indigo-600 text-white hover:bg-indigo-700'
+        }`}
+      >
+        Add 3D Video URL
+      </button>
+      
+      <span className="text-sm text-gray-500">or</span>
+      
+      <label className="relative cursor-pointer">
+        <span className="px-4 py-2 rounded-md text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">
+          Upload 3D Video File
+        </span>
+        <input
+          type="file"
+          accept="video/*"
+          onChange={(e) => handleMediaUpload("threeDVideo", e.target.files)}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          disabled={media.threeDVideo.length > 0 && typeof media.threeDVideo[0].url === 'string' && !media.threeDVideo[0].url.startsWith('blob:')}
+        />
+      </label>
+    </div>
+    
+    {media.threeDVideo.length > 0 && (
+      <p className="text-sm text-gray-500">
+        {media.threeDVideo[0].url.startsWith('http') 
+          ? 'Using URL, remove to upload file'
+          : 'Using uploaded file, remove to add URL'}
+      </p>
+    )}
+  </div>
+
+  {/* Display uploaded 3D videos/URLs */}
+  <div className="mt-4 grid grid-cols-1 gap-4">
+    {media.threeDVideo.map((video, index) => (
+      <div key={index} className="relative group">
+        {video.url.startsWith('blob:') || video.url.startsWith('http') ? (
+          <video
+            src={video.url}
+            className="w-full h-32 object-cover rounded-lg shadow-md"
+            controls
+          />
+        ) : (
+          <div className="w-full h-32 flex items-center justify-center bg-gray-100 rounded-lg shadow-md">
+            <div className="text-center p-4">
+              <p className="font-medium text-gray-700">3D Video URL:</p>
+              <p className="text-sm text-gray-500 truncate max-w-xs">{video.url}</p>
+            </div>
+          </div>
+        )}
+        <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            type="button"
+            onClick={() => removeMedia("threeDVideo", index)}
+            className="text-white"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
                 </div>
               </div>
               <div className="flex justify-end space-x-4 pt-6">
