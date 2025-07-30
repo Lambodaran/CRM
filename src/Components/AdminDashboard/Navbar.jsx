@@ -5,10 +5,13 @@ import defaultProfile from "../AdminDashboard/Assets/navprofile.png"; // Default
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../service/api"; // Adjust the import path as needed
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // For navigation
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -68,33 +71,13 @@ export default function Navbar() {
       
       {/* Search Bar & Icons */}
       <div className="flex items-center gap-3">
-        {/* Search Input */}
-        {/* <div className="relative flex items-center bg-gray-100 rounded-lg px-3 py-1">
-          <Search className="w-4 h-4 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Quick Search..."
-            className="ml-2 w-full bg-transparent outline-none text-sm placeholder-gray-500"
-          />
-          <img src={searchright} alt="Search" className="w-4 h-4 ml-2" />
-        </div> */}
-
-        {/* Add Icon */}
-        {/* <Plus className="w-5 h-5 text-blue-500 cursor-pointer" /> */}
-
-        {/* Notification Icon */}
-        {/* <img
-          src={bellicon}
-          alt="Notifications"
-          className="w-5 h-5 cursor-pointer"
-        /> */}
-
         {/* Profile Image */}
         <div className="flex items-center">
           <img
             src={user?.profilepic || defaultProfile}
             alt={user?.name || "User"}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover cursor-pointer"
+            onClick={() => navigate("/settings")}
             onError={(e) => {
               e.target.src = defaultProfile; // Fallback if image fails to load
             }}

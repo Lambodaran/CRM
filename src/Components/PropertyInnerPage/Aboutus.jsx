@@ -1004,7 +1004,7 @@ const PropertyDetails = () => {
     { label: "Interiors", disabled: false },
     { label: "Amenities", disabled: false },
     { label: "Site Progress", disabled: false },
-    { label: "Walkthrough", disabled: false },
+    // { label: "Walkthrough", disabled: false },
   ];
 
   // Floor plan navigation handlers

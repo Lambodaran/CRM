@@ -6,10 +6,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import BASE_URL from "../../service/api"; // Importing the base URL for API requests
+import { useNavigate } from "react-router-dom";
+
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -96,6 +100,7 @@ export default function Navbar() {
             src={user?.profilepic || defaultProfile}
             alt={user?.name || "User"}
             className="w-10 h-10 rounded-full object-cover"
+            onClick={() => navigate("/propertysetting")}
             onError={(e) => {
               e.target.src = defaultProfile; // Fallback if image fails to load
             }}

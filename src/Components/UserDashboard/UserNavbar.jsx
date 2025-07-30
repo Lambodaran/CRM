@@ -5,11 +5,15 @@ import defaultProfile from "../UserDashboard/Assests/Navprofile.png"; // Renamed
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../service/api";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function UserNavbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -93,6 +97,7 @@ export default function UserNavbar() {
             src={user?.profilepic || defaultProfile}
             alt={user?.name || "User"}
             className="w-10 h-10 rounded-full object-cover"
+            onClick={() => navigate("/usersetting")}
             onError={(e) => {
               e.target.src = defaultProfile; // Fallback if image fails to load
             }}
