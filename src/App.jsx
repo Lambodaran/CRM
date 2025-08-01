@@ -79,7 +79,11 @@ import UserProperties from "./Components/UserDashboard/UserProperties";
 import Reports from "./Components/UserDashboard/Reports";
 import UserHelp from "./Components/UserDashboard/UserHelp";
 import UserSetting from "./Components/UserDashboard/UserSetting";
-
+import UserBuilder from "./Components/UserDashboard/UserBuilder";
+import UserBuilding from "./Components/UserDashboard/UserBuilding";
+import UserProject from "./Components/UserDashboard/UserProject";
+import UserProperty from "./Components/UserDashboard/UserProperty0";
+import UserClientBooking from "./Components/UserDashboard/UserClientBooking";
 
 
 
@@ -414,6 +418,11 @@ function App() {
           <Route path="reports" element={<Reports />} />
           <Route path="userhelp" element={<UserHelp />} />
           <Route path="usersetting" element={<UserSetting />} />
+          <Route path="userbuilder" element={<UserBuilder />} />
+          <Route path="userbuilding" element={<UserBuilding />} />
+          <Route path="userproject" element={<UserProject />} />
+          <Route path="userproperty" element={<UserProperty />} />
+          <Route path="userclientbooking" element={<UserClientBooking />} />
         </Route>
 
         {/* propertymanagement */}

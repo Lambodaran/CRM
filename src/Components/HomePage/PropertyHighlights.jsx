@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Range } from "react-range"; // Ensure this is installed
 import Popup from "./Popup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import NavLogo from "../HomePage/Assets/footerlogo copy.png";
 import homepageimage from "../HomePage/Assets/HomeImage.png";
 import build2 from "../HomePage/Assets/build3.jpg";
@@ -30,17 +31,6 @@ const heroSlides = [
   },
 ];
 
-const priceRanges = [
-  { label: "Less than Rs. 50L", min: 0 },
-  { label: "Rs. 50 Lakh – Rs. 75 Lakh", min: 5000000 },
-  { label: "Rs. 75 Lakh – Rs. 1 Cr", min: 7500000 },
-  { label: "Rs. 1 Cr – Rs. 1.50 Cr", min: 10000000 },
-  { label: "Rs. 1.5 Cr – Rs. 2 Cr", min: 15000000 },
-  { label: "Rs. 2 Cr – Rs. 2.5 Cr", min: 20000000 },
-  { label: "Rs. 2.5 Cr – Rs. 3 Cr", min: 25000000 },
-  { label: "Above 3 Cr", min: 30000000 },
-];
-
 const propertyTypes = ["Apartment", "Villa", "Plot", "Commercial"];
 
 const PropertyHighlights = ({
@@ -56,16 +46,26 @@ const PropertyHighlights = ({
 }) => {
   const [activeTab, setActiveTab] = useState("BUY");
   const [propertyType, setPropertyType] = useState(propertyTypes[0]);
-  const [priceRange, setPriceRange] = useState(priceRanges[0].label);
+  const [priceRange, setPriceRange] = useState([0, 1000000000]); // [minPrice, maxPrice] in rupees (100 Crores)
   const [districts, setDistricts] = useState([]);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [districtError, setDistrictError] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [showPriceSlider, setShowPriceSlider] = useState(false); // Control price slider visibility
   const [builders, setBuilders] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const navigate = useNavigate();
+
+  // Get custom price range string for dropdown
+  const getPriceRangeString = ([minPrice, maxPrice]) => {
+    const minValueInCrores = (parseFloat(minPrice) / 10000000).toFixed(1);
+    const maxValueInCrores = (parseFloat(maxPrice) / 10000000).toFixed(1);
+    return minPrice === maxPrice ? `₹${minValueInCrores} Cr` : `₹${minValueInCrores} - ₹${maxValueInCrores} Cr`;
+  };
 
   // Initialize selectedStateId and popup visibility
   useEffect(() => {
@@ -96,6 +96,8 @@ const PropertyHighlights = ({
           throw new Error("Invalid data format from builders API");
         }
         setBuilders(response.data);
+        setProjects(response.data.flatMap((builder) => builder.projects || []));
+        setFilteredProjects(response.data.flatMap((builder) => builder.projects || []));
         setDistrictError(null);
       } catch (error) {
         setDistrictError("Failed to fetch builders. Please try again.");
@@ -131,7 +133,7 @@ const PropertyHighlights = ({
           .sort((a, b) => a.name.localeCompare(b.name));
 
         setDistricts(uniqueCities);
-        setSelectedDistrict(""); // Reset district when state changes
+        setSelectedDistrict("");
         setDistrictError(null);
       } catch (error) {
         setDistrictError("Failed to load cities. Please try again.");
@@ -145,17 +147,30 @@ const PropertyHighlights = ({
     }
   }, [selectedStateId, builders]);
 
-  // Handle search
+  // Handle search and filter projects
   const handleSearch = () => {
-    const selectedPriceRange = priceRanges.find((range) => range.label === priceRange);
+    if (!selectedDistrict) {
+      console.log("No district selected, search disabled.");
+      return;
+    }
     const searchdata = {
       districtid: selectedDistrict,
       propertytype: propertyType,
-      pricerange: selectedPriceRange ? selectedPriceRange.min : 0,
+      pricerange: { min: priceRange[0], max: priceRange[1] },
     };
+    console.log("Search data:", searchdata);
 
+    const filtered = projects.filter((project) => {
+      const matchesDistrict = project.location.city === selectedDistrict;
+      const matchesPropertyType = project.propertyType === propertyType;
+      const matchesPrice = project.price >= priceRange[0] && project.price <= priceRange[1];
+      return matchesDistrict && matchesPropertyType && matchesPrice;
+    });
+
+    setFilteredProjects(filtered);
     if (setPropertyTypeFilter) setPropertyTypeFilter(propertyType);
-    if (setPriceRangeFilter) setPriceRangeFilter(priceRange);
+    if (setPriceRangeFilter)
+      setPriceRangeFilter(`${(priceRange[0] / 10000000).toFixed(2)}-${(priceRange[1] / 10000000).toFixed(2)} Crores`);
     if (setSelectedDistrictId) setSelectedDistrictId(selectedDistrict);
     if (setSearchData) setSearchData(searchdata);
 
@@ -289,7 +304,7 @@ const PropertyHighlights = ({
             role="presentation"
           >
             <div
-              className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[90%] max Max-w-xs bg-white rounded-md shadow-lg py-1 z-50"
+              className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg py-1 z-50"
               role="menu"
             >
               <div className="flex flex-col items-center">
@@ -444,7 +459,7 @@ const PropertyHighlights = ({
             </select>
             <div className="pointer-events-none absolute right-2 bottom-3 text-gray-500 text-sm">
               <svg
-                className="w-4 h-3 text-gray-500"
+                className="w-4 h-3 text-gray-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -455,23 +470,29 @@ const PropertyHighlights = ({
             </div>
           </div>
 
-          <div className="flex flex-col text-left w-full sm:w-auto">
+          <div className="flex flex-col text-left w-full sm:w-auto relative">
             <label htmlFor="price-range-select" className="text-gray-700 text-lg sm:text-xl md:text-2xl font-bold">
               Price Range
             </label>
-            <select
+            <button
               id="price-range-select"
-              className="text-gray-500 text-xs sm:text-sm bg-transparent focus:outline-none w-full mt-1 sm:mt-2 px-3 py-2 rounded-lg"
-              value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
-              aria-label="Select price range"
+              className="relative mt-1 sm:mt-2 bg-[#EDEAEA] rounded-lg w-full text-left flex items-center justify-between py-2 px-3"
+              onClick={() => setShowPriceSlider(true)}
+              aria-label={`Select price range, current: ${getPriceRangeString(priceRange)}`}
             >
-              {priceRanges.map((range) => (
-                <option key={range.label} value={range.label}>
-                  {range.label}
-                </option>
-              ))}
-            </select>
+              <span className="text-xs sm:text-sm text-gray-500">
+                {getPriceRangeString(priceRange)}
+              </span>
+              <svg
+                className="w-4 h-3 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -554,28 +575,106 @@ const PropertyHighlights = ({
             <label htmlFor="mobile-price-range-select" className="text-gray-700 text-sm font-bold">
               Price Range
             </label>
-            <select
+            <button
               id="mobile-price-range-select"
-              className="text-gray-500 text-xs bg-transparent focus:outline-none w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg"
-              value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
-              aria-label="Select price range"
+              className="relative mt-1 bg-[#EDEAEA] rounded-lg w-full text-left flex items-center justify-between px-3 py-2 border border-gray-300"
+              onClick={() => setShowPriceSlider(true)}
+              aria-label={`Select price range, current: ${getPriceRangeString(priceRange)}`}
             >
-              {priceRanges.map((range) => (
-                <option key={range.label} value={range.label}>
-                  {range.label}
-                </option>
-              ))}
-            </select>
+              <span className="text-xs">
+                {getPriceRangeString(priceRange)}
+              </span>
+              <svg
+                className="w-4 h-4 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Price Range Slider Popup */}
+        {showPriceSlider && (
+          <div
+            className="fixed inset-0 ml-[750px] mt-[120px] bg-opacity-50 z-40"
+            onClick={() => setShowPriceSlider(false)}
+            role="presentation"
+          >
+            <div
+              className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg p-4 z-50"
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-labelledby="price-range-dialog-title"
+            >
+              <h3 id="price-range-dialog-title" className="text-lg font-bold text-gray-700 mb-4">
+                Select Price Range
+              </h3>
+              <Range
+                step={1000000} // Step in rupees (0.1 Crore)
+                min={0}
+                max={1000000000} // 100 Crores
+                values={priceRange}
+                onChange={(values) => {
+                  console.log("Slider values changed to:", values);
+                  setPriceRange(values);
+                }}
+                renderTrack={({ props, children }) => (
+                  <div
+                    {...props}
+                    className="h-2 bg-gray-200 rounded-full"
+                    style={{ ...props.style }}
+                  >
+                    {children}
+                  </div>
+                )}
+                renderThumb={({ props, index, value, isDragged }) => (
+                  <div
+                    {...props}
+                    className="relative w-4 h-4 bg-blue-600 rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{
+                      ...props.style,
+                      cursor: "grab",
+                    }}
+                    aria-label={index === 0 ? "Minimum price" : "Maximum price"}
+                  >
+                    {isDragged && (
+                      <div
+                        className="absolute top-[-40px] left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded shadow-md whitespace-nowrap"
+                        style={{
+                          zIndex: 10,
+                        }}
+                      >
+                        ₹{(value / 10000000).toFixed(1)} Cr
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+              <div className="flex justify-between mt-2 text-sm text-gray-600">
+                <span>₹0 Cr</span>
+                <span>₹{(1000000000 / 10000000).toFixed(1)} Cr</span>
+              </div>
+              <button
+                onClick={() => setShowPriceSlider(false)}
+                className="mt-4 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800"
+                aria-label="Close price range selector"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 transform -translate-x-1/2">
           <button
             onClick={handleSearch}
-            disabled={!selectedDistrict || !priceRange}
+            disabled={!selectedDistrict}
             className={`px-8 sm:px-10 md:px-12 py-2 rounded-xl transition text-sm sm:text-base ${
-              selectedDistrict && priceRange
+              selectedDistrict
                 ? "bg-black text-white hover:bg-gray-800"
                 : "bg-[#302F2F] text-white cursor-not-allowed"
             }`}

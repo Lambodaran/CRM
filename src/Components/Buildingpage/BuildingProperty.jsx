@@ -397,13 +397,13 @@ export default function BuildingProperty() {
     <section className="py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 mt-9">
+          {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 mt-9">
             {selectedBuilder ? `${selectedBuilder} Properties` : "Explore Our Buildings"}
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
            Discover buildings that combine strength, style, and smart design for today’s living.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mt-6">
+          </p> */}
+          <div className="flex flex-wrap justify-center gap-3 mb-6 -ml-[800px]">
             {["All", "Residential", "Commercial", "Plots"].map((type) => (
               <motion.button
                 key={type}

@@ -34,11 +34,12 @@ import location1 from "../PropertyInnerPage/Assets/location1.png";
 import bed from "../PropertyInnerPage/Assets/bed.png";
 import sqft from "../PropertyInnerPage/Assets/sqft.png";
 import apartment from "../PropertyInnerPage/Assets/apartment.png";
-import Map from "./Map";
+import Map from "../PropertyInnerPage/Map";
 import logo from "../HomePage/Assets/logo.png";
 import BASE_URL from "../../service/api";
+import { User } from "lucide-react";
 
-const PropertyDetails = () => {
+const UserProperty0 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const buildingId = location.state?.propertyId;
@@ -932,4 +933,4 @@ const PropertyDetails = () => {
   );
 };
 
-export default PropertyDetails;
+export default UserProperty0;

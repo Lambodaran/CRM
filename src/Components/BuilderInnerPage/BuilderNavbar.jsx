@@ -1,48 +1,48 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaMapMarkerAlt } from "react-icons/fa"; // Import location icon
 import abvlogo from "../HomePage/Assets/logo.png";
 
 export default function BuilderNavbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className=" p-4 shadow-md">
+    <nav className="bg-white p-4 shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="text-xl font-bold flex items-center">
-          <img src={abvlogo} alt="ABV Logo" className="h-10 mr-2" />
+          <motion.img
+            src={abvlogo}
+            alt="ABV Logo"
+            className="h-10 mr-2  text-white px-4 py-2 rounded"
+            whileHover={{ scale: 1.1 }}
+          />
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 text-gray-700">
-          {[
-            "Apartments",
-            "Individual House",
-            "Ongoing Projects",
-            "Contact Us",
-            "Blogs",
-          ].map((item, index) => (
-            <motion.li
-              key={index}
-              whileHover={{ scale: 1.1, color: "#EA580C" }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <a href="#">{item}</a>
-            </motion.li>
-          ))}
+        <ul className="hidden md:flex space-x-6 text-black">
+          {["Apartments", "Ongoing Projects", "Individual House", "Contact Us"].map(
+            (item, index) => (
+              <motion.li
+                key={index}
+                whileHover={{ scale: 1.1, color: "#EA580C" }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <a href="#">{item}</a>
+              </motion.li>
+            )
+          )}
         </ul>
 
-        {/* Buttons */}
-        <div className="hidden md:flex space-x-4">
+        {/* Location and Login */}
+        <div className="hidden md:flex items-center space-x-4">
+          <div className="flex items-center space-x-1">
+            <FaMapMarkerAlt className="text-black" />
+            <span className="text-black">Chennai</span>
+          </div>
           <motion.button
             whileHover={{ scale: 1.1 }}
-            className="border border-orange-500 text-orange-500 px-4 py-2 rounded-lg hover:bg-orange-100"
-          >
-            Post Your Property
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
           >
             Login
           </motion.button>
@@ -50,7 +50,7 @@ export default function BuilderNavbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-700 focus:outline-none"
+          className="md:hidden text-black focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? "✖" : "☰"}
@@ -65,34 +65,22 @@ export default function BuilderNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden flex flex-col bg-gray-200 mt-2 p-4 space-y-3 text-center text-gray-700"
+            className="md:hidden flex flex-col bg-gray-200 mt-2 p-4 space-y-3 text-center text-black"
           >
-            {[
-              "Apartments",
-              "Individual House",
-              "Ongoing Projects",
-              "Contact Us",
-              "Blogs",
-            ].map((item, index) => (
-              <motion.li
-                key={index}
-                whileHover={{ scale: 1.1, color: "#EA580C" }}
-              >
-                <a href="#">{item}</a>
-              </motion.li>
-            ))}
+            {["Apartments", "Ongoing Projects", "Individual House", "Contact Us"].map(
+              (item, index) => (
+                <motion.li
+                  key={index}
+                  whileHover={{ scale: 1.1, color: "#EA580C" }}
+                >
+                  <a href="#">{item}</a>
+                </motion.li>
+              )
+            )}
             <li>
               <motion.button
                 whileHover={{ scale: 1.1 }}
-                className="border border-orange-500 text-orange-500 px-4 py-2 rounded-full hover:bg-orange-100 w-full"
-              >
-                Post Your Property
-              </motion.button>
-            </li>
-            <li>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 w-full"
+                className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 w-full"
               >
                 Login
               </motion.button>

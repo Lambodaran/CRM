@@ -18,7 +18,7 @@ const navItems = [
   {
     icon: <FaHome className="w-5 h-5 text-gray-700" />,
     label: "Properties",
-    link: "/userproperties",
+    link: "/userbuilder",
   },
   {
     icon: <BsFillCreditCard2FrontFill className="w-5 h-5 text-gray-700" />,
