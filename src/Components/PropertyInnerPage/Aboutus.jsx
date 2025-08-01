@@ -207,9 +207,9 @@ const PropertyDetails = () => {
   };
 
   const formatPrice = (price) => {
-    if (!price) return "N/A";
-    return `₹${parseFloat(price).toLocaleString("en-IN")}`;
-  };
+      if (!price) return "N/A";
+      return price;
+    };
 
   const getImageForTab = (tabName) => {
     if (["Salient Features", "Project Overview", "Amenities", "Location Advantage"].includes(tabName)) {
