@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <div className="w-full">
       {/* Call to Action Section */}
-       <div className="relative bg-gradient-to-r from-orange-400 to-red-500 w-[90%]  max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16 text-white">
+       <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 w-[90%]  max-w-4xl mx-auto rounded-xl p-4 sm:p-6 text-center mb-12 sm:mb-16 text-white">
     <h2 className="text-xl sm:text-2xl font-bold mb-2">Looking for more Properties?</h2>
     <p className="text-base sm:text-lg mb-3 sm:mb-4">Let's work together!</p>
     <p className="text-base sm:text-lg mb-4 sm:mb-6">Drop us a line to see how we can help</p>

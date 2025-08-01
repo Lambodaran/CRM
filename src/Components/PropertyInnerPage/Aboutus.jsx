@@ -599,7 +599,7 @@ const PropertyDetails = () => {
 
             {/* Right Side - Payment and Amenities */}
             <div>
-              <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[80%] bg-gradient-to-r from-[#F8D78B] to-red-300 rounded-md shadow-lg xl:ml-[55px]">
+              <p className="text-lg md:text-xl font-semibold text-black-500 px-3 py-3 md:px-4 md:py-4 text-center w-full md:w-[400px] lg:w-[500px] xl:w-[80%] bg-gradient-to-r from-blue-500 to-cyan-500 rounded-md shadow-lg xl:ml-[55px]">
                 <span className="text-2xl md:text-3xl lg:text-3xl text-black">
                   {formatPrice(building.priceRange)}
                 </span>

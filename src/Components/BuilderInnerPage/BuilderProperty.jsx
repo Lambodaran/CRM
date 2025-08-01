@@ -309,7 +309,7 @@ export default function PropertyCards() {
 
   return (
     <section className="py-20 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-[390px]">
         <div className="text-center mb-16">
           {/* <div className="text-orange-500 text-sm font-light tracking-widest mb-4">
             PROPERTY PORTFOLIO
@@ -320,7 +320,7 @@ export default function PropertyCards() {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover properties that blend luxury, comfort, and modern living tailored to your lifestyle.
           </p> */}
-          <div className="flex flex-wrap justify-center gap-3 mb-6 -ml-[800px]">
+          <div className="flex flex-wrap justify-center gap-3 mb-6 -ml-[100px]">
             {["All", "Apartments", "Villas", "Plots"].map((type) => (
              <motion.button
   key={type}
@@ -399,7 +399,7 @@ export default function PropertyCards() {
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     {property.description || "A premium property offering modern amenities and a prime location."}
                   </p>
-<div className="grid grid-cols-3 gap-6 mb-6 text-sm bg-gradient-to-r from-[#F8D78B] to-red-300 rounded-lg h-[80px] p-2">                    <div className="text-center">
+<div className="grid grid-cols-3 gap-6 mb-6 text-sm bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg h-[80px] p-2">                    <div className="text-center">
                       <div className="flex items-center justify-center mb-1">
                         <FaBed className="h-4 w-4 text-black-500" />
                       </div>

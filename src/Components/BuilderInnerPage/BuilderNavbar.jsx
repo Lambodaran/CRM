@@ -14,7 +14,7 @@ export default function BuilderNavbar() {
           <motion.img
             src={abvlogo}
             alt="ABV Logo"
-            className="h-10 mr-2  text-white px-4 py-2 rounded"
+            className="h-10 mr-2  text-white rounded"
             whileHover={{ scale: 1.1 }}
           />
         </div>
@@ -35,7 +35,7 @@ export default function BuilderNavbar() {
         </ul>
 
         {/* Location and Login */}
-        <div className="hidden md:flex items-center space-x-4">
+        {/* <div className="hidden md:flex items-center space-x-4">
           <div className="flex items-center space-x-1">
             <FaMapMarkerAlt className="text-black" />
             <span className="text-black">Chennai</span>
@@ -46,7 +46,7 @@ export default function BuilderNavbar() {
           >
             Login
           </motion.button>
-        </div>
+        </div> */}
 
         {/* Mobile Menu Button */}
         <button

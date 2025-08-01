@@ -395,7 +395,7 @@ export default function BuildingProperty() {
 
   return (
     <section className="py-12 md:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-[390px]">
         <div className="text-center mb-12 md:mb-16">
           {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 mt-9">
             {selectedBuilder ? `${selectedBuilder} Properties` : "Explore Our Buildings"}
@@ -403,7 +403,7 @@ export default function BuildingProperty() {
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
            Discover buildings that combine strength, style, and smart design for today’s living.
           </p> */}
-          <div className="flex flex-wrap justify-center gap-3 mb-6 -ml-[800px]">
+          <div className="flex flex-wrap justify-center gap-3 mb-6 ">
             {["All", "Residential", "Commercial", "Plots"].map((type) => (
               <motion.button
                 key={type}
@@ -497,7 +497,7 @@ export default function BuildingProperty() {
                     {property.description}
                   </p>
 
-                  <div className="grid grid-cols-3 gap-3 mb-5 bg-gradient-to-r from-[#F8D78B] to-red-300 rounded-lg p-3">
+                  <div className="grid grid-cols-3 gap-3 mb-5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg p-3">
                     <div className="text-center flex flex-col items-center">
                       <div className="flex items-center justify-center mb-1">
                         <FaBed className="h-4 w-4 text-gray-700" />

@@ -295,7 +295,7 @@ export default function BuildingList() {
 
     switch (type) {
       case "photo":
-        validTypes = ["image/jpeg", "image/png", "image/gif"];
+        validTypes = ["image/jpeg", "image/png", "image/gif","image/webp"];
         maxFiles = 5;
         currentFiles = photos;
         setFiles = setPhotos;
@@ -315,7 +315,7 @@ export default function BuildingList() {
       case "interiorsImages":
       case "amenitiesImages":
       case "siteProgressImages":
-        validTypes = ["image/jpeg", "image/png", "image/gif"];
+        validTypes = ["image/jpeg", "image/png", "image/gif","image/webp"];
         maxFiles = Infinity;
         currentFiles =
           type === "unitPlans"
@@ -353,7 +353,7 @@ export default function BuildingList() {
         setFiles = setWalkthroughVideos;
         break;
       default:
-        validTypes = ["image/jpeg", "image/png", "image/gif"];
+        validTypes = ["image/jpeg", "image/png", "image/gif","image/webp"];
         maxFiles = 5;
     }
 
@@ -370,7 +370,7 @@ export default function BuildingList() {
         `Please upload only ${
           type.includes("video")
             ? "videos (MP4, WebM)"
-            : "images (JPEG, PNG, GIF)"
+            : "images (JPEG, PNG, GIF, WEBP)"
         }.`
       );
       return;
@@ -1434,7 +1434,7 @@ export default function BuildingList() {
                       <input
                         type="file"
                         multiple
-                        accept="image/jpeg,image/png,image/gif"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
                         onChange={(e) => handleFileUpload(e, "photo")}
                         className="hidden max-files-5"
                         disabled={uploadingMedia || photos.length >= 5}
@@ -1922,7 +1922,7 @@ export default function BuildingList() {
                 </div>
 
                 {/* Walkthrough Videos */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Walkthrough Videos
                   </label>
@@ -1971,7 +1971,7 @@ export default function BuildingList() {
                       ))}
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
 
               {/* Description */}

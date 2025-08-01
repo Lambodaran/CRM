@@ -185,7 +185,7 @@ const PropertyHighlights = () => {
       <BuilderNavbar />
 
       {/* Static Banner with Blue Gradient */}
-      <div className="bg-gradient-to-r from-[#E6F0FA] to-[#FFFFFF] min-h-[80vh] flex items-center justify-center text-center px-4">
+      <div className="bg-gradient-to-r from-[#E6F0FA] to-[#FFFFFF] min-h-[40vh] flex items-center justify-center text-center px-4">
         <div>
           <h1 className="font-bold text-[32px] sm:text-[48px] md:text-[64px] leading-[120%] text-black mb-2">
             Explore Our Properties

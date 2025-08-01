@@ -20,7 +20,7 @@ const BuildingHighlights = () => {
             <img
               src={NavLogo}
               alt="ABV Logo"
-              className="h-10 mr-2  text-white px-4 py-2 rounded"
+              className="h-10 mr-2  text-white  rounded"
             />
           </div>
 
@@ -38,7 +38,7 @@ const BuildingHighlights = () => {
           </ul>
 
           {/* Location and Login */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* <div className="hidden md:flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <FaMapMarkerAlt className="text-black" />
               <span className="text-black">Chennai</span>
@@ -48,7 +48,7 @@ const BuildingHighlights = () => {
                 Login
               </button>
             </Link>
-          </div>
+          </div> */}
 
           {/* Mobile Menu Button (Simplified - no animation for brevity) */}
           <button className="md:hidden text-black focus:outline-none">
@@ -58,7 +58,7 @@ const BuildingHighlights = () => {
       </nav>
 
       {/* Static Banner with Blue Gradient */}
-      <div className="bg-gradient-to-r from-[#E6F0FA] to-[#FFFFFF] min-h-[80vh] flex items-center justify-center text-center px-4">
+      <div className="bg-gradient-to-r from-[#E6F0FA] to-[#FFFFFF] min-h-[40vh] flex items-center justify-center text-center px-4">
         <div>
           <h1 className="font-bold text-[32px] sm:text-[48px] md:text-[64px] leading-[120%] text-black mb-2">
             Explore Our Properties
