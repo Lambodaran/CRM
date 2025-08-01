@@ -527,7 +527,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
               className="group relative w-full h-[300px] flex flex-col justify-between overflow-hidden shadow-md transition-all duration-500 hover:shadow-lg bg-white rounded-lg border border-gray-200"
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
-                navigate("/userproject", {
+                navigate("/builder", {
                   state: { builderId: property._id },
                 });
               }}
@@ -536,7 +536,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
-                  navigate("/userproject", {
+                  navigate("/builder", {
                     state: { builderId: property._id },
                   });
                 }
