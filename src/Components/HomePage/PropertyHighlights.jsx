@@ -46,7 +46,7 @@ const PropertyHighlights = ({
 }) => {
   const [activeTab, setActiveTab] = useState("BUY");
   const [propertyType, setPropertyType] = useState(propertyTypes[0]);
-  const [priceRange, setPriceRange] = useState([0, 1000000000]); // [minPrice, maxPrice] in rupees (100 Crores)
+  const [priceRange, setPriceRange] = useState([500000, 1000000000]); // Start at 5 lakhs, max 100 crores
   const [districts, setDistricts] = useState([]);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [districtError, setDistrictError] = useState(null);
@@ -60,20 +60,26 @@ const PropertyHighlights = ({
   const [filteredProjects, setFilteredProjects] = useState([]);
   const navigate = useNavigate();
 
-  // Get custom price range string for dropdown
+  // Get custom price range string for dropdown display
   const getPriceRangeString = ([minPrice, maxPrice]) => {
-    const minValueInCrores = (parseFloat(minPrice) / 10000000).toFixed(1);
-    const maxValueInCrores = (parseFloat(maxPrice) / 10000000).toFixed(1);
-    return minPrice === maxPrice ? `₹${minValueInCrores} Cr` : `₹${minValueInCrores} - ₹${maxValueInCrores} Cr`;
+    const formatPrice = (value) => {
+      const numValue = parseFloat(value);
+      if (numValue < 10000000) {
+        return `${(numValue / 100000).toFixed(1)} L`;
+      }
+      return `${(numValue / 10000000).toFixed(1)} Cr`;
+    };
+    return `₹${formatPrice(minPrice)} - ₹${formatPrice(maxPrice)}`;
   };
 
-  // Initialize selectedStateId and popup visibility
+  // Initialize selectedStateId, popup visibility, and price range
   useEffect(() => {
     const isFreshSession = !sessionStorage.getItem("isPersisted");
     const storedStateId = localStorage.getItem("selectedStateId");
 
     if (isFreshSession) {
       localStorage.removeItem("selectedStateId");
+      localStorage.removeItem("priceRangeFilter");
       sessionStorage.setItem("isPersisted", "true");
     } else if (storedStateId && setSelectedStateId) {
       setSelectedStateId(storedStateId);
@@ -84,7 +90,13 @@ const PropertyHighlights = ({
       setShowPopup(true);
       sessionStorage.setItem("hasShownPopup", "true");
     }
-  }, [setSelectedStateId]);
+
+    // Ensure price range starts at 5 lakhs
+    setPriceRange([500000, 1000000000]);
+    if (setPriceRangeFilter) {
+      setPriceRangeFilter(String(1000000000)); // Set to max price in rupees for Apartments.jsx
+    }
+  }, [setSelectedStateId, setPriceRangeFilter]);
 
   // Fetch builders
   useEffect(() => {
@@ -147,6 +159,13 @@ const PropertyHighlights = ({
     }
   }, [selectedStateId, builders]);
 
+  // Update price range filter whenever priceRange changes
+  useEffect(() => {
+    if (setPriceRangeFilter) {
+      setPriceRangeFilter(String(priceRange[1])); // Set to max price in rupees for Apartments.jsx
+    }
+  }, [priceRange, setPriceRangeFilter]);
+
   // Handle search and filter projects
   const handleSearch = () => {
     if (!selectedDistrict) {
@@ -169,8 +188,6 @@ const PropertyHighlights = ({
 
     setFilteredProjects(filtered);
     if (setPropertyTypeFilter) setPropertyTypeFilter(propertyType);
-    if (setPriceRangeFilter)
-      setPriceRangeFilter(`${(priceRange[0] / 10000000).toFixed(2)}-${(priceRange[1] / 10000000).toFixed(2)} Crores`);
     if (setSelectedDistrictId) setSelectedDistrictId(selectedDistrict);
     if (setSearchData) setSearchData(searchdata);
 
@@ -600,12 +617,12 @@ const PropertyHighlights = ({
         {/* Price Range Slider Popup */}
         {showPriceSlider && (
           <div
-            className="fixed inset-0 ml-[750px] mt-[120px] bg-opacity-50 z-40"
+            className="fixed inset-0  bg-opacity-50 z-40"
             onClick={() => setShowPriceSlider(false)}
             role="presentation"
           >
             <div
-              className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg p-4 z-50"
+              className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg p-4 z-50 ml-[400px] mt-[70px]"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-labelledby="price-range-dialog-title"
@@ -615,7 +632,7 @@ const PropertyHighlights = ({
               </h3>
               <Range
                 step={1000000} // Step in rupees (0.1 Crore)
-                min={0}
+                min={500000} // Start at 5 lakhs
                 max={1000000000} // 100 Crores
                 values={priceRange}
                 onChange={(values) => {
@@ -648,23 +665,16 @@ const PropertyHighlights = ({
                           zIndex: 10,
                         }}
                       >
-                        ₹{(value / 10000000).toFixed(1)} Cr
+                        ₹{value < 10000000 ? `${(value / 100000).toFixed(1)} L` : `${(value / 10000000).toFixed(1)} Cr`}
                       </div>
                     )}
                   </div>
                 )}
               />
               <div className="flex justify-between mt-2 text-sm text-gray-600">
-                <span>₹0 Cr</span>
-                <span>₹{(1000000000 / 10000000).toFixed(1)} Cr</span>
+                <span>₹5.0 L</span>
+                <span>₹100.0 Cr</span>
               </div>
-              <button
-                onClick={() => setShowPriceSlider(false)}
-                className="mt-4 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800"
-                aria-label="Close price range selector"
-              >
-                Apply
-              </button>
             </div>
           </div>
         )}
