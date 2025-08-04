@@ -136,7 +136,7 @@ const UserSidebar = () => {
   return (
     <>
       {/* Mobile toggle button */}
-      <div className="lg:hidden flex items-center justify-between px-4 py-3 shadow bg-white">
+      <div className="lg:hidden flex items-center justify-between px-4 py-3  bg-white">
         <img src={footerlogo} alt="Logo" className="h-10 rounded-full" />
         <button 
           onClick={() => setIsOpen(!isOpen)} 

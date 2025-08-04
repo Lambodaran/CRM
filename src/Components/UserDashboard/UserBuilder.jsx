@@ -7,7 +7,7 @@ import { Range } from "react-range";
 import BASE_URL from "../../service/api";
 import { User } from "lucide-react";
 
-const propertyTypes = ["All", "Apartment", "Villa", "Plot", "Commercial"];
+const propertyTypes = ["Apartment", "Villa", "Plot", "Commercial"];
 
 const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearchData }) => {
   const [properties, setProperties] = useState([]);
@@ -15,7 +15,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
   const [selectedState, setSelectedState] = useState(() => localStorage.getItem("selectedState") || "");
   const [selectedDistrict, setSelectedDistrict] = useState(() => localStorage.getItem("selectedDistrict") || "");
   const [propertyTypeFilter, setPropertyTypeFilter] = useState(() => localStorage.getItem("propertyTypeFilter") || "");
-  const [priceRange, setPriceRange] = useState([500000, 1000000000]); // Explicitly set to [5 lakh, 100 crore]
+  const [priceRange, setPriceRange] = useState([500000, 1000000000]);
   const [showPriceSlider, setShowPriceSlider] = useState(false);
   const [districts, setDistricts] = useState([]);
   const [states, setStates] = useState([]);
@@ -30,6 +30,8 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
   const [displayDistrict, setDisplayDistrict] = useState("");
   const [displayPropertyType, setDisplayPropertyType] = useState("");
   const navigate = useNavigate();
+
+  // ... (parsePrice, getPriceRangeString, useEffect hooks, handleSearch, clearAllFilters remain unchanged)
 
   useEffect(() => {
     setDisplayState(selectedState);
@@ -66,7 +68,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     }
   };
 
-  // Fetch states from builder profiles
   useEffect(() => {
     const fetchStates = async () => {
       setLoadingStates(true);
@@ -104,7 +105,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     fetchStates();
   }, []);
 
-  // Fetch properties
   useEffect(() => {
     const fetchProperties = async () => {
       setLoading(true);
@@ -128,7 +128,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     fetchProperties();
   }, []);
 
-  // Update districts based on selected state
   useEffect(() => {
     if (selectedState && allProperties.length > 0) {
       setLoadingDistricts(true);
@@ -168,7 +167,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     }
   }, [selectedState, allProperties]);
 
-  // Sync with props and localStorage
   useEffect(() => {
     const storedStateId = localStorage.getItem("selectedStateId");
     if (selectedStateId && selectedStateId !== selectedState) {
@@ -197,7 +195,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     localStorage.setItem("selectedStateId", selectedStateId || "");
   }, [selectedStateId, searchData]);
 
-  // Persist filter states to localStorage
   useEffect(() => {
     localStorage.setItem("selectedState", selectedState);
     localStorage.setItem("selectedDistrict", selectedDistrict);
@@ -205,7 +202,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     localStorage.setItem("priceRangeFilter", JSON.stringify(priceRange));
   }, [selectedState, selectedDistrict, propertyTypeFilter, priceRange]);
 
-  // Filter properties
   const handleSearch = () => {
     let filtered = [...allProperties];
 
@@ -267,7 +263,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     }
   };
 
-  // Clear all filters
   const clearAllFilters = () => {
     setSelectedState("");
     setSelectedDistrict("");
@@ -287,19 +282,17 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     localStorage.removeItem("searchData");
     setProperties(allProperties);
     setIsFilterApplied(false);
-    setDistricts([]); // Reset districts to prevent stale options
+    setDistricts([]);
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10 mt-10" id="apartments">
-      {/* Filter Section */}
+    <section className="max-w-7xl mx-auto px-4 py-10 -mt-12" id="apartments">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Properties</h3>
-        <div className="flex flex-col">
-          {/* First Card (Filter Section) - With Icons, No Separators */}
+        <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
+        <div className="flex flex-col gap-4">
+          {/* Filter Inputs Card */}
           <div className="bg-white p-4 rounded-lg shadow-md">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {/* State Filter */}
               <div className="flex flex-col">
                 <label htmlFor="state-select" className="text-sm font-semibold text-gray-700 mb-1">
                   State
@@ -336,7 +329,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                 </div>
               </div>
 
-              {/* Location (District) Filter */}
               <div className="flex flex-col">
                 <label htmlFor="district-select" className="text-sm font-semibold text-gray-700 mb-1">
                   Location
@@ -372,7 +364,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                 </div>
               </div>
 
-              {/* Property Type Filter */}
               <div className="flex flex-col">
                 <label htmlFor="property-type-select" className="text-sm font-semibold text-gray-700 mb-1">
                   Property Type
@@ -401,7 +392,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                 </div>
               </div>
 
-              {/* Price Range Filter */}
               <div className="flex flex-col">
                 <label htmlFor="price-range-select" className="text-sm font-semibold text-gray-700 mb-1">
                   Price Range
@@ -409,8 +399,8 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                 <div className="relative">
                   <button
                     id="price-range-select"
-                    className="relative bg-white border border-gray-300 rounded-lg w-full text-left flex items-center justify-between px-3 py-2 text-sm text-gray-500"
-                    onClick={() => setShowPriceSlider(true)}
+                    className="bg-white border border-gray-300 rounded-lg w-full text-left flex items-center justify-between px-3 py-2 text-sm text-gray-500"
+                    onClick={() => setShowPriceSlider(!showPriceSlider)}
                     aria-label={`Select price range, current: ${getPriceRangeString(priceRange)}`}
                   >
                     <span>{getPriceRangeString(priceRange)}</span>
@@ -421,7 +411,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={showPriceSlider ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
                     </svg>
                   </button>
                 </div>
@@ -429,37 +419,10 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
             </div>
           </div>
 
-          {/* Vertical Separator */}
-          <div className="border-b border-gray-300 my-0"></div>
-
-          {/* Second Card (Selected Items) - With Separators */}
-          <div className="bg-white p-2 rounded-lg relative h-[70px] shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex-1 text-center">
-                {displayState ? (
-                  <span className="text-sm text-gray-700">{displayState}</span>
-                ) : (
-                  <span className="text-sm text-gray-500">state</span>
-                )}
-              </div>
-              <div className="border-l border-gray-300 h-12 mx-2"></div>
-              <div className="flex-1 text-center">
-                {displayDistrict ? (
-                  <span className="text-sm text-gray-700">{displayDistrict}</span>
-                ) : (
-                  <span className="text-sm text-gray-500">location</span>
-                )}
-              </div>
-              <div className="border-l border-gray-300 h-12 mx-2"></div>
-              <div className="flex-1 text-center">
-                {displayPropertyType && displayPropertyType !== "All" ? (
-                  <span className="text-sm text-gray-700">{displayPropertyType}</span>
-                ) : (
-                  <span className="text-sm text-gray-500">property</span>
-                )}
-              </div>
-              <div className="border-l border-gray-300 h-12 mx-2"></div>
-              <div className="flex-1 text-center flex flex-col items-center">
+          {/* Price Range Slider Card */}
+          {showPriceSlider && (
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <div className="flex flex-col items-center w-full max-w-[90vw] sm:max-w-md">
                 <Range
                   step={100000}
                   min={500000}
@@ -472,50 +435,95 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                   renderTrack={({ props, children }) => (
                     <div
                       {...props}
-                      className="h-2 bg-gray-200 rounded-full w-full"
+                      className="h-1.5 bg-gray-200 rounded-full w-full"
                     >
                       {children}
                     </div>
                   )}
-                  renderThumb={({ props: thumbProps, isDragged }) => (
-                    <div
-                      {...thumbProps}
-                      key={`thumb-${thumbProps['aria-valuenow']}`}
-                      className={`h-5 w-5 rounded-full bg-blue-600 shadow-md flex items-center justify-center focus:outline-none ${
-                        isDragged ? 'ring-2 ring-blue-400' : ''
-                      }`}
-                    >
+                  renderThumb={({ props: thumbProps, isDragged }) => {
+                    const currentValue = thumbProps['aria-valuenow'];
+                    const displayValue = currentValue < 10000000
+                      ? `₹${(currentValue / 100000).toFixed(1)} L`
+                      : `₹${(currentValue / 10000000).toFixed(2)} Cr`;
+
+                    return (
                       <div
-                        className={`h-3 w-3 rounded-full bg-white transition-opacity ${
-                          isDragged ? 'opacity-100' : 'opacity-0'
-                        }`}
-                      />
-                    </div>
-                  )}
+                        {...thumbProps}
+                        key={`thumb-${currentValue}`}
+                        className="relative group outline-none"
+                      >
+                        <div
+                          className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-blue-600 shadow-md flex items-center justify-center ${
+                            isDragged ? 'ring-2 ring-blue-400' : ''
+                          }`}
+                        >
+                          <div
+                            className={`h-2 w-2 rounded-full bg-white transition-opacity ${
+                              isDragged ? 'opacity-100' : 'opacity-0 sm:opacity-100'
+                            }`}
+                          />
+                        </div>
+                        <div
+                          className={`absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap transition-opacity duration-200 ${
+                            isDragged ? 'opacity-100' : 'opacity-0 sm:opacity-100'
+                          }`}
+                        >
+                          {displayValue}
+                          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-0 h-0 border-l-4 border-r-4 border-b-0 border-t-4 border-solid border-l-transparent border-r-transparent border-t-gray-800"></div>
+                        </div>
+                      </div>
+                    );
+                  }}
                 />
-                <div className="flex justify-between w-48 text-sm text-gray-600 mt-1">
+                <div className="flex justify-between w-full text-xs sm:text-sm text-gray-600 mt-2">
                   <span>₹5 L</span>
                   <span>₹100 Cr</span>
                 </div>
               </div>
             </div>
+          )}
+
+          {/* Selected Filters Display Card */}
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
+              <div className="flex-1 min-w-[80px] text-center">
+                {displayState ? (
+                  <span className="text-sm text-gray-700">{displayState}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">State</span>
+                )}
+              </div>
+              <div className="border-l border-gray-300 h-8 mx-2 hidden sm:block"></div>
+              <div className="flex-1 min-w-[80px] text-center">
+                {displayDistrict ? (
+                  <span className="text-sm text-gray-700">{displayDistrict}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">Location</span>
+                )}
+              </div>
+              <div className="border-l border-gray-300 h-8 mx-2 hidden sm:block"></div>
+              <div className="flex-1 min-w-[80px] text-center">
+                {displayPropertyType && displayPropertyType !== "All" ? (
+                  <span className="text-sm text-gray-700">{displayPropertyType}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">Property</span>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Vertical Separator */}
-          <div className="border-l border-gray-300 my-0"></div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="mt-4 flex justify-center gap-4">
-          {isFilterApplied && (
-            <button
-              onClick={clearAllFilters}
-              className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
-              aria-label="Clear all filters"
-            >
-              Clear All
-            </button>
-          )}
+          {/* Action Buttons */}
+          <div className="flex justify-center gap-4">
+            {isFilterApplied && (
+              <button
+                onClick={clearAllFilters}
+                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+                aria-label="Clear all filters"
+              >
+                Clear All
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -557,7 +565,6 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
               }}
               aria-label={`View details for ${property.companyName}`}
             >
-              {/* Image Section */}
               <div className="relative h-[180px] overflow-hidden shadow-sm flex items-center justify-center">
                 <img
                   src={
@@ -571,16 +578,12 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
                   loading="lazy"
                 />
               </div>
-
-              {/* Content Section */}
               <div className="p-4 flex flex-col flex-grow justify-between">
                 <div className="flex-grow">
                   <h3 className="text-lg font-bold text-gray-900 mb-1 break-words text-center">
                     {property.companyName}
                   </h3>
                 </div>
-
-                {/* Button */}
                 <button
                   className="mt-4 w-full bg-gray-900 hover:bg-gray-800 text-white transition-all duration-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center"
                   aria-hidden="true"

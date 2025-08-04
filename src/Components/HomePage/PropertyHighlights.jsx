@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Range } from "react-range"; // Ensure this is installed
 import Popup from "./Popup";
 import { Link, useNavigate } from "react-router-dom";
@@ -60,31 +60,50 @@ const PropertyHighlights = ({
   const [filteredProjects, setFilteredProjects] = useState([]);
   const navigate = useNavigate();
   const [hideLoginButton, setHideLoginButton] = useState(false);
+  const priceSliderRef = useRef(null); // Ref for price slider popup
 
-useEffect(() => {
-  // Initial check
-  const checkLoginStatus = () => {
-    const userData = localStorage.getItem("userData");
-    console.log('Current user data:', userData); // Debug log
-    setHideLoginButton(!!userData); // Hide button if userData exists
+  useEffect(() => {
+    // Initial check
+    const checkLoginStatus = () => {
+      const userData = localStorage.getItem("userData");
+      console.log('Current user data:', userData); // Debug log
+      setHideLoginButton(!!userData); // Hide button if userData exists
+    };
+
+    checkLoginStatus();
+
+    // Add event listener for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === "userData") {
+        checkLoginStatus();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Hook to handle click outside for closing popups
+  const useClickOutside = (ref, callback) => {
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref, callback]);
   };
 
-  checkLoginStatus();
-
-  // Add event listener for storage changes
-  const handleStorageChange = (e) => {
-    if (e.key === "userData") {
-      checkLoginStatus();
-    }
-  };
-
-  window.addEventListener('storage', handleStorageChange);
-
-  return () => {
-    window.removeEventListener('storage', handleStorageChange);
-  };
-}, []);
-
+  // Attach click outside handler to price slider popup
+  useClickOutside(priceSliderRef, () => setShowPriceSlider(false));
 
   // Get custom price range string for dropdown display
   const getPriceRangeString = ([minPrice, maxPrice]) => {
@@ -279,7 +298,7 @@ useEffect(() => {
             </button>
             <button
               onClick={scrollToIndividualHouse}
-              className="text-white hover:text-black drop-shadow-md text-sm lg:text-base"
+              className="text-white hover$text-black drop-shadow-md text-sm lg:text-base"
               aria-label="View individual houses"
             >
               Individual House
@@ -305,16 +324,16 @@ useEffect(() => {
               </span>
             </button>
 
-         {!hideLoginButton && (
-  <Link to="/login">
-    <button
-      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm"
-      aria-label="Login"
-    >
-      Login
-    </button>
-  </Link>
-)}
+            {!hideLoginButton && (
+              <Link to="/login">
+                <button
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm"
+                  aria-label="Login"
+                >
+                  Login
+                </button>
+              </Link>
+            )}
 
             <div className="md:hidden flex items-center ml-2">
               <button
@@ -344,7 +363,7 @@ useEffect(() => {
 
         {isMobileMenuOpen && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="fixed inset-0  bg-opacity-50 z-40"
             onClick={() => setIsMobileMenuOpen(false)}
             role="presentation"
           >
@@ -645,13 +664,12 @@ useEffect(() => {
         {/* Price Range Slider Popup */}
         {showPriceSlider && (
           <div
-            className="fixed inset-0  bg-opacity-50 z-40"
-            onClick={() => setShowPriceSlider(false)}
+            className="fixed inset-0 lg:ml-[750px] lg:mt-[180px] bg-opacity-50 z-40"
             role="presentation"
           >
             <div
-              className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-xs bg-white rounded-md shadow-lg p-4 z-50 ml-[400px] mt-[70px]"
-              onClick={(e) => e.stopPropagation()}
+              ref={priceSliderRef}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm bg-white rounded-md shadow-lg p-4 sm:p-6 z-50 overflow-y-auto"
               role="dialog"
               aria-labelledby="price-range-dialog-title"
             >
@@ -679,7 +697,7 @@ useEffect(() => {
                 renderThumb={({ props, index, value, isDragged }) => (
                   <div
                     {...props}
-                    className="relative w-4 h-4 bg-blue-600 rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="relative w-3 h-3 bg-blue-600 rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     style={{
                       ...props.style,
                       cursor: "grab",

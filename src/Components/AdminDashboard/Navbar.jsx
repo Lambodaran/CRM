@@ -74,7 +74,7 @@ export default function Navbar() {
         {/* Profile Image */}
         <div className="flex items-center">
           <img
-            src={user?.profilepic || defaultProfile}
+            src={user.profilepic || defaultProfile}
             alt={user?.name || "User"}
             className="w-10 h-10 rounded-full object-cover cursor-pointer"
             onClick={() => navigate("/settings")}

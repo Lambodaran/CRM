@@ -43,21 +43,23 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
     return value;
   };
 
-  // Get human-readable price range string for UI display
-  const getPriceRangeString = (minPrice) => {
-    const priceValue = parseFloat(minPrice);
-    switch (priceValue) {
-      case 0: return "Less than Rs. 50L";
-      case 5000000: return "Rs. 50 Lakh – Rs. 75 Lakh";
-      case 7500000: return "Rs. 75 Lakh – Rs. 1 Cr";
-      case 10000000: return "Rs. 1 Cr – Rs. 1.50 Cr";
-      case 15000000: return "Rs. 1.5 Cr – Rs. 2 Cr";
-      case 20000000: return "Rs. 2 Cr – Rs. 2.5 Cr";
-      case 25000000: return "Rs. 2.5 Cr – Rs. 3 Cr";
-      case 30000000: return "Above 3 Cr";
-      default: return minPrice ? String(minPrice) : "";
-    }
-  };
+ // Update getPriceRangeString to handle default range
+const getPriceRangeString = (minPrice) => {
+  const priceValue = parseFloat(minPrice);
+  // Check for default range (500000 to 1000000000)
+  if (priceValue === 1000000000) return ""; // Hide default range
+  switch (priceValue) {
+    case 0: return "Less than Rs. 50L";
+    case 5000000: return "Rs. 50 Lakh – Rs. 75 Lakh";
+    case 7500000: return "Rs. 75 Lakh – Rs. 1 Cr";
+    case 10000000: return "Rs. 1 Cr – Rs. 1.50 Cr";
+    case 15000000: return "Rs. 1.5 Cr – Rs. 2 Cr";
+    case 20000000: return "Rs. 2 Cr – Rs. 2.5 Cr";
+    case 25000000: return "Rs. 2.5 Cr – Rs. 3 Cr";
+    case 30000000: return "Above 3 Cr";
+    default: return ""; // Return empty string for unrecognized values
+  }
+};
 
   // Get min/max bounds for price range filtering
   const getPriceRangeBounds = (minPrice) => {
@@ -129,7 +131,7 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
     if (searchData) {
       setSelectedDistrict(searchData.districtid || "");
       setPropertyTypeFilter(searchData.propertytype || "");
-      setPriceRangeFilter(searchData.pricerange ? String(searchData.pricerange.max) : ""); // Use max value for display
+      setPriceRangeFilter(searchData.pricerange ? String(searchData.pricerange.max) : "");
       localStorage.setItem("selectedDistrict", searchData.districtid || "");
       localStorage.setItem("propertyTypeFilter", searchData.propertytype || "");
       localStorage.setItem("priceRangeFilter", searchData.pricerange ? String(searchData.pricerange.max) : "");
@@ -200,7 +202,7 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
               const buildingPrice = parsePrice(building.priceRange);
               if (buildingPrice === null) {
                 console.warn("Null price for building:", building);
-                return false; // Exclude null prices unless explicitly required
+                return false;
               }
               const matchesPrice = buildingPrice <= maxPrice;
               console.log("Price filter check:", {
@@ -247,43 +249,54 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
     localStorage.removeItem("selectedCategory");
   };
 
+  // Handle "View All Builders" navigation
+  const handleViewAllBuilders = () => {
+  const userData = localStorage.getItem("userData");
+  const isLoggedIn = userData && JSON.parse(userData).token; // Check for token in userData
+  if (isLoggedIn) {
+    navigate("/userbuilder");
+  } else {
+    navigate("/login");
+  }
+};
+
   const filteredProperties = Array.isArray(properties) ? properties : [];
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-10 mt-10" id="apartments">
       {/* Filter Display */}
-      {(selectedStateId || selectedDistrict || propertyTypeFilter || priceRangeFilter) && (
-        <div className="mb-4 flex flex-wrap items-center gap-2">
-          <span className="text-sm font-semibold text-gray-900">Filters:</span>
-          {selectedStateId && (
-            <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-              State: {selectedStateId}
-            </span>
-          )}
-          {selectedDistrict && (
-            <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-              District: {selectedDistrict}
-            </span>
-          )}
-          {propertyTypeFilter && (
-            <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-              Type: {propertyTypeFilter}
-            </span>
-          )}
-          {priceRangeFilter && (
-            <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-              Price: {getPriceRangeString(priceRangeFilter)}
-            </span>
-          )}
-          <button
-            onClick={clearAllFilters}
-            className="ml-2 text-xs text-red-500 hover:text-red-700"
-            aria-label="Clear all filters"
-          >
-            Clear all
-          </button>
-        </div>
-      )}
+   {(selectedStateId || selectedDistrict || propertyTypeFilter || (priceRangeFilter && getPriceRangeString(priceRangeFilter))) && (
+  <div className="mb-4 flex flex-wrap items-center gap-2">
+    <span className="text-sm font-semibold text-gray-900">Filters:</span>
+    {selectedStateId && (
+      <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
+        State: {selectedStateId}
+      </span>
+    )}
+    {selectedDistrict && (
+      <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
+        District: {selectedDistrict}
+      </span>
+    )}
+    {propertyTypeFilter && (
+      <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
+        Type: {propertyTypeFilter}
+      </span>
+    )}
+    {priceRangeFilter && getPriceRangeString(priceRangeFilter) && (
+      <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
+        Price: {getPriceRangeString(priceRangeFilter)}
+      </span>
+    )}
+    <button
+      onClick={clearAllFilters}
+      className="ml-2 text-xs text-red-500 hover:text-red-700"
+      aria-label="Clear all filters"
+    >
+      Clear all
+    </button>
+  </div>
+)}
 
       {/* Heading and Category Filters */}
       <div className="text-center mb-10 pt-8">
@@ -406,15 +419,15 @@ const Apartments = ({ selectedStateId, searchData, setSelectedStateId, setSearch
         </div>
       )}
       <div className="text-center mt-10">
-        <Link
-          to="/login"
-          className="bg-black text-white font-semibold px-6 py-3 rounded-lg text-sm transition-all duration-300"
-          aria-label="View all builders"
-        >
-          View All Builders
-          <span className="ml-2 inline-block">→</span>
-        </Link>
-      </div>
+  <button
+    onClick={handleViewAllBuilders}
+    className="bg-black text-white font-semibold px-6 py-3 rounded-lg text-sm transition-all duration-300"
+    aria-label="View all builders"
+  >
+    View All Builders
+    <span className="ml-2 inline-block">→</span>
+  </button>
+</div>
     </section>
   );
 };

@@ -396,7 +396,7 @@ export default function BuildingProperty() {
   return (
     <section className="py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-[390px]">
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center lg:mb-6 md:mb-16">
           {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 mt-9">
             {selectedBuilder ? `${selectedBuilder} Properties` : "Explore Our Buildings"}
           </h2>

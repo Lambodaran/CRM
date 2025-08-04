@@ -62,7 +62,7 @@ export default function UserNavbar() {
   }
 
   return (
-    <div className="flex items-center justify-between bg-white px-6 py-3 shadow-md">
+    <div className="flex items-center justify-between bg-white px-6 py-3 shadow-md h-[70px]">
       {/* Greeting Text */}
       <h1 className="text-lg font-semibold">
         Hello, {user?.name?.split(' ')[0] || "User"}
@@ -94,7 +94,7 @@ export default function UserNavbar() {
         {/* Profile Image */}
         <div className="flex items-center">
           <img
-            src={user?.profilepic || defaultProfile}
+            src={user.profilepic || defaultProfile}
             alt={user?.name || "User"}
             className="w-10 h-10 rounded-full object-cover"
             onClick={() => navigate("/usersetting")}

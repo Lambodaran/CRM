@@ -24,6 +24,8 @@ const ProfileCard = () => {
     email: "",
     username: "",
     phone: "",
+    profilepic: "",
+    profilebanner: "",
   });
 
   // Get token and user ID from session storage
@@ -60,6 +62,20 @@ const ProfileCard = () => {
     return "";
   };
 
+  const validateFile = (file, field) => {
+    if (!file) return null;
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+
+    if (!allowedTypes.includes(file.type)) {
+      return `Please upload a valid image file (JPEG, PNG, or GIF) for ${field === "profilepic" ? "profile picture" : "banner"}`;
+    }
+    if (file.size > maxSize) {
+      return `File size exceeds 5MB for ${field === "profilepic" ? "profile picture" : "banner"}`;
+    }
+    return null;
+  };
+
   // Fetch user data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
@@ -71,7 +87,6 @@ const ProfileCard = () => {
           },
         });
 
-        // Fetch unit numbers for liked units
         const likedUnitsWithNumbers = await Promise.all(
           response.data.likedUnits.map(async (unitId) => {
             try {
@@ -123,7 +138,13 @@ const ProfileCard = () => {
   };
 
   const handleImageUpload = async (field, file) => {
-    if (!file) return;
+    const fileError = validateFile(file, field);
+    if (fileError) {
+      setErrors((prev) => ({ ...prev, [field]: fileError }));
+      return;
+    }
+
+    setErrors((prev) => ({ ...prev, [field]: "" }));
 
     try {
       const formData = new FormData();
@@ -142,7 +163,10 @@ const ProfileCard = () => {
       }
     } catch (error) {
       console.error(`Error uploading ${field}:`, error);
-      alert(`Failed to upload ${field}. Please try again.`);
+      setErrors((prev) => ({
+        ...prev,
+        [field]: `Failed to upload ${field === "profilepic" ? "profile picture" : "banner"}. Please try again.`,
+      }));
     }
   };
 
@@ -159,14 +183,21 @@ const ProfileCard = () => {
         email: emailError,
         username: usernameError,
         phone: phoneError,
+        profilepic: "",
+        profilebanner: "",
       });
 
       if (nameError || emailError || usernameError || phoneError) {
         alert("Please fix the errors before saving.");
         return;
       }
+
+      // If validation passes, call handleSubmit
+      handleSubmit();
+    } else {
+      setIsEditing(true);
+      setErrors({ name: "", email: "", username: "", phone: "", profilepic: "", profilebanner: "" });
     }
-    setIsEditing(!isEditing);
   };
 
   const handleSubmit = async () => {
@@ -179,6 +210,7 @@ const ProfileCard = () => {
       });
 
       setIsEditing(false);
+      setErrors({ name: "", email: "", username: "", phone: "", profilepic: "", profilebanner: "" });
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating user data:", error);
@@ -197,7 +229,7 @@ const ProfileCard = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-purple-100 flex items-center justify-center">
-        <div className="text-xl text-red-500">{error}</div>
+        <div className="text-lg sm:text-xl text-red-500">{error}</div>
       </div>
     );
   }
@@ -216,15 +248,22 @@ const ProfileCard = () => {
           }}
         >
           {isEditing && (
-            <div className="absolute right-4 top-4 bg-white bg-opacity-80 p-2 rounded">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  handleImageUpload("profilebanner", e.target.files[0])
-                }
-                className="text-xs sm:text-sm"
-              />
+            <div className="absolute right-4 top-4 sm:right-6 sm:top-6">
+              <label className="flex items-center justify-center bg-black text-white text-sm font-medium px-4 py-2 rounded-lg cursor-pointer  transition min-w-[120px]">
+                Upload Banner
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif"
+                  className="hidden"
+                  onChange={(e) => handleImageUpload("profilebanner", e.target.files[0])}
+                  aria-label="Upload banner image"
+                />
+              </label>
+              {errors.profilebanner && (
+                <p className="text-red-500 text-xs mt-1 text-right max-w-[200px]">
+                  {errors.profilebanner}
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -234,7 +273,7 @@ const ProfileCard = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end relative -mt-12 sm:-mt-16">
             {/* Profile Picture and Info */}
             <div className="flex flex-col sm:flex-row items-start sm:items-end w-full">
-              <div className="relative ml-0 sm:ml-4">
+              <div className="relative self-center sm:self-auto sm:ml-4">
                 <img
                   src={user.profilepic || "https://via.placeholder.com/100"}
                   alt="Profile"
@@ -242,27 +281,33 @@ const ProfileCard = () => {
                 />
                 {isEditing && (
                   <div className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="w-6 h-6 opacity-0 absolute cursor-pointer"
-                      onChange={(e) =>
-                        handleImageUpload("profilepic", e.target.files[0])
-                      }
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 2H4zm6 5a3 3 0 110 6 3 3 0 010-6z" />
-                    </svg>
+                    <label className="flex items-center justify-center bg-black text-white text-sm font-medium w-8 h-8 sm:w-10 sm:h-10 rounded-full cursor-pointer hover:bg-purple-700 transition">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 2H4zm6 5a3 3 0 110 6 3 3 0 010-6z" />
+                      </svg>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/gif"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload("profilepic", e.target.files[0])}
+                        aria-label="Upload profile picture"
+                      />
+                    </label>
+                    {errors.profilepic && (
+                      <p className="text-red-500 text-xs mt-1 absolute -bottom-6 left-0 w-32 sm:w-40">
+                        {errors.profilepic}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
 
-              <div className="mt-3 sm:mt-0 sm:ml-6 flex-1">
+              <div className="mt-3 sm:mt-0 sm:ml-6 flex-1 text-center sm:text-left">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
                   {user.name}
                 </h2>
@@ -271,13 +316,23 @@ const ProfileCard = () => {
             </div>
 
             {/* Edit Button */}
-            <div className="mt-4 sm:mt-0 w-full sm:w-auto flex justify-end sm:justify-start">
+            <div className="mt-4 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-end">
               <button
                 className="text-purple-700 px-4 py-2 rounded-lg hover:bg-purple-100 transition flex items-center text-sm sm:text-base"
                 onClick={handleEditClick}
               >
                 {isEditing ? (
-                  "Save Changes"
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M5 13V9h3l-4-4-4 4h3v4H0v2h7v-4H4z" />
+                    </svg>
+                    Save Changes
+                  </>
                 ) : (
                   <>
                     <svg
@@ -288,7 +343,7 @@ const ProfileCard = () => {
                     >
                       <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.379-8.379-2.828-2.828z" />
                     </svg>
-                   
+                    
                   </>
                 )}
               </button>
@@ -299,7 +354,7 @@ const ProfileCard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-8">
             {/* General Info */}
             <div className="bg-gray-50 rounded-xl shadow p-6">
-              <h3 className="text-xl font-semibold mb-4">General Information</h3>
+              <h3 className="text-lg sm:text-xl font-semibold mb-4">General Information</h3>
               <div className="space-y-4">
                 <Field
                   label="Name"
@@ -340,7 +395,7 @@ const ProfileCard = () => {
 
             {/* Professional Info */}
             <div className="bg-gray-50 rounded-xl shadow p-6">
-              <h3 className="text-xl font-semibold mb-4">Professional Details</h3>
+              <h3 className="text-lg sm:text-xl font-semibold mb-4">Professional Details</h3>
               <div className="space-y-4">
                 <Field
                   label="Company Name"
@@ -348,7 +403,6 @@ const ProfileCard = () => {
                   isEditing={isEditing}
                   onChange={(val) => handleInputChange("companyName", val)}
                 />
-                {/* Liked Units */}
                 <div className="flex flex-col">
                   <label className="text-sm font-medium text-gray-600 mb-1">
                     Liked Units
@@ -358,13 +412,13 @@ const ProfileCard = () => {
                       user.likedUnits.map((unit, index) => (
                         <div
                           key={index}
-                          className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                          className="bg-purple-100 text-purple-800 px-2 sm:px-3 py-1 rounded-full text-sm"
                         >
                           <span>{unit}</span>
                         </div>
                       ))
                     ) : (
-                      <p className="text-gray-500">No liked units</p>
+                      <p className="text-gray-500 text-sm">No liked units</p>
                     )}
                   </div>
                 </div>
@@ -393,7 +447,7 @@ const Field = ({
       value={value || ""}
       readOnly={!isEditing || readOnly}
       onChange={(e) => onChange && onChange(e.target.value)}
-      className={`bg-white border border-gray-300 rounded px-3 py-2 text-sm text-gray-800 ${
+      className={`bg-white border border-gray-300 rounded px-3 py-2 text-sm text-gray-800 w-full ${
         !isEditing || readOnly ? "cursor-not-allowed bg-gray-100" : ""
       } ${error ? "border-red-500" : ""}`}
     />
