@@ -255,7 +255,9 @@ export default function LoginPage() {
 
       const data = response.data;
       setIsLoginSuccess(true);
-      sessionStorage.setItem("logindata", JSON.stringify(data));
+      // sessionStorage.setItem("logindata", JSON.stringify(data));
+          localStorage.setItem('userData', JSON.stringify(data)); // Store in localStorage
+
 
       setTimeout(() => {
         const redirectState = location.state || {

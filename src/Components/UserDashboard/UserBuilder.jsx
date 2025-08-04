@@ -15,7 +15,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
   const [selectedState, setSelectedState] = useState(() => localStorage.getItem("selectedState") || "");
   const [selectedDistrict, setSelectedDistrict] = useState(() => localStorage.getItem("selectedDistrict") || "");
   const [propertyTypeFilter, setPropertyTypeFilter] = useState(() => localStorage.getItem("propertyTypeFilter") || "");
-  const [priceRange, setPriceRange] = useState([0, 1000000000]); // [minPrice, maxPrice] in rupees (100 Cr)
+  const [priceRange, setPriceRange] = useState([500000, 1000000000]); // Explicitly set to [5 lakh, 100 crore]
   const [showPriceSlider, setShowPriceSlider] = useState(false);
   const [districts, setDistricts] = useState([]);
   const [states, setStates] = useState([]);
@@ -26,7 +26,14 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [displayState, setDisplayState] = useState("");
+  const [displayDistrict, setDisplayDistrict] = useState("");
+  const [displayPropertyType, setDisplayPropertyType] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setDisplayState(selectedState);
+  }, [selectedState]);
 
   // Parse price string to numerical value
   const parsePrice = (price) => {
@@ -50,9 +57,13 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
 
   // Get human-readable price range string
   const getPriceRangeString = ([minPrice, maxPrice]) => {
-    const minValueInCrores = (parseFloat(minPrice) / 10000000).toFixed(1);
-    const maxValueInCrores = (parseFloat(maxPrice) / 10000000).toFixed(1);
-    return minPrice === maxPrice ? `₹${minValueInCrores} Cr` : `₹${minValueInCrores} - ₹${maxValueInCrores} Cr`;
+    if (maxPrice < 10000000) {
+      return `₹${(minPrice / 100000).toFixed(1)} - ₹${(maxPrice / 100000).toFixed(1)} L`;
+    } else if (minPrice < 10000000) {
+      return `₹${(minPrice / 100000).toFixed(1)} L - ₹${(maxPrice / 10000000).toFixed(2)} Cr`;
+    } else {
+      return `₹${(minPrice / 10000000).toFixed(2)} - ₹${(maxPrice / 10000000).toFixed(2)} Cr`;
+    }
   };
 
   // Fetch states from builder profiles
@@ -142,6 +153,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
 
         setDistricts(uniqueCities);
         setSelectedDistrict("");
+        setDisplayDistrict("");
         setDistrictError(null);
       } catch (error) {
         setDistrictError("Failed to load cities. Please try again.");
@@ -152,6 +164,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     } else {
       setDistricts([]);
       setSelectedDistrict("");
+      setDisplayDistrict("");
     }
   }, [selectedState, allProperties]);
 
@@ -160,17 +173,21 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     const storedStateId = localStorage.getItem("selectedStateId");
     if (selectedStateId && selectedStateId !== selectedState) {
       setSelectedState(selectedStateId);
+      setDisplayState(selectedStateId);
       localStorage.setItem("selectedState", selectedStateId);
     } else if (storedStateId && !selectedState) {
       setSelectedState(storedStateId);
+      setDisplayState(storedStateId);
     }
 
     if (searchData) {
       setSelectedDistrict(searchData.districtid || "");
+      setDisplayDistrict(searchData.districtid || "");
       setPropertyTypeFilter(searchData.propertytype || "");
+      setDisplayPropertyType(searchData.propertytype || "");
       if (searchData.pricerange && typeof searchData.pricerange === "object") {
         const maxPrice = parseFloat(searchData.pricerange.max) || 1000000000;
-        const minPrice = parseFloat(searchData.pricerange.min) || 0;
+        const minPrice = parseFloat(searchData.pricerange.min) || 500000;
         setPriceRange([minPrice, maxPrice]);
       }
       localStorage.setItem("selectedDistrict", searchData.districtid || "");
@@ -217,7 +234,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
       );
     }
 
-    if (priceRange[0] > 0 || priceRange[1] < 1000000000) {
+    if (priceRange[0] > 500000 || priceRange[1] < 1000000000) {
       filtered = filtered.filter((property) => {
         if (!property.projects || !Array.isArray(property.projects)) return false;
         return property.projects.some((project) => {
@@ -232,7 +249,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
 
     setProperties(filtered);
     setIsFilterApplied(
-      selectedState || selectedDistrict || (propertyTypeFilter && propertyTypeFilter !== "All") || priceRange[0] > 0 || priceRange[1] < 1000000000
+      selectedState || selectedDistrict || (propertyTypeFilter && propertyTypeFilter !== "All") || priceRange[0] > 500000 || priceRange[1] < 1000000000
     );
 
     if (setSearchData) {
@@ -255,20 +272,22 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
     setSelectedState("");
     setSelectedDistrict("");
     setPropertyTypeFilter("");
-    setPriceRange([0, 1000000000]);
+    setPriceRange([500000, 1000000000]);
     setShowPriceSlider(false);
-    setSelectedStateId(null);
-    if (setSearchData) {
-      setSearchData(null);
-    }
+    setDisplayState("");
+    setDisplayDistrict("");
+    setDisplayPropertyType("");
+    setSelectedStateId?.(null);
+    setSearchData?.(null);
     localStorage.removeItem("selectedState");
     localStorage.removeItem("selectedStateId");
     localStorage.removeItem("selectedDistrict");
     localStorage.removeItem("propertyTypeFilter");
     localStorage.removeItem("priceRangeFilter");
     localStorage.removeItem("searchData");
-    setProperties(allProperties); // Ensure properties are reset to full list
+    setProperties(allProperties);
     setIsFilterApplied(false);
+    setDistricts([]); // Reset districts to prevent stale options
   };
 
   return (
@@ -276,123 +295,218 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
       {/* Filter Section */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Properties</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {/* State Filter */}
-          <div className="flex flex-col">
-            <label htmlFor="state-select" className="text-sm font-semibold text-gray-700 mb-1">
-              State
-            </label>
-            <select
-              id="state-select"
-              className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none"
-              value={selectedState}
-              onChange={(e) => {
-                setSelectedState(e.target.value);
-                setSelectedStateId(e.target.value);
-              }}
-              disabled={loadingStates}
-              aria-label="Select state"
-            >
-              <option value="">Select State</option>
-              {loadingStates ? (
-                <option disabled>Loading states...</option>
-              ) : stateError ? (
-                <option disabled>{stateError}</option>
-              ) : (
-                states.map((state) => (
-                  <option key={state.id} value={state.name}>
-                    {state.name}
-                  </option>
-                ))
-              )}
-            </select>
+        <div className="flex flex-col">
+          {/* First Card (Filter Section) - With Icons, No Separators */}
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {/* State Filter */}
+              <div className="flex flex-col">
+                <label htmlFor="state-select" className="text-sm font-semibold text-gray-700 mb-1">
+                  State
+                </label>
+                <div className="relative">
+                  <select
+                    id="state-select"
+                    className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none pl-10"
+                    value={selectedState}
+                    onChange={(e) => {
+                      const newState = e.target.value;
+                      setSelectedState(newState);
+                      setSelectedStateId?.(newState);
+                      setDisplayState(newState);
+                      handleSearch();
+                    }}
+                    disabled={loadingStates}
+                    aria-label="Select state"
+                  >
+                    <option value="">Select State</option>
+                    {loadingStates ? (
+                      <option disabled>Loading states...</option>
+                    ) : stateError ? (
+                      <option disabled>{stateError}</option>
+                    ) : (
+                      states.map((state) => (
+                        <option key={state.id} value={state.name}>
+                          {state.name}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                  <FaMapMarkerAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Location (District) Filter */}
+              <div className="flex flex-col">
+                <label htmlFor="district-select" className="text-sm font-semibold text-gray-700 mb-1">
+                  Location
+                </label>
+                <div className="relative">
+                  <select
+                    id="district-select"
+                    className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none pl-10"
+                    value={selectedDistrict}
+                    onChange={(e) => {
+                      const newDistrict = e.target.value;
+                      setSelectedDistrict(newDistrict);
+                      setDisplayDistrict(newDistrict);
+                      handleSearch();
+                    }}
+                    disabled={!selectedState || loadingDistricts}
+                    aria-label="Select district"
+                  >
+                    <option value="">Select District</option>
+                    {loadingDistricts ? (
+                      <option disabled>Loading districts...</option>
+                    ) : districtError ? (
+                      <option disabled>{districtError}</option>
+                    ) : (
+                      districts.map((district) => (
+                        <option key={district.id} value={district.name}>
+                          {district.name}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                  <FaMapMarkerAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Property Type Filter */}
+              <div className="flex flex-col">
+                <label htmlFor="property-type-select" className="text-sm font-semibold text-gray-700 mb-1">
+                  Property Type
+                </label>
+                <div className="relative">
+                  <select
+                    id="property-type-select"
+                    className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none pl-10"
+                    value={propertyTypeFilter}
+                    onChange={(e) => {
+                      const newPropertyType = e.target.value;
+                      setPropertyTypeFilter(newPropertyType);
+                      setDisplayPropertyType(newPropertyType);
+                      handleSearch();
+                    }}
+                    aria-label="Select property type"
+                  >
+                    <option value="">Select Property Type</option>
+                    {propertyTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Price Range Filter */}
+              <div className="flex flex-col">
+                <label htmlFor="price-range-select" className="text-sm font-semibold text-gray-700 mb-1">
+                  Price Range
+                </label>
+                <div className="relative">
+                  <button
+                    id="price-range-select"
+                    className="relative bg-white border border-gray-300 rounded-lg w-full text-left flex items-center justify-between px-3 py-2 text-sm text-gray-500"
+                    onClick={() => setShowPriceSlider(true)}
+                    aria-label={`Select price range, current: ${getPriceRangeString(priceRange)}`}
+                  >
+                    <span>{getPriceRangeString(priceRange)}</span>
+                    <svg
+                      className="w-4 h-4 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Location (District) Filter */}
-          <div className="flex flex-col">
-            <label htmlFor="district-select" className="text-sm font-semibold text-gray-700 mb-1">
-              Location
-            </label>
-            <select
-              id="district-select"
-              className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none"
-              value={selectedDistrict}
-              onChange={(e) => setSelectedDistrict(e.target.value)}
-              disabled={!selectedState || loadingDistricts}
-              aria-label="Select district"
-            >
-              <option value="">
-                {selectedState ? "Select District" : "Select State First"}
-              </option>
-              {loadingDistricts ? (
-                <option disabled>Loading districts...</option>
-              ) : districtError ? (
-                <option disabled>{districtError}</option>
-              ) : (
-                districts.map((district) => (
-                  <option key={district.id} value={district.name}>
-                    {district.name}
-                  </option>
-                ))
-              )}
-            </select>
+          {/* Vertical Separator */}
+          <div className="border-b border-gray-300 my-0"></div>
+
+          {/* Second Card (Selected Items) - With Separators */}
+          <div className="bg-white p-2 rounded-lg relative h-[70px] shadow-md">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 text-center">
+                {displayState ? (
+                  <span className="text-sm text-gray-700">{displayState}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">state</span>
+                )}
+              </div>
+              <div className="border-l border-gray-300 h-12 mx-2"></div>
+              <div className="flex-1 text-center">
+                {displayDistrict ? (
+                  <span className="text-sm text-gray-700">{displayDistrict}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">location</span>
+                )}
+              </div>
+              <div className="border-l border-gray-300 h-12 mx-2"></div>
+              <div className="flex-1 text-center">
+                {displayPropertyType && displayPropertyType !== "All" ? (
+                  <span className="text-sm text-gray-700">{displayPropertyType}</span>
+                ) : (
+                  <span className="text-sm text-gray-500">property</span>
+                )}
+              </div>
+              <div className="border-l border-gray-300 h-12 mx-2"></div>
+              <div className="flex-1 text-center flex flex-col items-center">
+                <Range
+                  step={100000}
+                  min={500000}
+                  max={1000000000}
+                  values={priceRange}
+                  onChange={(values) => {
+                    setPriceRange(values);
+                    handleSearch();
+                  }}
+                  renderTrack={({ props, children }) => (
+                    <div
+                      {...props}
+                      className="h-2 bg-gray-200 rounded-full w-full"
+                    >
+                      {children}
+                    </div>
+                  )}
+                  renderThumb={({ props: thumbProps, isDragged }) => (
+                    <div
+                      {...thumbProps}
+                      key={`thumb-${thumbProps['aria-valuenow']}`}
+                      className={`h-5 w-5 rounded-full bg-blue-600 shadow-md flex items-center justify-center focus:outline-none ${
+                        isDragged ? 'ring-2 ring-blue-400' : ''
+                      }`}
+                    >
+                      <div
+                        className={`h-3 w-3 rounded-full bg-white transition-opacity ${
+                          isDragged ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      />
+                    </div>
+                  )}
+                />
+                <div className="flex justify-between w-48 text-sm text-gray-600 mt-1">
+                  <span>₹5 L</span>
+                  <span>₹100 Cr</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Property Type Filter */}
-          <div className="flex flex-col">
-            <label htmlFor="property-type-select" className="text-sm font-semibold text-gray-700 mb-1">
-              Property Type
-            </label>
-            <select
-              id="property-type-select"
-              className="bg-white border border-gray-300 rounded-lg w-full px-3 py-2 text-sm text-gray-500 focus:outline-none"
-              value={propertyTypeFilter}
-              onChange={(e) => setPropertyTypeFilter(e.target.value)}
-              aria-label="Select property type"
-            >
-              <option value="">Select Property Type</option>
-              {propertyTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Price Range Filter */}
-          <div className="flex flex-col">
-            <label htmlFor="price-range-select" className="text-sm font-semibold text-gray-700 mb-1">
-              Price Range
-            </label>
-            <button
-              id="price-range-select"
-              className="relative bg-white border border-gray-300 rounded-lg w-full text-left flex items-center justify-between px-3 py-2 text-sm text-gray-500"
-              onClick={() => setShowPriceSlider(true)}
-              aria-label={`Select price range, current: ${getPriceRangeString(priceRange)}`}
-            >
-              <span>{getPriceRangeString(priceRange)}</span>
-              <svg
-                className="w-4 h-4 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
+          {/* Vertical Separator */}
+          <div className="border-l border-gray-300 my-0"></div>
         </div>
 
         {/* Action Buttons */}
         <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={handleSearch}
-            className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-700 transition"
-            aria-label="Apply filters"
-          >
-            Apply Filters
-          </button>
           {isFilterApplied && (
             <button
               onClick={clearAllFilters}
@@ -403,107 +517,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
             </button>
           )}
         </div>
-
-        {/* Applied Filters */}
-        {isFilterApplied && (
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            {selectedState && (
-              <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-                State: {selectedState}
-              </span>
-            )}
-            {selectedDistrict && (
-              <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-                Location: {selectedDistrict}
-              </span>
-            )}
-            {propertyTypeFilter && propertyTypeFilter !== "All" && (
-              <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-                Type: {propertyTypeFilter}
-              </span>
-            )}
-            {(priceRange[0] > 0 || priceRange[1] < 1000000000) && (
-              <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-                Price: {getPriceRangeString(priceRange)}
-              </span>
-            )}
-          </div>
-        )}
       </div>
-
-      {/* Price Range Slider Popup */}
-      {showPriceSlider && (
-        <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setShowPriceSlider(false)}
-          role="presentation"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-sm bg-white rounded-lg shadow-lg p-4 z-50"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-labelledby="price-range-dialog-title"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 50, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <h3 id="price-range-dialog-title" className="text-lg font-bold text-gray-700 mb-4">
-              Select Price Range
-            </h3>
-            <Range
-              step={1000000}
-              min={0}
-              max={1000000000}
-              values={priceRange}
-              onChange={(values) => setPriceRange(values)}
-              renderTrack={({ props, children }) => (
-                <div
-                  {...props}
-                  className="h-2 bg-gray-200 rounded-full w-full"
-                  style={{ ...props.style }}
-                >
-                  {children}
-                </div>
-              )}
-              renderThumb={({ props, index, value, isDragged }) => (
-                <div
-                  {...props}
-                  className="relative w-4 h-4 bg-blue-600 rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  style={{
-                    ...props.style,
-                    cursor: "grab",
-                  }}
-                  aria-label={index === 0 ? "Minimum price" : "Maximum price"}
-                >
-                  {isDragged && (
-                    <div
-                      className="absolute top-[-40px] left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded shadow-md whitespace-nowrap"
-                      style={{ zIndex: 10 }}
-                    >
-                      ₹{(value / 10000000).toFixed(1)} Cr
-                    </div>
-                  )}
-                </div>
-              )}
-            />
-            <div className="flex justify-between mt-2 text-sm text-gray-600">
-              <span>₹0 Cr</span>
-              <span>₹{(1000000000 / 10000000).toFixed(1)} Cr</span>
-            </div>
-            <button
-              onClick={() => setShowPriceSlider(false)}
-              className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-              aria-label="Apply price range"
-            >
-              Apply
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
 
       {/* Property Grid */}
       {loading ? (

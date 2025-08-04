@@ -59,6 +59,32 @@ const PropertyHighlights = ({
   const [projects, setProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const navigate = useNavigate();
+  const [hideLoginButton, setHideLoginButton] = useState(false);
+
+useEffect(() => {
+  // Initial check
+  const checkLoginStatus = () => {
+    const userData = localStorage.getItem("userData");
+    console.log('Current user data:', userData); // Debug log
+    setHideLoginButton(!!userData); // Hide button if userData exists
+  };
+
+  checkLoginStatus();
+
+  // Add event listener for storage changes
+  const handleStorageChange = (e) => {
+    if (e.key === "userData") {
+      checkLoginStatus();
+    }
+  };
+
+  window.addEventListener('storage', handleStorageChange);
+
+  return () => {
+    window.removeEventListener('storage', handleStorageChange);
+  };
+}, []);
+
 
   // Get custom price range string for dropdown display
   const getPriceRangeString = ([minPrice, maxPrice]) => {
@@ -279,14 +305,16 @@ const PropertyHighlights = ({
               </span>
             </button>
 
-            <Link to="/login">
-              <button
-                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm"
-                aria-label="Login"
-              >
-                Login
-              </button>
-            </Link>
+         {!hideLoginButton && (
+  <Link to="/login">
+    <button
+      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition shadow-md text-xs sm:text-sm"
+      aria-label="Login"
+    >
+      Login
+    </button>
+  </Link>
+)}
 
             <div className="md:hidden flex items-center ml-2">
               <button
