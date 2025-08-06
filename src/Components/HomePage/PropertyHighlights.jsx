@@ -298,7 +298,7 @@ const PropertyHighlights = ({
             </button>
             <button
               onClick={scrollToIndividualHouse}
-              className="text-white hover$text-black drop-shadow-md text-sm lg:text-base"
+              className="text-white hover:text-black drop-shadow-md text-sm lg:text-base"
               aria-label="View individual houses"
             >
               Individual House
@@ -363,7 +363,7 @@ const PropertyHighlights = ({
 
         {isMobileMenuOpen && (
           <div
-            className="fixed inset-0  bg-opacity-50 z-40"
+            className="fixed inset-0 bg-opacity-50 z-40"
             onClick={() => setIsMobileMenuOpen(false)}
             role="presentation"
           >
@@ -685,15 +685,29 @@ const PropertyHighlights = ({
                   console.log("Slider values changed to:", values);
                   setPriceRange(values);
                 }}
-                renderTrack={({ props, children }) => (
-                  <div
-                    {...props}
-                    className="h-2 bg-gray-200 rounded-full"
-                    style={{ ...props.style }}
-                  >
-                    {children}
-                  </div>
-                )}
+                renderTrack={({ props, children }) => {
+                  const { key, style, ...trackProps } = props;
+                  return (
+                    <div
+                      {...trackProps}
+                      className="h-2 rounded-full"
+                      style={{
+                        ...style,
+                        background: `linear-gradient(to right, #d1d5db 0%, #d1d5db ${
+                          ((priceRange[0] - 500000) / (1000000000 - 500000)) * 100
+                        }%, #3b82f6 ${
+                          ((priceRange[0] - 500000) / (1000000000 - 500000)) * 100
+                        }%, #3b82f6 ${
+                          ((priceRange[1] - 500000) / (1000000000 - 500000)) * 100
+                        }%, #d1d5db ${
+                          ((priceRange[1] - 500000) / (1000000000 - 500000)) * 100
+                        }%, #d1d5db 100%)`,
+                      }}
+                    >
+                      {children}
+                    </div>
+                  );
+                }}
                 renderThumb={({ props, index, value, isDragged }) => (
                   <div
                     {...props}
