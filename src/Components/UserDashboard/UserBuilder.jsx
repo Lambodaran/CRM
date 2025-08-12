@@ -422,7 +422,7 @@ const UserBuilder = ({ selectedStateId, searchData, setSelectedStateId, setSearc
           {/* Price Range Slider Card */}
           {showPriceSlider && (
             <div className="bg-white p-4 rounded-lg shadow-md">
-              <div className="flex flex-col items-center w-full max-w-[90vw] sm:max-w-md">
+              <div className="flex flex-col items-center w-full max-w-[90vw] sm:max-w-md lg:ml-[600px]">
                 <Range
                   step={100000}
                   min={500000}
